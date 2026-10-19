@@ -1,0 +1,42 @@
+id: LESSON-MICROCYTIC-INDICES
+title: "Mastering Red Cell Indices: MCV, RDW, and Microcytosis"
+misconception_id: MC-IGNORES-INDICES
+content:
+  overview: >
+    Red blood cell indices (MCV, MCH, and RDW) are the cornerstone of morphological classification in anaemia.
+    Relying exclusively on haemoglobin concentration tells you THAT an anaemia exists, but the MCV and RDW tell you WHAT PATHOPHYSIOLOGY is responsible.
+  key_principles:
+    - title: "1. Mean Corpuscular Volume (MCV)"
+      explanation: "Values < 80 fL indicate microcytic anaemia. The most common causes are iron deficiency anaemia (IDA) and thalassaemia trait. Never diagnose anaemia type without noting MCV."
+    - title: "2. Red Cell Distribution Width (RDW)"
+      explanation: "RDW measures the range of cell volumes (anisocytosis). Elevated RDW (> 14.5%) indicates high variation, typical of developing IDA where old normal cells mix with new tiny cells. Normal RDW with low MCV points towards thalassaemia trait where cells are uniformly small."
+    - title: "3. Mentzer Index Rule of Thumb"
+      explanation: "Mentzer Index = MCV / RBC count. An index > 13 strongly favors iron deficiency, while < 13 points toward thalassaemia trait."
+  clinical_pearl: "In any microcytic anaemia, your next reflexive step is checking Serum Ferritin and RDW before initiating therapy!"
+practice_questions:
+  - id: PQ1
+    question: "A 24-year-old patient has Hb 9.8 g/dL, MCV 66 fL, and RDW 18.2%. Which pathophysiological state is most strongly suggested by the elevated RDW?"
+    options:
+      - id: A
+        text: "Anisocytosis resulting from progressive iron exhaustion producing heterogeneous cell sizes"
+        correct: true
+      - id: B
+        text: "A genetic globin synthesis mutation producing uniformly sized small erythrocytes"
+        correct: false
+      - id: C
+        text: "Megaloblastic maturation defect with macro-ovalocytes"
+        correct: false
+    explanation: "High RDW reflects anisocytosis (unequal cell volumes), which is the hallmark of evolving nutritional iron deficiency."
+  - id: PQ2
+    question: "If a patient presents with an MCV of 62 fL, but their serum ferritin is completely normal (120 ng/mL) and RDW is 12.5%, what is the most appropriate deduction?"
+    options:
+      - id: A
+        text: "The patient has severe iron depletion and requires urgent IV iron"
+        correct: false
+      - id: B
+        text: "The microcytosis is not explained by iron deficiency; investigate for haemoglobinopathies such as thalassaemia minor"
+        correct: true
+      - id: C
+        text: "This is standard physiological variation with no clinical significance"
+        correct: false
+    explanation: "Normal ferritin effectively excludes uncomplicated iron deficiency. Uniform microcytosis with normal RDW indicates thalassaemia trait."

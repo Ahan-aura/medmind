@@ -1,0 +1,15 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: medmind-db
+    environment:
+      POSTGRES_USER: medmind
+      POSTGRES_PASSWORD: medmind
+      POSTGRES_DB: medmind
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
