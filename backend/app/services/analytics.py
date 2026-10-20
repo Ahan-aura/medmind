@@ -117,6 +117,7 @@ def get_cohort_summary(db: Session, cohort_id: str) -> Dict[str, Any]:
     students = db.query(User).filter(User.cohort_id == cohort_id).all()
     student_ids = [s.id for s in students]
     student_count = len(students)
+    has_synthetic_data = any(bool(getattr(s, 'is_synthetic', False)) for s in students)
     
     # 1. Objective averages
     # Initial vs Reassessment average
@@ -206,6 +207,7 @@ def get_cohort_summary(db: Session, cohort_id: str) -> Dict[str, Any]:
         "cohort_id": cohort_id,
         "cohort_name": "Class 2026 - Clinical Medicine Cohort Alpha",
         "student_count": student_count,
+        "has_synthetic_data": has_synthetic_data,
         "objective_averages": obj_averages,
         "top_misconceptions": top_misconceptions,
         "calibration_matrix": calib_matrix

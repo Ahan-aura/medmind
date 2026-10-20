@@ -4,6 +4,8 @@ case_role: reassessment
 learning_objective: LO-MICROCYTIC-01
 paired_case: CASE-FATIGUE-01
 title: "Microcytic Indices with Preserved Iron Stores"
+reviewed_by: "Curriculum Team (Educational Draft)"
+reviewed_at: "2026-10-15T00:00:00Z"
 disclaimer: "Fictional case for education only. Not medical advice."
 patient:
   name: Jordan

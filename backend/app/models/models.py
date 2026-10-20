@@ -22,6 +22,7 @@ class User(Base):
     role = Column(String(50), nullable=False, default="student")  # 'student', 'teacher', 'admin'
     preferred_lang = Column(String(10), nullable=False, default="en")
     cohort_id = Column(String(36), nullable=True)
+    is_synthetic = Column(Boolean, default=False)
     created_at = Column(DateTime(timezone=True), default=utc_now)
 
     attempts = relationship("Attempt", back_populates="user", cascade="all, delete-orphan")
@@ -44,7 +45,7 @@ class Case(Base):
     content = Column(JSON, nullable=False)
     reviewed_by = Column(String(255), nullable=True)
     reviewed_at = Column(DateTime(timezone=True), nullable=True)
-    is_published = Column(Boolean, default=True)
+    is_published = Column(Boolean, default=False)
 
     attempts = relationship("Attempt", back_populates="case")
 
@@ -97,7 +98,8 @@ class FeedbackRecord(Base):
     attempt_id = Column(String(36), ForeignKey("attempts.id"), unique=True, nullable=False)
     source = Column(String(50), nullable=False)  # 'llm' or 'fallback'
     payload = Column(JSON, nullable=False)
-    citations_valid = Column(Boolean, nullable=False, default=True)
+    citations_valid = Column(Boolean, nullable=True, default=None)
+    fallback_reason = Column(String(255), nullable=True)
     model = Column(String(100), nullable=True)
     latency_ms = Column(Integer, nullable=True)
     created_at = Column(DateTime(timezone=True), default=utc_now)
@@ -138,4 +140,4 @@ class ReferenceChunk(Base):
     text = Column(Text, nullable=False)
     lang = Column(String(10), default="en")
     tags = Column(JSON, default=list)
-    reviewed = Column(Boolean, default=True)
+    reviewed = Column(Boolean, default=False)

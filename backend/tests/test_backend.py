@@ -79,3 +79,20 @@ def test_tutor_validation_rejects_hallucinated_citations(sample_case):
     )
     allowed = {"REF-IDA-001", "REF-IDA-002"}
     assert not is_valid_feedback(fb, allowed, sample_case, [])
+
+def test_reference_chunk_reviewed_default_false():
+    from app.models.models import ReferenceChunk
+    assert ReferenceChunk.reviewed.default.arg is False
+
+def test_case_is_published_requires_reviewed_by():
+    from app.models.models import Case
+    unreviewed_case = Case(id="CASE-UNREVIEWED", title="Unreviewed Case", reviewed_by=None)
+    assert not bool(unreviewed_case.reviewed_by)
+    reviewed_case = Case(id="CASE-REVIEWED", title="Reviewed Case", reviewed_by="Curriculum Team (Educational Draft)")
+    assert bool(reviewed_case.reviewed_by)
+
+def test_synthetic_user_flag():
+    from app.models.models import User
+    assert User.is_synthetic.default.arg is False
+    synthetic_user = User(email="synthetic@test.com", password_hash="hash", role="student", is_synthetic=True)
+    assert synthetic_user.is_synthetic is True

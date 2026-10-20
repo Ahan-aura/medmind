@@ -51,7 +51,7 @@ def ingest_references():
         chunk.text = text
         chunk.lang = meta.get("lang", "en")
         chunk.tags = meta.get("tags", [])
-        chunk.reviewed = bool(meta.get("reviewed", True))
+        chunk.reviewed = bool(meta.get("reviewed", False))
         count += 1
         
     db.commit()

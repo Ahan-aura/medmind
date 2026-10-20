@@ -38,7 +38,7 @@ const DEMO_STEPS: DemoStep[] = [
     title: "4. Grounded AI Tutor & Citations",
     desc: "Review deterministic rubric scoring and AI explanation citing verified guidelines.",
     path: "/progress",
-    hint: "Notice how every claim is linked to an approved reference card (REF-IDA-001) with zero hallucination."
+    hint: "Notice how every claim is linked to an approved reference card (REF-IDA-001) with strict citation validation."
   },
   {
     time: "2:45 - 3:30",

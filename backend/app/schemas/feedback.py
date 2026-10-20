@@ -19,6 +19,7 @@ class FeedbackResponse(BaseModel):
     attempt_id: str
     source: str  # 'llm' or 'fallback'
     payload: Feedback
-    citations_valid: bool
+    citations_valid: Optional[bool] = None
+    fallback_reason: Optional[str] = None
     model: Optional[str] = None
     latency_ms: Optional[int] = None

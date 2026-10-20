@@ -4,6 +4,8 @@ case_role: initial
 learning_objective: LO-MACROCYTIC-01
 paired_case: CASE-B12-02
 title: "Fatigue with Paresthesia and Macrocytic Indices"
+reviewed_by: "Curriculum Team (Educational Draft)"
+reviewed_at: "2026-10-15T00:00:00Z"
 disclaimer: "Fictional case for education only. Not medical advice."
 patient:
   name: Morgan

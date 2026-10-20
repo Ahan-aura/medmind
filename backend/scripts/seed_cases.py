@@ -41,7 +41,7 @@ def seed_cases_and_data():
             id="user-teacher-01",
             email=teacher_email,
             password_hash=hash_password("teacher123"),
-            display_name="Dr. Aarti Sharma, MD",
+            display_name="Demo Faculty (placeholder)",
             role="teacher",
             preferred_lang="en",
             cohort_id=cohort_id
@@ -49,6 +49,9 @@ def seed_cases_and_data():
         db.add(teacher)
         db.commit()
         cohort.teacher_id = teacher.id
+        db.commit()
+    else:
+        teacher.display_name = "Demo Faculty (placeholder)"
         db.commit()
     print("Seeded Demo Teacher:", teacher_email)
 
@@ -124,96 +127,23 @@ def seed_cases_and_data():
             case.case_role = c_data.get("case_role", "initial")
             case.title = c_data.get("title", c_id)
             case.content = c_data
-            case.reviewed_by = "Dr. M. K. Rao, MD (Haematology)"
-            case.reviewed_at = datetime.now(timezone.utc)
-            case.is_published = True
+            
+            # Reviewed status dynamically extracted from case YAML
+            case.reviewed_by = c_data.get("reviewed_by")
+            reviewed_at_raw = c_data.get("reviewed_at")
+            if reviewed_at_raw:
+                if isinstance(reviewed_at_raw, datetime):
+                    case.reviewed_at = reviewed_at_raw
+                else:
+                    try:
+                        case.reviewed_at = datetime.fromisoformat(str(reviewed_at_raw))
+                    except Exception:
+                        case.reviewed_at = datetime.now(timezone.utc)
+            else:
+                case.reviewed_at = None
+            case.is_published = bool(case.reviewed_by)
         db.commit()
         print("Seeded Cases.")
-
-    # 6. Seed Cohort Sample Students & Attempts for compelling Teacher Analytics
-    cohort_peer_samples = [
-        {"name": "Priya Nair", "email": "priya.nair@medmind.ai", "init_score": 4.0, "re_score": 8.0, "mc": "MC-IGNORES-INDICES", "conf": 80, "corr_init": False},
-        {"name": "Rohan Verma", "email": "rohan.v@medmind.ai", "init_score": 3.0, "re_score": 7.0, "mc": "MC-FERRITIN-MISSED", "conf": 90, "corr_init": False},
-        {"name": "Siddharth Das", "email": "siddharth@medmind.ai", "init_score": 6.0, "re_score": 9.0, "mc": "MC-IGNORES-RDW", "conf": 60, "corr_init": True},
-        {"name": "Ananya Roy", "email": "ananya.roy@medmind.ai", "init_score": 5.0, "re_score": 8.0, "mc": "MC-FERRITIN-MISSED", "conf": 80, "corr_init": False},
-        {"name": "Vikram Sethi", "email": "vikram.s@medmind.ai", "init_score": 4.0, "re_score": 8.0, "mc": "MC-MACRO-MICRO-CONFUSED", "conf": 100, "corr_init": False},
-    ]
-
-    for p in cohort_peer_samples:
-        u = db.query(User).filter(User.email == p["email"]).first()
-        if not u:
-            u = User(
-                email=p["email"],
-                password_hash=hash_password("peer123"),
-                display_name=p["name"],
-                role="student",
-                preferred_lang="en",
-                cohort_id=cohort_id
-            )
-            db.add(u)
-            db.commit()
-            db.refresh(u)
-
-            # Record learner misconception
-            lm = LearnerMisconception(
-                user_id=u.id,
-                misconception_id=p["mc"],
-                times_seen=2,
-                last_seen_at=datetime.now(timezone.utc)
-            )
-            db.add(lm)
-
-            # Initial attempt
-            a1 = Attempt(
-                user_id=u.id,
-                case_id="CASE-FATIGUE-01",
-                state="COMPLETED",
-                selected_answer="B" if not p["corr_init"] else "A",
-                reasoning_text="Clinical interpretation of patient fatigue and initial symptoms.",
-                selected_evidence=["hb", "mcv"],
-                confidence=p["conf"],
-                is_correct=p["corr_init"],
-                score=p["init_score"],
-                max_score=10.0,
-                criteria_results=[
-                    {"id": "C1", "description": "Selects interpretation", "met": p["corr_init"], "points": 3.0 if p["corr_init"] else 0.0},
-                    {"id": "C2", "description": "Uses low MCV", "met": True, "points": 2.0},
-                    {"id": "C3", "description": "Uses low ferritin", "met": False, "points": 0.0},
-                ],
-                misconception_tags=[p["mc"]],
-                started_at=datetime.now(timezone.utc),
-                submitted_at=datetime.now(timezone.utc),
-                completed_at=datetime.now(timezone.utc)
-            )
-            db.add(a1)
-            db.commit()
-            db.refresh(a1)
-
-            # Reassessment attempt
-            a2 = Attempt(
-                user_id=u.id,
-                case_id="CASE-FATIGUE-02",
-                parent_attempt_id=a1.id,
-                state="COMPLETED",
-                selected_answer="A",
-                reasoning_text="Identified preserved ferritin and normal RDW pointing to beta-thalassaemia trait.",
-                selected_evidence=["ferritin", "rdw", "mcv"],
-                confidence=80,
-                is_correct=True,
-                score=p["re_score"],
-                max_score=10.0,
-                criteria_results=[
-                    {"id": "C1", "description": "Selects Beta-thalassaemia", "met": True, "points": 3.0},
-                    {"id": "C2", "description": "Identifies normal ferritin", "met": True, "points": 2.0},
-                    {"id": "C3", "description": "Recognises normal RDW", "met": True, "points": 2.0},
-                ],
-                misconception_tags=[],
-                started_at=datetime.now(timezone.utc),
-                submitted_at=datetime.now(timezone.utc),
-                completed_at=datetime.now(timezone.utc)
-            )
-            db.add(a2)
-            db.commit()
 
     db.close()
     print("Database seeding completed successfully.")
