@@ -1,33 +1,54 @@
+import ssl
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.pool import NullPool
 from app.config import settings
 
-# Parse and normalize database URL for PostgreSQL drivers (psycopg v3, psycopg2, or pg8000)
 db_url = settings.DATABASE_URL
 if db_url.startswith("postgres://"):
     db_url = db_url.replace("postgres://", "postgresql://", 1)
 
-# Prefer psycopg (v3) over psycopg2 because psycopg doesn't rely on external C libpq.so on serverless
-if "+psycopg2" in db_url:
+connect_args = {"check_same_thread": False} if "sqlite" in db_url else {}
+
+if "sqlite" not in db_url:
+    # Check driver availability: prefer pg8000 on Python 3.14 or if binary drivers fail
+    use_pg8000 = False
     try:
         import psycopg
-        db_url = db_url.replace("+psycopg2", "+psycopg")
-    except ImportError:
-        pass
-elif db_url.startswith("postgresql://") and not any(driver in db_url for driver in ["+psycopg", "+asyncpg", "+pg8000"]):
-    try:
-        import psycopg
-        db_url = db_url.replace("postgresql://", "postgresql+psycopg://", 1)
-    except ImportError:
+        if "+psycopg2" in db_url:
+            db_url = db_url.replace("+psycopg2", "+psycopg")
+        elif not any(driver in db_url for driver in ["+psycopg", "+asyncpg", "+pg8000"]):
+            db_url = db_url.replace("postgresql://", "postgresql+psycopg://", 1)
+    except (ImportError, Exception):
         try:
             import psycopg2
-            db_url = db_url.replace("postgresql://", "postgresql+psycopg2://", 1)
+            if not any(driver in db_url for driver in ["+psycopg", "+asyncpg", "+pg8000"]):
+                db_url = db_url.replace("postgresql://", "postgresql+psycopg2://", 1)
+        except (ImportError, Exception):
+            use_pg8000 = True
+
+    # Fall back to pure-Python pg8000 (which works everywhere without C-extensions or libpq)
+    if use_pg8000 or "+pg8000" in db_url or ("postgresql://" in db_url and not any(d in db_url for d in ["+psycopg", "+asyncpg"])):
+        try:
+            import pg8000
+            for driver in ["+psycopg2", "+psycopg"]:
+                db_url = db_url.replace(driver, "")
+            if not db_url.startswith("postgresql+pg8000://"):
+                db_url = db_url.replace("postgresql://", "postgresql+pg8000://", 1)
+
+            # Strip incompatible query params (sslmode, channel_binding) for pg8000
+            parsed = urlparse(db_url)
+            qs = parse_qs(parsed.query)
+            qs.pop('sslmode', None)
+            qs.pop('channel_binding', None)
+            clean_query = urlencode(qs, doseq=True)
+            db_url = urlunparse((parsed.scheme, parsed.netloc, parsed.path, parsed.params, clean_query, parsed.fragment))
+
+            # Provide SSL context for encrypted cloud database connection
+            connect_args['ssl_context'] = ssl.create_default_context()
         except ImportError:
             pass
-
-# In SQLite, check_same_thread=False is needed for multithreading
-connect_args = {"check_same_thread": False} if "sqlite" in db_url else {}
 
 engine_kwargs = {
     "echo": False,
