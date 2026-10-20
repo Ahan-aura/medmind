@@ -174,3 +174,24 @@ def test_tutor_prompt_injection_cannot_close_tag(sample_case):
     # Check that lang and jumped_early are included in prompt
     assert "Language: en" in prompt
     assert "Jumped Early: True" in prompt
+
+def test_curated_reference_retrieval_ranking(sample_case):
+    from app.services.rag import retrieve_references
+    from app.models.models import ReferenceChunk
+    from unittest.mock import MagicMock
+
+    c1 = ReferenceChunk(id="REF-IDA-001", source_title="BSH Iron Deficiency", text="Low ferritin confirms IDA", tags=["MC-FERRITIN-MISSED"], reviewed=True)
+    c2 = ReferenceChunk(id="REF-IDA-002", source_title="BSH Refractory", text="Oral iron intolerance", tags=["MC-IGNORES-INDICES"], reviewed=True)
+
+    mock_db = MagicMock()
+    mock_db.query.return_value.filter.return_value.all.return_value = [c1, c2]
+
+    results = retrieve_references(
+        db=mock_db,
+        case=sample_case,
+        missed_criteria=["Serum ferritin depleted"],
+        tags=["MC-FERRITIN-MISSED"]
+    )
+    assert len(results) >= 1
+    assert results[0].id == "REF-IDA-001"
+
