@@ -1,11 +1,24 @@
 const BASE_URL = (import.meta as any).env?.VITE_API_URL || '/api';
+export const IS_DEMO_MODE = (import.meta as any).env?.VITE_DEMO_MODE === 'true';
 
-// Fallback in-memory state for standalone static deployments (e.g. Vercel)
+// Fallback in-memory state for standalone static deployments when VITE_DEMO_MODE === 'true'
 const mockState: Record<string, any> = {
   attempts: {},
 };
 
+export class BackendUnavailableError extends Error {
+  constructor(message = 'Backend unavailable. The API server could not be reached.') {
+    super(message);
+    this.name = 'BackendUnavailableError';
+  }
+}
+
 export async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  // If explicitly configured for client-side demo mode, use mock simulator
+  if (IS_DEMO_MODE) {
+    return mockSimulator(endpoint, options) as T;
+  }
+
   const token = localStorage.getItem('token');
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -16,52 +29,90 @@ export async function apiRequest<T>(endpoint: string, options: RequestInit = {})
     headers['Authorization'] = `Bearer ${token}`;
   }
 
+  let response: Response;
   try {
-    const response = await fetch(`${BASE_URL}${endpoint}`, {
+    response = await fetch(`${BASE_URL}${endpoint}`, {
       ...options,
       headers,
     });
-
-    if (response.ok) {
-      return await response.json();
-    }
-  } catch (e) {
-    // Backend offline or unreachable, fall through to client-side fallback
-    console.warn(`API call ${endpoint} failed, falling back to local simulation mode.`);
+  } catch (err: any) {
+    // Network unreachable or server down
+    console.error(`Network error connecting to ${endpoint}:`, err);
+    throw new BackendUnavailableError(
+      'Backend unavailable: Could not establish connection to the MEDMIND API server. Please check your network or ensure the backend service is running.'
+    );
   }
 
-  // Fallback simulator for offline or static hosting on Vercel
-  return mockSimulator(endpoint, options) as T;
+  // Handle HTTP errors strictly without falling back to mock
+  if (!response.ok) {
+    let errorDetail = `Request failed with status ${response.status} (${response.statusText})`;
+    try {
+      const errJson = await response.json();
+      if (errJson && errJson.detail) {
+        errorDetail = errJson.detail;
+      }
+    } catch {
+      // response wasn't json
+    }
+    throw new Error(errorDetail);
+  }
+
+  return response.json();
 }
 
 function mockSimulator(endpoint: string, options: RequestInit = {}): any {
   const method = (options.method || 'GET').toUpperCase();
   const body = options.body ? JSON.parse(options.body as string) : {};
 
-  if (endpoint === '/auth/login' || endpoint === '/auth/register') {
-    const isTeacher = body.email && body.email.includes('sharma');
-    return {
-      access_token: 'mock-jwt-token-yukthi-2026',
-      token_type: 'bearer',
-      user: {
-        id: isTeacher ? 'user-teacher-01' : 'user-student-01',
-        email: body.email || 'student@medmind.ai',
-        display_name: isTeacher ? 'Dr. Aarti Sharma, MD' : 'Alex Mercer (Student)',
-        role: isTeacher ? 'teacher' : 'student',
-        preferred_lang: 'en',
-        cohort_id: 'cohort-med-2026-alpha',
-      },
-    };
+  if (endpoint === '/auth/login') {
+    const email = (body.email || '').trim().toLowerCase();
+    const password = body.password || '';
+
+    if (email === 'student@medmind.ai' && password === 'student123') {
+      return {
+        access_token: 'mock-jwt-token-student-demo',
+        token_type: 'bearer',
+        user: {
+          id: 'user-student-demo',
+          email: 'student@medmind.ai',
+          display_name: 'Alex Mercer (Student)',
+          role: 'student',
+          preferred_lang: 'en',
+          cohort_id: 'cohort-demo-alpha',
+        },
+      };
+    } else if (email === 'dr.sharma@medmind.ai' && password === 'teacher123') {
+      return {
+        access_token: 'mock-jwt-token-teacher-demo',
+        token_type: 'bearer',
+        user: {
+          id: 'user-teacher-demo',
+          email: 'dr.sharma@medmind.ai',
+          display_name: 'Demo Faculty (placeholder)',
+          role: 'teacher',
+          preferred_lang: 'en',
+          cohort_id: 'cohort-demo-alpha',
+        },
+      };
+    }
+
+    throw new Error('Invalid demo credentials. In simulation mode, use student@medmind.ai / student123 or dr.sharma@medmind.ai / teacher123.');
+  }
+
+  if (endpoint === '/auth/register') {
+    throw new Error('User registration is disabled in simulation mode. Please use documented demo credentials.');
   }
 
   if (endpoint === '/auth/me') {
+    const token = localStorage.getItem('token') || '';
+    const isTeacher = token.includes('teacher');
     return {
-      id: 'user-student-01',
-      email: 'student@medmind.ai',
-      display_name: 'Alex Mercer (Student)',
-      role: 'student',
+      id: isTeacher ? 'user-teacher-demo' : 'user-student-demo',
+      email: isTeacher ? 'dr.sharma@medmind.ai' : 'student@medmind.ai',
+      display_name: isTeacher ? 'Demo Faculty (placeholder)' : 'Alex Mercer (Student)',
+      role: isTeacher ? 'teacher' : 'student',
       preferred_lang: 'en',
-      cohort_id: 'cohort-med-2026-alpha',
+      cohort_id: 'cohort-demo-alpha',
     };
   }
 
@@ -72,30 +123,30 @@ function mockSimulator(endpoint: string, options: RequestInit = {}): any {
         version: 1,
         learning_objective: 'LO-MICROCYTIC-01',
         case_role: 'initial',
-        title: 'Persistent Fatigue in a Young Adult',
-        disclaimer: 'Fictional case for education only. Not medical advice.',
+        title: 'Persistent Fatigue in a Young Adult (Sample)',
+        disclaimer: 'SIMULATION MODE: Fictional case for education only. Scores are not real.',
       },
       {
         id: 'CASE-FATIGUE-02',
         version: 1,
         learning_objective: 'LO-MICROCYTIC-01',
         case_role: 'reassessment',
-        title: 'Microcytic Indices with Preserved Iron Stores',
-        disclaimer: 'Fictional case for education only. Not medical advice.',
+        title: 'Microcytic Indices with Preserved Iron Stores (Sample)',
+        disclaimer: 'SIMULATION MODE: Fictional case for education only. Scores are not real.',
       },
       {
         id: 'CASE-B12-01',
         version: 1,
         learning_objective: 'LO-MACROCYTIC-01',
         case_role: 'initial',
-        title: 'Fatigue with Paresthesia and Macrocytic Indices',
-        disclaimer: 'Fictional case for education only. Not medical advice.',
+        title: 'Fatigue with Paresthesia and Macrocytic Indices (Sample)',
+        disclaimer: 'SIMULATION MODE: Fictional case for education only. Scores are not real.',
       },
     ];
   }
 
   if (endpoint === '/attempts' && method === 'POST') {
-    const attemptId = 'att-' + Math.random().toString(36).substring(2, 9);
+    const attemptId = 'att-demo-' + Math.random().toString(36).substring(2, 9);
     const caseId = body.case_id || 'CASE-FATIGUE-01';
 
     const caseData =
@@ -105,8 +156,8 @@ function mockSimulator(endpoint: string, options: RequestInit = {}): any {
             version: 1,
             learning_objective: 'LO-MICROCYTIC-01',
             case_role: 'reassessment',
-            title: 'Microcytic Indices with Preserved Iron Stores',
-            disclaimer: 'Fictional case for education only. Not medical advice.',
+            title: 'Microcytic Indices with Preserved Iron Stores (Sample)',
+            disclaimer: 'SIMULATION MODE: Fictional case for education only. Scores are not real.',
             patient: { name: 'Jordan', age: 34, sex: 'male' },
             history:
               'Presents for a routine checkup with mild lifelong tiredness. Mediterranean ancestry with family history of mild anaemia. Normal diet, no bleeding.',
@@ -151,8 +202,8 @@ function mockSimulator(endpoint: string, options: RequestInit = {}): any {
             version: 1,
             learning_objective: 'LO-MICROCYTIC-01',
             case_role: 'initial',
-            title: 'Persistent Fatigue in a Young Adult',
-            disclaimer: 'Fictional case for education only. Not medical advice.',
+            title: 'Persistent Fatigue in a Young Adult (Sample)',
+            disclaimer: 'SIMULATION MODE: Fictional case for education only. Scores are not real.',
             patient: { name: 'Alex', age: 29, sex: 'female' },
             history:
               'Three months of progressive tiredness, breathlessness when climbing stairs, and noticeable pallor. Reports heavy menstrual periods over the past two years. Strict vegetarian diet.',
@@ -342,7 +393,6 @@ function mockSimulator(endpoint: string, options: RequestInit = {}): any {
   }
 
   if (endpoint.startsWith('/attempts/') && endpoint.endsWith('/reassess')) {
-    const newId = 'att-reassess-' + Math.random().toString(36).substring(2, 7);
     return mockSimulator('/attempts', {
       method: 'POST',
       body: JSON.stringify({ case_id: 'CASE-FATIGUE-02' }),
@@ -354,7 +404,6 @@ function mockSimulator(endpoint: string, options: RequestInit = {}): any {
     if (mockState.attempts[attemptId]) {
       return mockState.attempts[attemptId];
     }
-    // create default
     return mockSimulator('/attempts', { method: 'POST', body: JSON.stringify({ case_id: 'CASE-FATIGUE-01' }) });
   }
 
@@ -394,8 +443,9 @@ function mockSimulator(endpoint: string, options: RequestInit = {}): any {
 
   if (endpoint === '/progress/me') {
     return {
-      user_id: 'user-student-01',
-      display_name: 'Alex Mercer (Student)',
+      user_id: 'user-student-demo',
+      display_name: 'Alex Mercer (Sample Student)',
+      is_sample_data: true,
       objectives: [
         {
           learning_objective: 'LO-MICROCYTIC-01',
@@ -408,8 +458,8 @@ function mockSimulator(endpoint: string, options: RequestInit = {}): any {
             'Identified normal ferritin as ruling out simple iron deficiency',
             'Recognised normal RDW characteristic of uniform microcytic cells in thalassaemia trait',
           ],
-          initial_attempt_id: 'att-1',
-          reassessment_attempt_id: 'att-2',
+          initial_attempt_id: 'att-demo-1',
+          reassessment_attempt_id: 'att-demo-2',
         },
       ],
       calibration: [
@@ -429,9 +479,10 @@ function mockSimulator(endpoint: string, options: RequestInit = {}): any {
 
   if (endpoint.startsWith('/teacher/cohorts/')) {
     return {
-      cohort_id: 'cohort-med-2026-alpha',
-      cohort_name: 'Class 2026 - Clinical Medicine Cohort Alpha',
+      cohort_id: 'cohort-demo-alpha',
+      cohort_name: 'Class 2026 - Clinical Medicine Cohort Alpha (Sample Data)',
       student_count: 6,
+      is_sample_data: true,
       objective_averages: [
         { learning_objective: 'LO-MICROCYTIC-01', avg_initial_score: 48.0, avg_reassessment_score: 82.0, delta: 34.0, learner_count: 6 },
         { learning_objective: 'LO-MACROCYTIC-01', avg_initial_score: 55.0, avg_reassessment_score: 86.0, delta: 31.0, learner_count: 5 },

@@ -67,6 +67,11 @@ export const TeacherPage: React.FC = () => {
             <span className="text-xs font-mono font-bold text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-200 uppercase tracking-wider">
               Faculty / Educator View
             </span>
+            {((summary as any).is_sample_data || (summary as any).has_synthetic_data || (import.meta as any).env?.VITE_DEMO_MODE === 'true') && (
+              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 uppercase">
+                Synthetic Demo Data
+              </span>
+            )}
             <span className="text-xs text-slate-400 font-semibold">Privacy-Preserving Cohort Aggregates</span>
           </div>
           <h1 className="text-2xl font-black text-slate-900 tracking-tight mt-1">

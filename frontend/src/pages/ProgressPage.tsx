@@ -62,9 +62,16 @@ export const ProgressPage: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 space-y-8">
       <div>
-        <h1 className="text-2xl font-black text-slate-900 tracking-tight">
-          {t.progress.title}
-        </h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-black text-slate-900 tracking-tight">
+            {t.progress.title}
+          </h1>
+          {((progress as any).is_sample_data || (import.meta as any).env?.VITE_DEMO_MODE === 'true') && (
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300 uppercase">
+              Sample Data
+            </span>
+          )}
+        </div>
         <p className="text-sm text-slate-500 mt-1">
           Tracking clinical reasoning gains, confidence calibration, and concept transfer for {progress.display_name}.
         </p>

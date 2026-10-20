@@ -23,6 +23,15 @@ def test_cases_list():
     assert "CASE-FATIGUE-02" in ids
     assert "CASE-B12-01" in ids
 
+def test_login_invalid_credentials_returns_401():
+    # Attempting to login with incorrect credentials must yield 401 and an error detail
+    res = client.post("/api/auth/login", json={
+        "email": "student@medmind.ai",
+        "password": "wrongpassword"
+    })
+    assert res.status_code == 401
+    assert "Invalid email or password" in res.json().get("detail", "")
+
 def test_student_complete_flow():
     # 1. Login as demo student
     login_res = client.post("/api/auth/login", json={

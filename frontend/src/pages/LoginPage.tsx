@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Activity, ShieldCheck, UserCheck, GraduationCap, ArrowRight } from 'lucide-react';
+import { Activity, ShieldCheck, UserCheck, GraduationCap, ArrowRight, AlertOctagon, RefreshCw } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../i18n/LanguageContext';
-import { api } from '../api/client';
+import { api, BackendUnavailableError } from '../api/client';
 
 export const LoginPage: React.FC = () => {
   const { login, quickLogin } = useAuth();
@@ -16,11 +16,13 @@ export const LoginPage: React.FC = () => {
   const [displayName, setDisplayName] = useState('');
   const [role, setRole] = useState<'student' | 'teacher'>('student');
   const [error, setError] = useState<string | null>(null);
+  const [backendDown, setBackendDown] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setBackendDown(false);
     setLoading(true);
 
     try {
@@ -38,6 +40,9 @@ export const LoginPage: React.FC = () => {
       }
       navigate('/cases');
     } catch (err: any) {
+      if (err instanceof BackendUnavailableError || err.name === 'BackendUnavailableError') {
+        setBackendDown(true);
+      }
       setError(err.message || 'Authentication failed');
     } finally {
       setLoading(false);
@@ -46,6 +51,7 @@ export const LoginPage: React.FC = () => {
 
   const handleQuick = async (type: 'student' | 'teacher') => {
     setError(null);
+    setBackendDown(false);
     setLoading(true);
     try {
       await quickLogin(type);
@@ -55,11 +61,41 @@ export const LoginPage: React.FC = () => {
         navigate('/cases');
       }
     } catch (err: any) {
+      if (err instanceof BackendUnavailableError || err.name === 'BackendUnavailableError') {
+        setBackendDown(true);
+      }
       setError(err.message || 'Quick login failed');
     } finally {
       setLoading(false);
     }
   };
+
+  if (backendDown) {
+    return (
+      <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full bg-white p-8 rounded-2xl border-2 border-rose-300 shadow-lg text-center space-y-4">
+          <div className="w-16 h-16 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto">
+            <AlertOctagon className="w-9 h-9 stroke-[2.5]" />
+          </div>
+          <h2 className="text-xl font-black text-slate-900">
+            Backend Unavailable
+          </h2>
+          <p className="text-sm text-slate-600 leading-relaxed font-normal">
+            The MEDMIND API service could not be reached. If running locally, ensure the FastAPI server is running with <code className="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono font-bold text-slate-800">python run_app.py</code> on port 8000.
+          </p>
+          <div className="pt-2 flex justify-center gap-3">
+            <button
+              onClick={() => { setBackendDown(false); setError(null); }}
+              className="px-4 py-2 bg-medblue-600 hover:bg-medblue-700 text-white rounded-xl text-xs font-bold flex items-center gap-2 transition-colors"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              <span>Retry Connection</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -79,7 +115,7 @@ export const LoginPage: React.FC = () => {
         {/* Quick Demo Logins Box */}
         <div className="bg-gradient-to-br from-medblue-50 to-indigo-50 border border-medblue-200/60 rounded-2xl p-5 shadow-xs space-y-3">
           <span className="text-xs font-bold text-medblue-900 uppercase tracking-wider block">
-            Hackathon / Demo Quick Access
+            Documented Demo Credentials
           </span>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <button
@@ -112,7 +148,7 @@ export const LoginPage: React.FC = () => {
               </div>
               <div>
                 <span className="text-xs font-bold text-slate-900 block leading-tight">
-                  Dr. Sharma, MD
+                  Demo Faculty (placeholder)
                 </span>
                 <span className="text-[10px] text-slate-500 font-medium">
                   {t.login.roleTeacher}
@@ -156,7 +192,7 @@ export const LoginPage: React.FC = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="learner@medmind.ai"
+                placeholder="student@medmind.ai"
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-medblue-500 focus:ring-2 focus:ring-medblue-100 outline-none"
               />
             </div>
