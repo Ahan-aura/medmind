@@ -31,6 +31,7 @@ def get_user_attempt(attempt_id: str, user: User, db: Session) -> Attempt:
     return attempt
 
 @router.post("", response_model=Dict[str, Any])
+@router.post("/", response_model=Dict[str, Any], include_in_schema=False)
 def start_attempt(
     req: StartAttemptRequest,
     current_user: User = Depends(get_current_user),

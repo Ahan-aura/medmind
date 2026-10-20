@@ -85,16 +85,17 @@ def health_check(db: Session = Depends(get_db)):
         "database": db_status
     }
 
-# Check if frontend production dist exists to serve as unified SPA
+# Check if frontend production dist exists to serve as unified SPA in local dev
 FRONTEND_DIST = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
 
-if FRONTEND_DIST.exists():
+# On Vercel serverless, static files are natively served by Vercel edge CDN
+if FRONTEND_DIST.exists() and not os.getenv("VERCEL"):
     app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIST / "assets")), name="assets")
 
     @app.get("/{full_path:path}")
     async def serve_spa(full_path: str):
         # Do not capture API routes
-        if full_path.startswith("api/"):
+        if any(full_path.startswith(p) for p in ("api/", "auth/", "cases/", "attempts/", "lessons/", "progress/", "teacher/", "health", "docs", "openapi")):
             return None
         file_candidate = FRONTEND_DIST / full_path
         if file_candidate.is_file():

@@ -10,6 +10,7 @@ from app.security import get_current_user
 router = APIRouter(prefix="/cases", tags=["cases"])
 
 @router.get("", response_model=List[CaseListItem])
+@router.get("/", response_model=List[CaseListItem], include_in_schema=False)
 def list_cases(db: Session = Depends(get_db)):
     cases = db.query(Case).filter(Case.is_published == True).all()
     items = []
