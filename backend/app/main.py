@@ -31,7 +31,8 @@ except Exception as e:
 app = FastAPI(
     title="MEDMIND AI 2.0",
     description="Deterministic Simulation Core + Grounded Evidence AI Tutor API for Clinical Reasoning Practice",
-    version="2.0.0"
+    version="2.0.0",
+    redirect_slashes=False
 )
 
 # CORS Middleware
@@ -83,6 +84,13 @@ def health_check(db: Session = Depends(get_db)):
         "version": "2.0.0",
         "tutor_mode": settings.get_tutor_mode(),
         "database": db_status
+    }
+
+@app.get("/api/debug-routes")
+@app.get("/debug-routes")
+def debug_routes():
+    return {
+        "routes": [f"{getattr(r, 'methods', '')} {getattr(r, 'path', '')}" for r in app.routes]
     }
 
 # Check if frontend production dist exists to serve as unified SPA in local dev
