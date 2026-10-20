@@ -8,6 +8,20 @@ from app.config import settings
 from app.db import engine, Base
 from app.routers import auth, cases, attempts, lessons, progress, teacher
 
+import logging
+from sqlalchemy import text
+from sqlalchemy.orm import Session
+from fastapi import Depends
+from app.db import get_db
+
+logger = logging.getLogger("medmind")
+
+# Log tutor mode on startup and check for configuration gaps
+tutor_mode = settings.get_tutor_mode()
+logger.info("MEDMIND AI starting up. Effective Tutor Mode: [%s] (Configured TUTOR_MODE: %s)", tutor_mode, settings.TUTOR_MODE)
+if settings.ANTHROPIC_API_KEY and not settings.LLM_MODEL:
+    logger.warning("WARNING: ANTHROPIC_API_KEY is configured but LLM_MODEL is not set. Tutor will operate in fallback mode.")
+
 # Ensure all database tables exist
 Base.metadata.create_all(bind=engine)
 
@@ -44,13 +58,19 @@ app.include_router(progress.router, prefix="/api")
 app.include_router(teacher.router, prefix="/api")
 
 @app.get("/api/health")
-def health_check():
+def health_check(db: Session = Depends(get_db)):
+    try:
+        db.execute(text("SELECT 1"))
+        db_status = "connected"
+    except Exception as e:
+        db_status = f"unhealthy: {e}"
+
     return {
-        "status": "ok",
+        "status": "ok" if db_status == "connected" else "degraded",
         "service": "MEDMIND AI API",
         "version": "2.0.0",
-        "tutor_mode": settings.TUTOR_MODE,
-        "database": "connected"
+        "tutor_mode": settings.get_tutor_mode(),
+        "database": db_status
     }
 
 # Check if frontend production dist exists to serve as unified SPA

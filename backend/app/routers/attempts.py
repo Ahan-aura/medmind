@@ -223,6 +223,7 @@ def get_or_generate_feedback(
             source=existing_fb.source,
             payload=existing_fb.payload,
             citations_valid=existing_fb.citations_valid,
+            fallback_reason=existing_fb.fallback_reason,
             model=existing_fb.model,
             latency_ms=existing_fb.latency_ms
         )
@@ -230,7 +231,7 @@ def get_or_generate_feedback(
     require_state(attempt.state, 'feedback')
     case = db.query(Case).filter(Case.id == attempt.case_id).first()
     
-    # 1. RAG retrieval
+    # 1. Reference retrieval
     missed_crit = [
         c['description'] for c in (attempt.criteria_results or []) if not c.get('met')
     ]
@@ -241,12 +242,26 @@ def get_or_generate_feedback(
         tags=attempt.misconception_tags or []
     )
     
+    # Check jumped_early flag from step history
+    steps = db.query(AttemptStep).filter(AttemptStep.attempt_id == attempt.id).all()
+    jumped_early = False
+    nodes = case.content.get('branching', {}).get('nodes', [])
+    for s in steps:
+        node = next((n for n in nodes if n.get('id') == s.node_id), None)
+        if node:
+            choice = next((c for c in node.get('choices', []) if c.get('id') == s.choice_id), None)
+            if choice and 'jumped_early' in choice.get('flags', []):
+                jumped_early = True
+                break
+
     # 2. Tutor generation
     submission_dict = {
         'selected_answer': attempt.selected_answer,
         'selected_evidence': attempt.selected_evidence,
         'reasoning_text': attempt.reasoning_text,
-        'confidence': attempt.confidence
+        'confidence': attempt.confidence,
+        'lang': current_user.preferred_lang or 'en',
+        'jumped_early': jumped_early
     }
     scoring_result = {
         'score': attempt.score,
@@ -256,7 +271,7 @@ def get_or_generate_feedback(
         'misconceptions': attempt.misconception_tags
     }
     
-    fb, source, latency_ms, model_name = generate_feedback(
+    fb, source, latency_ms, model_name, citations_valid, fallback_reason = generate_feedback(
         case=case.content,
         submission=submission_dict,
         result=scoring_result,
@@ -268,7 +283,8 @@ def get_or_generate_feedback(
         attempt_id=attempt.id,
         source=source,
         payload=fb.model_dump(),
-        citations_valid=True,
+        citations_valid=citations_valid,
+        fallback_reason=fallback_reason,
         model=model_name,
         latency_ms=latency_ms
     )
@@ -283,6 +299,7 @@ def get_or_generate_feedback(
         source=fb_record.source,
         payload=fb,
         citations_valid=fb_record.citations_valid,
+        fallback_reason=fb_record.fallback_reason,
         model=fb_record.model,
         latency_ms=fb_record.latency_ms
     )
