@@ -12,19 +12,20 @@ from app.models.models import (
 )
 from app.security import hash_password
 
-def seed_synthetic_demo_data():
-    parser = argparse.ArgumentParser(description="Seed synthetic demo peer data for MEDMIND AI")
-    parser.add_argument(
-        "--demo",
-        action="store_true",
-        required=True,
-        help="Flag required to confirm seeding synthetic demo data."
-    )
-    args = parser.parse_args()
+def seed_synthetic_demo_data(force: bool = False):
+    if not force:
+        parser = argparse.ArgumentParser(description="Seed synthetic demo peer data for MEDMIND AI")
+        parser.add_argument(
+            "--demo",
+            action="store_true",
+            required=True,
+            help="Flag required to confirm seeding synthetic demo data."
+        )
+        args = parser.parse_args()
 
-    if not args.demo:
-        print("Error: --demo flag is required to seed synthetic data.")
-        sys.exit(1)
+        if not args.demo:
+            print("Error: --demo flag is required to seed synthetic data.")
+            sys.exit(1)
 
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()

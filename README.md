@@ -185,3 +185,49 @@ pytest backend/tests
 > * All clinical cases, patient profiles, and laboratory values are synthetic and illustrative.
 > * It is **NOT** a medical diagnostic tool and must never be utilized for real patient diagnosis, treatment planning, or emergency triage.
 > * The deterministic architecture ensures AI models cannot alter educational scoring or clinical case facts.
+
+---
+
+## 9. Production Deployment Guide (Render / Railway + Vercel)
+
+MEDMIND AI can be deployed with a managed PostgreSQL backend on **Render** or **Railway** and a global React frontend on **Vercel**.
+
+### Step 1: Deploy Backend to Render or Railway
+
+1. **Create a Managed PostgreSQL Database**:
+   * On Render or Railway, provision a PostgreSQL database.
+   * Note the connection string (e.g., `postgres://medmind:...@.../medmind`). The backend automatically normalizes `postgres://` to `postgresql+psycopg://`.
+
+2. **Deploy the Web Service**:
+   * Connect your GitHub repository: `https://github.com/Ahan-aura/medmind`.
+   * **Root Directory**: `backend` (or use the root `backend/Dockerfile`).
+   * **Build Command**: `pip install -r requirements.txt`
+   * **Start Command**: `python scripts/ingest_references.py && python scripts/seed_cases.py && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+
+3. **Configure Environment Variables**:
+   | Variable | Value | Description |
+   | :--- | :--- | :--- |
+   | `DATABASE_URL` | `postgresql+psycopg://...` | Managed PostgreSQL connection string |
+   | `JWT_SECRET` | `<your-secure-secret-key>` | 256-bit session secret |
+   | `FRONTEND_ORIGIN` | `https://<your-app>.vercel.app` | Allowed CORS origin |
+   | `ANTHROPIC_API_KEY` | `sk-ant-...` | Anthropic Claude API key |
+   | `LLM_MODEL` | `claude-3-5-sonnet-20241022` | Model identifier |
+   | `TUTOR_MODE` | `auto` | Auto-detects live vs fallback |
+
+4. **Verify Health**:
+   * Navigate to `https://<your-backend-url>/api/health`.
+   * It will execute `SELECT 1` on PostgreSQL and return `{"status": "ok", "database": "connected"}`.
+
+---
+
+### Step 2: Deploy Frontend to Vercel
+
+1. **Import GitHub Repository** on [Vercel Dashboard](https://vercel.com).
+2. **Framework Preset**: Vite.
+3. **Configure `vercel.json` API Proxy**:
+   * Update the rewrite destination in `vercel.json` from `https://<BACKEND_URL>/api/$1` to your actual deployed backend URL (e.g., `https://medmind-api.onrender.com/api/$1`).
+4. **Environment Variables on Vercel**:
+   | Variable | Value | Description |
+   | :--- | :--- | :--- |
+   | `VITE_API_URL` | `https://<your-backend-url>` | Backend REST API URL |
+   | `VITE_DEMO_MODE` | `false` | Set to `false` for live backend mode |
