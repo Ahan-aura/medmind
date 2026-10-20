@@ -22,8 +22,11 @@ logger.info("MEDMIND AI starting up. Effective Tutor Mode: [%s] (Configured TUTO
 if settings.ANTHROPIC_API_KEY and not settings.LLM_MODEL:
     logger.warning("WARNING: ANTHROPIC_API_KEY is configured but LLM_MODEL is not set. Tutor will operate in fallback mode.")
 
-# Ensure all database tables exist
-Base.metadata.create_all(bind=engine)
+# Ensure database tables exist safely without breaking cold starts if DB is waking up
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception as e:
+    logger.warning("Startup database table check deferred/non-fatal: %s", e)
 
 app = FastAPI(
     title="MEDMIND AI 2.0",
@@ -49,7 +52,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include Routers under /api
+# Include Routers under /api (for local dev and explicit /api proxy)
 app.include_router(auth.router, prefix="/api")
 app.include_router(cases.router, prefix="/api")
 app.include_router(attempts.router, prefix="/api")
@@ -57,7 +60,16 @@ app.include_router(lessons.router, prefix="/api")
 app.include_router(progress.router, prefix="/api")
 app.include_router(teacher.router, prefix="/api")
 
+# Also include Routers at root (in case serverless rewrites strip the /api prefix)
+app.include_router(auth.router)
+app.include_router(cases.router)
+app.include_router(attempts.router)
+app.include_router(lessons.router)
+app.include_router(progress.router)
+app.include_router(teacher.router)
+
 @app.get("/api/health")
+@app.get("/health")
 def health_check(db: Session = Depends(get_db)):
     try:
         db.execute(text("SELECT 1"))

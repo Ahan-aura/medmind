@@ -1,0 +1,28 @@
+id: LESSON-FERRITIN-STORES
+title: "Biomarkers of Iron Exhaustion: Why Ferritin is King"
+misconception_id: MC-FERRITIN-MISSED
+content:
+  overview: >
+    Students frequently confuse serum iron with serum ferritin. Serum iron fluctuates by up to 30% depending on time of day, recent meals, or stress. Ferritin, however, reflects total reticuloendothelial storage reserves.
+  key_principles:
+    - title: "1. Serum Ferritin Thresholds"
+      explanation: "A ferritin level < 15-30 ng/mL is virtually 100% specific for depleted body iron stores in non-inflammatory settings."
+    - title: "2. Ferritin as an Acute Phase Reactant"
+      explanation: "In patients with chronic infection, inflammatory arthritis, or malignancy, ferritin can be falsely elevated. Transferrin saturation (< 20%) can assist in complex inflammatory cases."
+    - title: "3. Diagnostic Fallacy: Normal Ferritin with Microcytosis"
+      explanation: "If MCV is low (< 80 fL) but ferritin is normal or elevated (> 100 ng/mL), think of beta-thalassaemia trait or anaemia of chronic disease, NOT simple iron deficiency."
+  clinical_pearl: "Never prescribe iron therapy without checking a baseline ferritin, especially in patients with lifelong mild anaemia!"
+practice_questions:
+  - id: PQ1
+    question: "Why is serum ferritin preferred over random serum iron when confirming iron deficiency?"
+    options:
+      - id: A
+        text: "Serum iron reflects instantaneous circulating transferrin-bound iron and fluctuates with meals, whereas ferritin reflects aggregate storage reserves"
+        correct: true
+      - id: B
+        text: "Serum ferritin measures active haemoglobin synthesis in circulating reticulocytes"
+        correct: false
+      - id: C
+        text: "Serum iron is only present in patients with active internal haemorrhage"
+        correct: false
+    explanation: "Serum ferritin reliably mirrors total body iron stores and does not undergo diurnal meal-related oscillations."

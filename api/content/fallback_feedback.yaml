@@ -1,0 +1,118 @@
+FB-IDA-01:
+  default:
+    what_you_got_right:
+      - "Accurately identified Iron-Deficiency Anaemia as the primary clinical diagnosis."
+      - "Recognised the diagnostic significance of microcytosis (MCV 68 fL) and depleted iron stores (Ferritin 8 ng/mL)."
+      - "Correlated the patient's presentation with chronic menorrhagia and dietary restriction."
+    what_needs_work:
+      - "Ensure Red Cell Distribution Width (RDW) is explicitly cited to confirm marked anisocytosis."
+      - "Note the clinical correlation between severe iron depletion and hypochromia on peripheral smear."
+    why_it_matters: >
+      Microcytic anaemia with low ferritin is diagnostic of exhausted iron stores. In premenopausal women, menstrual blood loss combined with vegetarian diet is the leading cause. Differentiating this from thalassaemia trait requires evaluating ferritin and RDW.
+    evidence_links:
+      - ref_id: "REF-IDA-001"
+        supports: "Confirms diagnostic criteria for microcytic hypochromic anaemia with low MCV and haemoglobin below normal thresholds."
+      - ref_id: "REF-FERRITIN-001"
+        supports: "Establishes serum ferritin below 15 ng/mL as the most specific biomarker for total body iron depletion."
+      - ref_id: "REF-RDW-001"
+        supports: "Explains elevated RDW as evidence of anisocytosis characteristic of progressive nutritional iron deficiency."
+    reflection_prompt: >
+      You demonstrated solid diagnostic reasoning. Reflect on how your confidence level aligns with your ability to cite all key quantitative findings (MCV, ferritin, and RDW).
+    next_step: "Review the targeted module on Red Cell Indices and proceed to the reassessment case to test your ability to differentiate microcytosis with normal ferritin."
+    uncertainty_note: >
+      This educational case assumes no concurrent chronic inflammation; in inflammatory states, ferritin can be falsely elevated as an acute-phase reactant.
+
+  MC-MACRO-MICRO-CONFUSED:
+    what_you_got_right:
+      - "Recognised that the patient has an anaemia requiring investigation."
+    what_needs_work:
+      - "Confused microcytic anaemia with macrocytic anaemia. The patient's MCV is 68 fL (well below 80 fL), whereas Vitamin B12 deficiency produces an MCV > 100 fL."
+      - "Missed the severely depleted ferritin level (8 ng/mL), which specifically confirms iron exhaustion."
+    why_it_matters: >
+      Evaluating the Mean Corpuscular Volume (MCV) is the essential initial branch point. Low MCV indicates impaired haemoglobin synthesis, while high MCV indicates impaired DNA synthesis.
+    evidence_links:
+      - ref_id: "REF-INDICES-001"
+        supports: "Defines MCV < 80 fL as microcytic anaemia, distinguishing it fundamentally from macrocytic megaloblastic processes."
+      - ref_id: "REF-FERRITIN-001"
+        supports: "Confirms ferritin < 15 ng/mL as pathognomonic for depleted iron stores."
+    reflection_prompt: >
+      Notice whether you checked the MCV value before selecting a diagnosis. Why did Vitamin B12 seem plausible when cell size was reduced?
+    next_step: "Complete the targeted lesson on Microcytic vs Macrocytic Anaemias before trying the reassessment case."
+    uncertainty_note: >
+      Educational references do not account for rare combined deficiencies where mixed indices can normalize MCV.
+
+  MC-IGNORES-INDICES:
+    what_you_got_right:
+      - "Arrived at the correct primary diagnosis of iron deficiency anaemia."
+    what_needs_work:
+      - "Failed to select or cite Mean Corpuscular Volume (MCV) as core evidence. The MCV of 68 fL is the primary morphological indicator."
+    why_it_matters: >
+      In clinical reasoning, justifying your conclusion with the primary morphological index (MCV) prevents diagnostic shortcuts and ensures consistency.
+    evidence_links:
+      - ref_id: "REF-INDICES-001"
+        supports: "Highlights the mandatory role of MCV in the systematic algorithmic workup of all anaemias."
+      - ref_id: "REF-IDA-001"
+        supports: "Correlates low MCV directly with diminished iron availability during erythropoiesis."
+    reflection_prompt: >
+      Even when a diagnosis seems clear, systematic clinicians explicitly document the red cell indices. Why is MCV critical to record?
+    next_step: "Study the Red Cell Indices module to reinforce the habit of documenting MCV and RDW."
+    uncertainty_note: >
+      Reference passages focus on classical iron deficiency; mild early iron deficiency may initially present with normocytic indices.
+
+  MC-FERRITIN-MISSED:
+    what_you_got_right:
+      - "Identified the microcytic pattern of anaemia."
+    what_needs_work:
+      - "Did not select or cite Serum Ferritin (8 ng/mL) in your supporting evidence. Ferritin is the single most specific biomarker distinguishing IDA from thalassaemia."
+    why_it_matters: >
+      Microcytosis without a confirmed low ferritin cannot definitively distinguish iron deficiency from thalassaemia trait or anaemia of chronic disease.
+    evidence_links:
+      - ref_id: "REF-FERRITIN-001"
+        supports: "Demonstrates that serum ferritin below 15 ng/mL provides definitive evidence of exhausted storage iron."
+    reflection_prompt: >
+      Without ferritin, how would you distinguish this patient from someone with asymptomatic thalassaemia trait?
+    next_step: "Review the Biomarkers of Iron Exhaustion lesson to master ferritin interpretation."
+    uncertainty_note: >
+      Ferritin threshold values vary slightly across laboratory reference assays.
+
+FB-THAL-01:
+  default:
+    what_you_got_right:
+      - "Correctly identified Beta-thalassaemia trait / minor as the explanation for microcytosis with normal ferritin."
+      - "Recognised that normal ferritin (145 ng/mL) and normal RDW (12.6%) rule out simple iron deficiency."
+      - "Synthesized the family history and Mediterranean ancestry with disproportionate microcytosis."
+    what_needs_work:
+      - "Highlight the high RBC count (6.2 x 10^12/L) and low Mentzer index as classic confirmatory clues."
+    why_it_matters: >
+      Prescribing oral iron to patients with thalassaemia trait is ineffective and potentially harmful due to secondary iron accumulation risks.
+    evidence_links:
+      - ref_id: "REF-THAL-001"
+        supports: "Details the hallmarks of thalassaemia trait: extreme microcytosis, high RBC count, normal RDW, and preserved ferritin."
+      - ref_id: "REF-FERRITIN-001"
+        supports: "Confirms that normal ferritin indicates intact iron reserves."
+    reflection_prompt: >
+      Notice how comparing this case to the initial fatigue case highlights the crucial role of ferritin and RDW in differential diagnosis.
+    next_step: "Examine your progress dashboard to review your mastery trajectory across the microcytic learning objective."
+    uncertainty_note: >
+      Haemoglobin electrophoresis (HbA2 quantification) remains the definitive confirmatory investigation.
+
+FB-B12-01:
+  default:
+    what_you_got_right:
+      - "Correctly diagnosed Vitamin B12 deficiency with neurological involvement."
+      - "Identified macrocytic indices (MCV 114 fL) and severely reduced cobalamin levels (92 pg/mL)."
+      - "Correlated sensory paresthesias with subacute combined degeneration pathophysiology."
+    what_needs_work:
+      - "Ensure normal serum folate is explicitly cited to eliminate concurrent isolated folate deficiency."
+    why_it_matters: >
+      B12 deficiency causes both haematological cytopenia and progressive demyelination. Treating empirically with folate alone can precipitate irreversible spinal cord damage.
+    evidence_links:
+      - ref_id: "REF-B12-001"
+        supports: "Explains megaloblastic macrocytosis and neurological sequelae resulting from cobalamin depletion."
+      - ref_id: "REF-INDICES-001"
+        supports: "Defines MCV > 100 fL as macrocytic anaemia requiring cobalamin/folate evaluation."
+    reflection_prompt: >
+      How did the combination of dietary history (9 years strict vegan) and neurological signs guide your confidence rating?
+    next_step: "Review your performance on the learner progress dashboard."
+    uncertainty_note: >
+      Serum B12 assays may occasionally be falsely normal in patients with high levels of transcobalamin II.

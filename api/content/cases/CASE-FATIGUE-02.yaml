@@ -1,0 +1,147 @@
+id: CASE-FATIGUE-02
+version: 1
+case_role: reassessment
+learning_objective: LO-MICROCYTIC-01
+paired_case: CASE-FATIGUE-01
+title: "Microcytic Indices with Preserved Iron Stores"
+reviewed_by: "Curriculum Team (Educational Draft)"
+reviewed_at: "2026-10-15T00:00:00Z"
+disclaimer: "Fictional case for education only. Not medical advice."
+patient:
+  name: Jordan
+  age: 34
+  sex: male
+history: >
+  Presents for a routine occupational health checkup. Mentions mild chronic fatigue that has been present for years,
+  without worsening. Family history is notable for Mediterranean ancestry; both mother and maternal uncle had mild lifelong anemia.
+  No history of gastrointestinal bleeding, haematuria, or strict dietary restrictions.
+labs:
+  - id: hb
+    test: Haemoglobin
+    value: 10.4
+    unit: g/dL
+    ref: '13.5-17.5'
+    flag: low
+  - id: mcv
+    test: Mean Corpuscular Volume (MCV)
+    value: 63
+    unit: fL
+    ref: '80-100'
+    flag: low
+  - id: rdw
+    test: Red Cell Distribution Width (RDW)
+    value: 12.6
+    unit: '%'
+    ref: '11.5-14.5'
+    flag: normal
+  - id: ferritin
+    test: Serum Ferritin
+    value: 145
+    unit: ng/mL
+    ref: '20-250'
+    flag: normal
+  - id: rbc
+    test: Red Blood Cell Count (RBC)
+    value: 6.2
+    unit: x10^12/L
+    ref: '4.5-5.9'
+    flag: high
+question: "Which diagnosis best explains the disproportionately low MCV in the setting of normal ferritin and high RBC count?"
+options:
+  - id: A
+    text: "Beta-thalassaemia trait / minor (Genetic globin synthesis defect with microcytosis, normal ferritin, and normal RDW)"
+    correct: true
+  - id: B
+    text: "Refractory iron-deficiency anaemia requiring intravenous iron"
+    correct: false
+  - id: C
+    text: "Vitamin B12 or folate deficiency"
+    correct: false
+  - id: D
+    text: "Anaemia of chronic renal disease"
+    correct: false
+rubric:
+  max_score: 10
+  criteria:
+    - id: C1
+      points: 3
+      description: "Selects Beta-thalassaemia trait over iron deficiency"
+      check:
+        type: answer_is
+        value: A
+    - id: C2
+      points: 2
+      description: "Identifies normal ferritin as ruling out simple iron deficiency"
+      check:
+        type: evidence_includes
+        ids: [ferritin]
+    - id: C3
+      points: 2
+      description: "Recognises normal RDW characteristic of uniform microcytic cells in thalassaemia trait"
+      check:
+        type: evidence_includes
+        ids: [rdw]
+    - id: C4
+      points: 1
+      description: "Notes disproportionately elevated RBC count (Mentzer index < 13)"
+      check:
+        type: evidence_includes
+        ids: [rbc]
+    - id: C5
+      points: 2
+      description: "Reasoning contrasts preserved iron stores and normal RDW against true iron deficiency"
+      check:
+        type: keywords_any
+        groups:
+          - [thalassemia, thalassaemia, genetic, globin, trait]
+          - [normal ferritin, preserved iron, normal rdw, uniform]
+misconception_rules:
+  - id: MC-DEFAULT-TO-IDA
+    when:
+      answer_in: [B]
+  - id: MC-FERRITIN-MISSED
+    when:
+      evidence_missing: [ferritin]
+  - id: MC-IGNORES-RDW
+    when:
+      evidence_missing: [rdw]
+  - id: MC-OVERCONFIDENT
+    when:
+      confidence_gte: 80
+      is_correct: false
+branching:
+  start: n_review
+  nodes:
+    - id: n_review
+      type: review_case
+      text: "You are evaluating Jordan's indices. Do you want to examine further diagnostic context?"
+      choices:
+        - id: more_info
+          label: "Review haemoglobin electrophoresis status"
+          next: n_electrophoresis
+        - id: answer_now
+          label: "Make diagnostic determination now"
+          next: n_decide
+          flags: [jumped_early]
+    - id: n_electrophoresis
+      type: reveal
+      text: "Haemoglobin electrophoresis demonstrates HbA2 elevated at 5.2% (reference < 3.5%), confirming increased delta chain synthesis characteristic of beta-thalassaemia trait."
+      choices:
+        - id: continue
+          label: "Proceed to conclusion"
+          next: n_decide
+    - id: n_decide
+      type: decision
+      text: "Enter your diagnostic interpretation, link findings to your decision, and record your confidence."
+allowed_references:
+  - REF-THAL-001
+  - REF-FERRITIN-001
+  - REF-INDICES-001
+  - REF-RDW-001
+fallback_feedback_key: FB-THAL-01
+i18n:
+  te:
+    title: "సాధారణ ఇనుము నిల్వలతో సూక్ష్మ కణ సూచికలు (Microcytic Indices with Normal Ferritin)"
+    patient:
+      name: "జోర్డాన్ (Jordan)"
+    question: "సాధారణ ఫెర్రిటిన్ మరియు అధిక RBC కౌంట్ ఉన్నప్పుడు అతి తక్కువ MCV కి ఏది సరైన వివరణ?"
