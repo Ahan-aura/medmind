@@ -1,6 +1,26 @@
 {
   "rewrites": [
     {
+      "source": "/api/cases/(.*)",
+      "destination": "/api/cases"
+    },
+    {
+      "source": "/api/attempts/(.*)",
+      "destination": "/api/attempts"
+    },
+    {
+      "source": "/api/lessons/(.*)",
+      "destination": "/api/lessons"
+    },
+    {
+      "source": "/api/progress/(.*)",
+      "destination": "/api/progress"
+    },
+    {
+      "source": "/api/teacher/(.*)",
+      "destination": "/api/teacher"
+    },
+    {
       "source": "/((?!api).*)",
       "destination": "/index.html"
     }

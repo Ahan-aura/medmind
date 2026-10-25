@@ -54,29 +54,26 @@ app = FastAPI(
 
 class VercelForwardedUriMiddleware:
     """
-    On Vercel serverless, proxy rewrites (e.g. /api/(.*) -> /api)
+    On Vercel serverless, proxy rewrites (e.g. /api/cases/(.*) -> /api/cases)
     pass the original requested path in x-matched-path or x-forwarded-uri.
-    This middleware synchronizes scope['path'] to the true requested endpoint
-    whenever the path was collapsed to /api by a serverless rewrite rule.
+    This middleware synchronizes scope['path'] to the true requested endpoint.
     """
     def __init__(self, app_instance):
         self.app = app_instance
 
     async def __call__(self, scope, receive, send):
         if scope["type"] == "http":
-            current_path = scope.get("path", "")
-            # Only restore path if current path is a collapsed rewrite entrypoint
-            if current_path in ("", "/", "/api", "/api/", "/api/index", "/index"):
-                headers = {k.decode("latin-1").lower(): v.decode("latin-1") for k, v in scope.get("headers", [])}
-                original_path = (
-                    headers.get("x-matched-path")
-                    or headers.get("x-forwarded-uri")
-                    or headers.get("x-original-uri")
-                )
-                if original_path:
-                    clean_path = original_path.split("?")[0]
-                    if clean_path and clean_path not in ("", "/", "/api", "/api/", "/api/index", "/index"):
-                        scope["path"] = clean_path
+            headers = {k.decode("latin-1").lower(): v.decode("latin-1") for k, v in scope.get("headers", [])}
+            original_path = (
+                headers.get("x-matched-path")
+                or headers.get("x-forwarded-uri")
+                or headers.get("x-original-uri")
+            )
+            if original_path:
+                clean_path = original_path.split("?")[0]
+                current_path = scope.get("path", "")
+                if clean_path and clean_path != current_path:
+                    scope["path"] = clean_path
         await self.app(scope, receive, send)
 
 app.add_middleware(VercelForwardedUriMiddleware)
