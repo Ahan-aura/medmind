@@ -1,24 +1,28 @@
 {
   "rewrites": [
     {
-      "source": "/api/cases/(.*)",
+      "source": "/api/cases(.*)",
       "destination": "/api/cases"
     },
     {
-      "source": "/api/attempts/(.*)",
+      "source": "/api/attempts(.*)",
       "destination": "/api/attempts"
     },
     {
-      "source": "/api/lessons/(.*)",
+      "source": "/api/lessons(.*)",
       "destination": "/api/lessons"
     },
     {
-      "source": "/api/progress/(.*)",
+      "source": "/api/progress(.*)",
       "destination": "/api/progress"
     },
     {
-      "source": "/api/teacher/(.*)",
+      "source": "/api/teacher(.*)",
       "destination": "/api/teacher"
+    },
+    {
+      "source": "/api/auth(.*)",
+      "destination": "/api/auth/login"
     },
     {
       "source": "/((?!api).*)",
