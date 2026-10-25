@@ -14,7 +14,8 @@ for candidate in [
     str(root_dir),
     "/var/task",
     "/var/task/backend",
-    "/var/task/api"
+    "/var/task/api",
+    "/var/task/frontend/api"
 ]:
     if candidate not in sys.path and (os.path.exists(candidate) or candidate.startswith("/var")):
         sys.path.insert(0, candidate)
