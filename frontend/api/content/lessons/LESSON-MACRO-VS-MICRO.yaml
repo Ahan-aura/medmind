@@ -1,0 +1,28 @@
+id: LESSON-MACRO-VS-MICRO
+title: "Microcytic vs Macrocytic Anaemias: Diagnostic Boundaries"
+misconception_id: MC-MACRO-MICRO-CONFUSED
+content:
+  overview: >
+    MCV below 80 fL and MCV above 100 fL represent opposite ends of the morphologic spectrum. Confusing them leads to misdirected investigations and inappropriate therapies.
+  key_principles:
+    - title: "1. The Microcytic Triad (< 80 fL)"
+      explanation: "Defect in haemoglobin synthesis: Iron deficiency (heme defect), Thalassaemia (globin chain defect), Anaemia of Chronic Disease (iron sequestration)."
+    - title: "2. The Macrocytic Spectrum (> 100 fL)"
+      explanation: "Defect in DNA synthesis (megaloblastic): Vitamin B12 deficiency (often accompanied by neuropathy/paresthesias) or Folate deficiency. Non-megaloblastic causes: reticulocytosis, alcoholism, hypothyroidism, liver disease."
+    - title: "3. Red Flag Neurological Clues"
+      explanation: "Loss of proprioception, tingling sensations in feet, or balance difficulties in an anaemic patient mandate immediate assessment of Vitamin B12 and spinal dorsal column integrity."
+  clinical_pearl: "Treating B12 deficiency with folate alone may correct the haematological abnormalities while allowing irreversible neurological damage to advance!"
+practice_questions:
+  - id: PQ1
+    question: "A patient with fatigue has an MCV of 115 fL and bilateral foot numbness. What is the danger of empirically administering only high-dose folic acid?"
+    options:
+      - id: A
+        text: "It may mask Vitamin B12 deficiency by resolving haematological cytopenia while allowing spinal subacute combined degeneration to progress"
+        correct: true
+      - id: B
+        text: "It triggers immediate severe microcytosis with cell lysis"
+        correct: false
+      - id: C
+        text: "Folic acid is contraindicated in any patient with fatigue"
+        correct: false
+    explanation: "Folate can partially reverse megaloblastic erythropoiesis of B12 deficiency, masking it while neurological degeneration continues."

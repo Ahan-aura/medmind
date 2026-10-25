@@ -1,0 +1,148 @@
+id: CASE-FATIGUE-01
+version: 1
+case_role: initial
+learning_objective: LO-MICROCYTIC-01
+paired_case: CASE-FATIGUE-02
+title: "Persistent Fatigue in a Young Adult"
+reviewed_by: "Curriculum Team (Educational Draft)"
+reviewed_at: "2026-10-15T00:00:00Z"
+disclaimer: "Fictional case for education only. Not medical advice."
+patient:
+  name: Alex
+  age: 29
+  sex: female
+history: >
+  Three months of progressive tiredness, breathlessness when climbing stairs, and noticeable pallor.
+  Reports heavy menstrual periods (menorrhagia) over the past two years. Follows a strict vegetarian diet.
+  Denies fever, weight loss, night sweats, or melena.
+labs:
+  - id: hb
+    test: Haemoglobin
+    value: 9.1
+    unit: g/dL
+    ref: '12.0-15.5'
+    flag: low
+  - id: mcv
+    test: Mean Corpuscular Volume (MCV)
+    value: 68
+    unit: fL
+    ref: '80-100'
+    flag: low
+  - id: rdw
+    test: Red Cell Distribution Width (RDW)
+    value: 17.5
+    unit: '%'
+    ref: '11.5-14.5'
+    flag: high
+  - id: ferritin
+    test: Serum Ferritin
+    value: 8
+    unit: ng/mL
+    ref: '15-200'
+    flag: low
+  - id: wbc
+    test: White Blood Cell Count (WBC)
+    value: 6.8
+    unit: x10^9/L
+    ref: '4.0-11.0'
+    flag: normal
+question: "Which clinical interpretation best fits this patient's presentation and laboratory findings?"
+options:
+  - id: A
+    text: "Iron-deficiency anaemia (Microcytic, hypochromic anaemia secondary to chronic blood loss and low dietary intake)"
+    correct: true
+  - id: B
+    text: "Vitamin B12 deficiency anaemia (Megaloblastic macrocytic anaemia)"
+    correct: false
+  - id: C
+    text: "Anaemia of acute blood loss (Normocytic normochromic anaemia)"
+    correct: false
+  - id: D
+    text: "Physiological baseline variation (Benign low normal, no pathology)"
+    correct: false
+rubric:
+  max_score: 10
+  criteria:
+    - id: C1
+      points: 3
+      description: "Selects the best-fitting clinical interpretation (Iron-deficiency anaemia)"
+      check:
+        type: answer_is
+        value: A
+    - id: C2
+      points: 2
+      description: "Identifies low MCV indicating microcytosis as primary supporting evidence"
+      check:
+        type: evidence_includes
+        ids: [mcv]
+    - id: C3
+      points: 2
+      description: "Identifies depleted serum ferritin as specific marker of exhausted iron stores"
+      check:
+        type: evidence_includes
+        ids: [ferritin]
+    - id: C4
+      points: 1
+      description: "Notes elevated RDW demonstrating marked anisocytosis"
+      check:
+        type: evidence_includes
+        ids: [rdw]
+    - id: C5
+      points: 2
+      description: "Clinical reasoning connects microcytic cells with depleted iron stores or blood loss"
+      check:
+        type: keywords_any
+        groups:
+          - [microcytic, small cells, low mcv, hypochromic]
+          - [iron, ferritin, blood loss, menorrhagia, dietary]
+misconception_rules:
+  - id: MC-MACRO-MICRO-CONFUSED
+    when:
+      answer_in: [B]
+  - id: MC-IGNORES-INDICES
+    when:
+      evidence_missing: [mcv]
+  - id: MC-FERRITIN-MISSED
+    when:
+      evidence_missing: [ferritin]
+  - id: MC-OVERCONFIDENT
+    when:
+      confidence_gte: 80
+      is_correct: false
+branching:
+  start: n_review
+  nodes:
+    - id: n_review
+      type: review_case
+      text: "You are reviewing Alex's chart. What diagnostic investigation would you like to review next?"
+      choices:
+        - id: more_info
+          label: "Request peripheral blood smear analysis"
+          next: n_smear
+        - id: answer_now
+          label: "Proceed immediately to diagnostic interpretation"
+          next: n_decide
+          flags: [jumped_early]
+    - id: n_smear
+      type: reveal
+      text: "Peripheral blood smear shows marked microcytic, hypochromic red blood cells with anisopoikilocytosis and occasional pencil-shaped (cigar) cells. Platelets appear slightly increased."
+      choices:
+        - id: continue
+          label: "Synthesize findings & enter decision"
+          next: n_decide
+    - id: n_decide
+      type: decision
+      text: "Formulate your clinical interpretation, select key evidence, and record your reasoning."
+allowed_references:
+  - REF-IDA-001
+  - REF-IDA-002
+  - REF-INDICES-001
+  - REF-FERRITIN-001
+  - REF-RDW-001
+fallback_feedback_key: FB-IDA-01
+i18n:
+  te:
+    title: "యువతీలో దీర్ఘకాలిక అలసట (Persistent Fatigue in a Young Adult)"
+    patient:
+      name: "అలెక్స్ (Alex)"
+    question: "ఈ రోగి లక్షణాలు మరియు ప్రయోగశాల ఫలితాలకు ఏ రోగనిర్ధారణ అత్యంత అనుకూలంగా ఉంది?"

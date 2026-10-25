@@ -1,0 +1,152 @@
+id: CASE-B12-01
+version: 1
+case_role: initial
+learning_objective: LO-MACROCYTIC-01
+paired_case: CASE-B12-02
+title: "Fatigue with Paresthesia and Macrocytic Indices"
+reviewed_by: "Curriculum Team (Educational Draft)"
+reviewed_at: "2026-10-15T00:00:00Z"
+disclaimer: "Fictional case for education only. Not medical advice."
+patient:
+  name: Morgan
+  age: 62
+  sex: male
+history: >
+  Six-month history of worsening fatigue, exertional shortness of breath, bilateral tingling ("pins and needles")
+  in toes and fingers, and subtle unsteadiness while walking in the dark.
+  Strict vegan for 9 years without supplementation. No history of gastrectomy or alcohol overuse.
+labs:
+  - id: hb
+    test: Haemoglobin
+    value: 8.6
+    unit: g/dL
+    ref: '13.5-17.5'
+    flag: low
+  - id: mcv
+    test: Mean Corpuscular Volume (MCV)
+    value: 114
+    unit: fL
+    ref: '80-100'
+    flag: high
+  - id: rdw
+    test: Red Cell Distribution Width (RDW)
+    value: 18.2
+    unit: '%'
+    ref: '11.5-14.5'
+    flag: high
+  - id: b12
+    test: Serum Vitamin B12 (Cobalamin)
+    value: 92
+    unit: pg/mL
+    ref: '200-900'
+    flag: low
+  - id: folate
+    test: Serum Folate
+    value: 9.4
+    unit: ng/mL
+    ref: '4.0-20.0'
+    flag: normal
+  - id: platelets
+    test: Platelet Count
+    value: 130
+    unit: x10^9/L
+    ref: '150-450'
+    flag: low
+question: "Which clinical condition best unifies the macrocytic anaemia and sensory neurological findings?"
+options:
+  - id: A
+    text: "Vitamin B12 deficiency anaemia with subacute combined degeneration of the spinal cord"
+    correct: true
+  - id: B
+    text: "Isolated dietary folate deficiency"
+    correct: false
+  - id: C
+    text: "Iron deficiency anaemia with restless legs syndrome"
+    correct: false
+  - id: D
+    text: "Aplastic anaemia"
+    correct: false
+rubric:
+  max_score: 10
+  criteria:
+    - id: C1
+      points: 3
+      description: "Selects Vitamin B12 deficiency as primary unifying diagnosis"
+      check:
+        type: answer_is
+        value: A
+    - id: C2
+      points: 2
+      description: "Identifies markedly elevated MCV (>100 fL) indicating macrocytic anaemia"
+      check:
+        type: evidence_includes
+        ids: [mcv]
+    - id: C3
+      points: 2
+      description: "Uses severely depressed serum B12 (<100 pg/mL) as definitive confirmation"
+      check:
+        type: evidence_includes
+        ids: [b12]
+    - id: C4
+      points: 1
+      description: "Recognises normal folate level ruling out isolated folate deficiency"
+      check:
+        type: evidence_includes
+        ids: [folate]
+    - id: C5
+      points: 2
+      description: "Reasoning connects impaired myelin synthesis/neuropathy with B12 deficiency"
+      check:
+        type: keywords_any
+        groups:
+          - [b12, cobalamin, macrocytic, megaloblastic]
+          - [neuropathy, paresthesia, neurological, dorsal columns, myelin]
+misconception_rules:
+  - id: MC-MACRO-MICRO-CONFUSED
+    when:
+      answer_in: [C]
+  - id: MC-FOLATE-B12-CONFUSED
+    when:
+      answer_in: [B]
+  - id: MC-IGNORES-NEUROLOGICAL
+    when:
+      evidence_missing: [b12]
+  - id: MC-OVERCONFIDENT
+    when:
+      confidence_gte: 80
+      is_correct: false
+branching:
+  start: n_review
+  nodes:
+    - id: n_review
+      type: review_case
+      text: "You are reviewing Morgan's findings. Would you like to check the peripheral blood film report?"
+      choices:
+        - id: more_info
+          label: "Examine peripheral smear and leukocyte morphology"
+          next: n_smear
+        - id: answer_now
+          label: "Skip to diagnostic formulation"
+          next: n_decide
+          flags: [jumped_early]
+    - id: n_smear
+      type: reveal
+      text: "Smear shows macro-ovalocytes, pronounced anisopoikilocytosis, and characteristic hypersegmented neutrophils (neutrophils with 6+ nuclear lobes), strongly supporting megaloblastic maturation arrest."
+      choices:
+        - id: continue
+          label: "Proceed to decision"
+          next: n_decide
+    - id: n_decide
+      type: decision
+      text: "Formulate your diagnosis, select supporting evidence, and rate your diagnostic confidence."
+allowed_references:
+  - REF-B12-001
+  - REF-INDICES-001
+  - REF-RDW-001
+fallback_feedback_key: FB-B12-01
+i18n:
+  te:
+    title: "స్పర్శహీనత మరియు స్థూల కణ సూచికలతో అలసట (Fatigue with Paresthesia and Macrocytic Indices)"
+    patient:
+      name: "మోర్గాన్ (Morgan)"
+    question: "స్థూల కణ రక్తహీనత మరియు నరాల సంబంధిత లక్షణాలను వివరించే అత్యుత్తమ రోగనిర్ధారణ ఏది?"
