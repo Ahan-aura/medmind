@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -34,6 +34,31 @@ app = FastAPI(
     version="2.0.0",
     redirect_slashes=False
 )
+
+class VercelForwardedUriMiddleware:
+    """
+    On Vercel serverless, proxy rewrites (e.g. /api/:path* -> /api)
+    pass the client requested path in x-forwarded-uri or x-matched-path.
+    This middleware synchronizes scope['path'] to the true requested endpoint.
+    """
+    def __init__(self, app_instance):
+        self.app = app_instance
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] == "http":
+            headers = {k.decode("latin-1").lower(): v.decode("latin-1") for k, v in scope.get("headers", [])}
+            forwarded = (
+                headers.get("x-forwarded-uri")
+                or headers.get("x-matched-path")
+                or headers.get("x-vercel-matched-path")
+            )
+            if forwarded:
+                clean_path = forwarded.split("?")[0]
+                if clean_path and clean_path != "/":
+                    scope["path"] = clean_path
+        await self.app(scope, receive, send)
+
+app.add_middleware(VercelForwardedUriMiddleware)
 
 # CORS Middleware
 origins = [
@@ -88,8 +113,12 @@ def health_check(db: Session = Depends(get_db)):
 
 @app.get("/api/debug-routes")
 @app.get("/debug-routes")
-def debug_routes():
+def debug_routes(request: Request):
     return {
+        "status": "ok",
+        "url_path": request.url.path,
+        "scope_path": request.scope.get("path"),
+        "headers": {k: v for k, v in request.headers.items() if k.lower() not in ("authorization", "cookie")},
         "routes": [f"{getattr(r, 'methods', '')} {getattr(r, 'path', '')}" for r in app.routes]
     }
 
@@ -110,6 +139,7 @@ if FRONTEND_DIST.exists() and not os.getenv("VERCEL"):
             return FileResponse(file_candidate)
         return FileResponse(FRONTEND_DIST / "index.html")
 else:
+    @app.get("/api")
     @app.get("/")
     def root():
         return {
