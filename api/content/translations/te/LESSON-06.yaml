@@ -1,0 +1,99 @@
+id: LESSON-06
+title: TODO_TRANSLATE
+objective_id: LO-RATIONAL-INVESTIGATION
+status: draft
+reviewed_by: null
+reviewed_at: null
+reviewed_by_te: null
+review_notes:
+- TODO_TRANSLATE
+estimated_minutes: 7
+difficulty: 2
+targets_misconceptions:
+- MC-WASTEFUL-TESTING
+prerequisites:
+- LESSON-01
+- LESSON-02
+learning_outcomes:
+- TODO_TRANSLATE
+- TODO_TRANSLATE
+- TODO_TRANSLATE
+key_points:
+- point: TODO_TRANSLATE
+  refs:
+  - REF-TESTING-001
+- point: TODO_TRANSLATE
+  refs:
+  - REF-TESTING-001
+- point: TODO_TRANSLATE
+  refs:
+  - REF-TESTING-001
+- point: TODO_TRANSLATE
+  refs:
+  - REF-TESTING-002
+- point: TODO_TRANSLATE
+  refs:
+  - REF-TESTING-002
+worked_example:
+  vignette: TODO_TRANSLATE
+  steps:
+  - TODO_TRANSLATE
+  - TODO_TRANSLATE
+  - TODO_TRANSLATE
+  - TODO_TRANSLATE
+common_pitfalls:
+- TODO_TRANSLATE
+- TODO_TRANSLATE
+- TODO_TRANSLATE
+clinical_pearl: TODO_TRANSLATE
+quick_check:
+- id: Q1
+  prompt: TODO_TRANSLATE
+  options:
+  - id: A
+    text: TODO_TRANSLATE
+  - id: B
+    text: TODO_TRANSLATE
+  - id: C
+    text: TODO_TRANSLATE
+  - id: D
+    text: TODO_TRANSLATE
+  correct: D
+  rationale: TODO_TRANSLATE
+  reference_id: REF-TESTING-001
+- id: Q2
+  prompt: TODO_TRANSLATE
+  options:
+  - id: A
+    text: TODO_TRANSLATE
+  - id: B
+    text: TODO_TRANSLATE
+  - id: C
+    text: TODO_TRANSLATE
+  - id: D
+    text: TODO_TRANSLATE
+  correct: A
+  rationale: TODO_TRANSLATE
+  reference_id: REF-TESTING-002
+- id: Q3
+  prompt: TODO_TRANSLATE
+  options:
+  - id: A
+    text: TODO_TRANSLATE
+  - id: B
+    text: TODO_TRANSLATE
+  - id: C
+    text: TODO_TRANSLATE
+  - id: D
+    text: TODO_TRANSLATE
+  correct: B
+  rationale: TODO_TRANSLATE
+  reference_id: REF-TESTING-001
+reference_ids:
+- REF-TESTING-001
+- REF-TESTING-002
+further_reading:
+- title: TODO_TRANSLATE
+  url: https://www.choosingwisely.co.uk/recommendations/
+- title: TODO_TRANSLATE
+  url: https://cks.nice.org.uk/topics/anaemia-iron-deficiency/

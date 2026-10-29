@@ -1,0 +1,131 @@
+id: LESSON-05
+title: 'Macrocytic Anaemia: Megaloblastic and Non-Megaloblastic Pathways'
+objective_id: LO-MACROCYTIC-ETIOLOGY
+status: draft
+reviewed_by: null
+reviewed_at: null
+review_notes:
+- 'TODO_REVIEWER: Validate guidance on checking methylmalonic acid vs total serum
+  cobalamin in borderline B12 cases.'
+- 'TODO_REVIEWER: Confirm local policy regarding anti-intrinsic factor antibody testing
+  in primary care.'
+estimated_minutes: 8
+difficulty: 2
+targets_misconceptions:
+- MC-MACRO-CAUSE-MISSED
+prerequisites:
+- LESSON-02
+learning_outcomes:
+- Distinguish megaloblastic processes from non-megaloblastic causes of elevated erythrocyte
+  volume.
+- Identify secondary factors including alcohol exposure, thyroid hypofunction, liver
+  disease, and specific therapeutics.
+- Appraise the peripheral blood film for hypersegmented neutrophils and oval macrocytes
+  to direct etiology.
+key_points:
+- point: Macrocytic anaemia is divided into megaloblastic (impaired DNA synthesis)
+    and non-megaloblastic etiologies.
+  refs:
+  - REF-MACRO-001
+- point: Megaloblastic anaemia is characterized on blood film by oval macrocytes and
+    hypersegmented polymorphonuclear leukocytes.
+  refs:
+  - REF-MACRO-001
+- point: Vitamin B12 deficiency can cause severe subacute combined degeneration of
+    the cord without marked anaemia.
+  refs:
+  - REF-MACRO-001
+- point: Non-megaloblastic causes present with round macrocytes and include alcohol
+    exposure, liver pathology, and hypothyroidism.
+  refs:
+  - REF-MACRO-002
+- point: Certain therapeutic classes (e.g. hydroxycarbamide, methotrexate, antiretrovirals)
+    directly elevate MCV.
+  refs:
+  - REF-MACRO-002
+worked_example:
+  vignette: A 58-year-old presenting with mild macrocytic anaemia (MCV 106 fL) mentions
+    tingling in both feet and balance difficulties in the dark. The trainee notices
+    normal liver enzymes and considers attributing the macrocytosis to alcohol intake
+    without taking a neurological history. The attending emphasizes clinical examination.
+  steps:
+  - 'Step 1: Identify macrocytosis (MCV 106 fL, above expected laboratory boundaries).'
+  - 'Step 2: Recognize neurological complaints (paresthesias, loss of vibration sense
+    and proprioception).'
+  - 'Step 3: Review blood smear: hypersegmented neutrophils present, confirming megaloblastic
+    process.'
+  - 'Step 4: Check serum B12 and folate: cobalamin is profoundly depressed.'
+  - 'Step 5: Prioritize cobalamin replacement per local protocol and investigate pernicious
+    anaemia.'
+common_pitfalls:
+- Assuming all macrocytosis is due to alcohol without evaluating B12, folate, or medication
+  exposures.
+- Administering folate alone to a patient with undetected B12 deficiency, which can
+  precipitate irreversible neurological damage.
+- Overlooking subtle neurological deficits in elderly patients presenting with macrocytic
+  indices.
+clinical_pearl: Never administer folate in megaloblastosis without first verifying
+  cobalamin status, lest you worsen subacute combined degeneration.
+quick_check:
+- id: Q1
+  prompt: Which peripheral blood smear feature is considered pathognomonic for a megaloblastic
+    anaemia rather than non-megaloblastic macrocytosis?
+  options:
+  - id: A
+    text: Hypersegmented neutrophils exhibiting five or more nuclear lobes alongside
+      oval macrocytes.
+  - id: B
+    text: Target cells with completely round erythrocyte morphology.
+  - id: C
+    text: Marked microcytosis with basophilic stippling.
+  - id: D
+    text: Agglutinated clumps of platelets without red cell abnormalities.
+  correct: A
+  rationale: Option A describes the classical megaloblastic blood film reflecting
+    disrupted nuclear replication. Target cells and round macrocytes (Option B) are
+    characteristic of liver disease or alcohol effect (non-megaloblastic).
+  reference_id: REF-MACRO-001
+- id: Q2
+  prompt: Why is giving isolated folate therapy to a patient with unrecognized severe
+    vitamin B12 deficiency clinically dangerous?
+  options:
+  - id: A
+    text: Folate accelerates gastrointestinal excretion of iron, causing acute hypovolaemia.
+  - id: B
+    text: It can correct the haematological parameters while allowing devastating
+      subacute combined degeneration of the spinal cord to progress.
+  - id: C
+    text: It directly triggers acute renal tubular necrosis within twenty-four hours.
+  - id: D
+    text: It neutralizes endogenous thyroid hormone, inducing myxoedema coma.
+  correct: B
+  rationale: 'Option B is a critical patient safety principle: folate can resolve
+    megaloblastic erythropoiesis while leaving cobalamin-dependent myelination impaired,
+    risking permanent paraplegia.'
+  reference_id: REF-MACRO-001
+- id: Q3
+  prompt: In an anaemic patient with round macrocytes, no neutrophil hypersegmentation,
+    normal B12 and folate levels, which underlying cause should be thoroughly explored?
+  options:
+  - id: A
+    text: Acute lead poisoning with mitochondrial enzyme blockage.
+  - id: B
+    text: Isolated nutritional ascorbic acid deficiency.
+  - id: C
+    text: Chronic alcohol consumption, chronic liver disease, or untreated hypothyroidism.
+  - id: D
+    text: Alpha-thalassaemia trait with chain precipitation.
+  correct: C
+  rationale: 'Option C highlights the core non-megaloblastic differential: alcohol,
+    liver disease, and hypothyroidism expand cell volume without megaloblastosis.
+    Alpha-thalassaemia (Option D) produces microcytosis.'
+  reference_id: REF-MACRO-002
+reference_ids:
+- REF-MACRO-001
+- REF-MACRO-002
+further_reading:
+- title: 'British Society for Haematology: Guidelines for the diagnosis and treatment
+    of cobalamin and folate disorders'
+  url: https://b-s-h.org.uk/guidelines/guidelines-cases/guidelines-for-the-diagnosis-and-treatment-of-cobalamin-and-folate-disorders/
+- title: 'NCBI StatPearls: Macrocytic Anemia'
+  url: https://www.ncbi.nlm.nih.gov/books/NBK459295/

@@ -1,0 +1,100 @@
+id: LESSON-07
+title: TODO_TRANSLATE
+objective_id: LO-COGNITIVE-BIAS-REDUCTION
+status: draft
+reviewed_by: null
+reviewed_at: null
+reviewed_by_te: null
+review_notes:
+- TODO_TRANSLATE
+estimated_minutes: 8
+difficulty: 2
+targets_misconceptions:
+- MC-OVERCONFIDENT
+- MC-PREMATURE-CLOSURE
+prerequisites:
+- LESSON-01
+learning_outcomes:
+- TODO_TRANSLATE
+- TODO_TRANSLATE
+- TODO_TRANSLATE
+key_points:
+- point: TODO_TRANSLATE
+  refs:
+  - REF-BIAS-001
+- point: TODO_TRANSLATE
+  refs:
+  - REF-BIAS-001
+- point: TODO_TRANSLATE
+  refs:
+  - REF-BIAS-001
+- point: TODO_TRANSLATE
+  refs:
+  - REF-BIAS-002
+- point: TODO_TRANSLATE
+  refs:
+  - REF-BIAS-002
+worked_example:
+  vignette: TODO_TRANSLATE
+  steps:
+  - TODO_TRANSLATE
+  - TODO_TRANSLATE
+  - TODO_TRANSLATE
+  - TODO_TRANSLATE
+  - TODO_TRANSLATE
+common_pitfalls:
+- TODO_TRANSLATE
+- TODO_TRANSLATE
+- TODO_TRANSLATE
+clinical_pearl: TODO_TRANSLATE
+quick_check:
+- id: Q1
+  prompt: TODO_TRANSLATE
+  options:
+  - id: A
+    text: TODO_TRANSLATE
+  - id: B
+    text: TODO_TRANSLATE
+  - id: C
+    text: TODO_TRANSLATE
+  - id: D
+    text: TODO_TRANSLATE
+  correct: C
+  rationale: TODO_TRANSLATE
+  reference_id: REF-BIAS-001
+- id: Q2
+  prompt: TODO_TRANSLATE
+  options:
+  - id: A
+    text: TODO_TRANSLATE
+  - id: B
+    text: TODO_TRANSLATE
+  - id: C
+    text: TODO_TRANSLATE
+  - id: D
+    text: TODO_TRANSLATE
+  correct: D
+  rationale: TODO_TRANSLATE
+  reference_id: REF-BIAS-002
+- id: Q3
+  prompt: TODO_TRANSLATE
+  options:
+  - id: A
+    text: TODO_TRANSLATE
+  - id: B
+    text: TODO_TRANSLATE
+  - id: C
+    text: TODO_TRANSLATE
+  - id: D
+    text: TODO_TRANSLATE
+  correct: A
+  rationale: TODO_TRANSLATE
+  reference_id: REF-BIAS-001
+reference_ids:
+- REF-BIAS-001
+- REF-BIAS-002
+further_reading:
+- title: TODO_TRANSLATE
+  url: https://www.ncbi.nlm.nih.gov/books/NBK557551/
+- title: TODO_TRANSLATE
+  url: https://www.rcplondon.ac.uk/projects/outputs/improving-diagnostic-reasoning

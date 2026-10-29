@@ -1,0 +1,140 @@
+id: LESSON-08
+title: Must-Not-Miss Thinking and Finding the Cause in Anaemia
+objective_id: LO-RED-FLAGS-ESCALATION
+status: draft
+reviewed_by: null
+reviewed_at: null
+review_notes:
+- 'TODO_REVIEWER: Verify age threshold (e.g. age >= 60 vs age >= 50) for fast-track
+  colorectal referral in unexplained iron deficiency per local health service guidelines.'
+- 'TODO_REVIEWER: Confirm senior escalation trigger criteria for acute inpatient versus
+  outpatient pathway.'
+estimated_minutes: 10
+difficulty: 3
+targets_misconceptions:
+- MC-MISSED-DANGEROUS-ALTERNATIVE
+prerequisites:
+- LESSON-03
+- LESSON-04
+learning_outcomes:
+- Investigate the underlying pathophysiological cause of confirmed iron deficiency
+  rather than halting at the laboratory label.
+- Identify red-flag clinical features that require urgent referral or senior escalation.
+- Formulate structured escalation communications for senior medical staff when sinister
+  etiologies are suspected.
+key_points:
+- point: Iron deficiency is a clinical sign of underlying pathology, never a complete
+    standalone diagnosis.
+  refs:
+  - REF-REDALERT-001
+- point: In men and postmenopausal women, gastrointestinal blood loss is the leading
+    concern until thoroughly evaluated.
+  refs:
+  - REF-REDALERT-001
+- point: Red flags such as unexplained weight loss, altered bowel habits, or dysphagia
+    mandate urgent referral pathways.
+  refs:
+  - REF-REDALERT-001
+- point: Unexplained multilineage cytopenias or haemodynamic instability require immediate
+    senior escalation.
+  refs:
+  - REF-REDALERT-002
+- point: Structured communication tools such as SBAR ensure clear, actionable information
+    transfer to seniors.
+  refs:
+  - REF-REDALERT-002
+worked_example:
+  vignette: A 66-year-old male presents with newly confirmed iron deficiency anaemia.
+    The trainee plans to advise iron supplementation and discharge the patient to
+    routine community follow-up. The attending physician halts the discharge to explore
+    the underlying cause of iron loss.
+  steps:
+  - 'Step 1: Recognize that dietary insufficiency is exceptionally rare in an adult
+    male with iron deficiency.'
+  - 'Step 2: Inquire about red-flag symptoms: the patient notes mild weight loss and
+    loose bowel movements over the past two months.'
+  - 'Step 3: Identify the must-not-miss possibility: occult gastrointestinal neoplasia.'
+  - 'Step 4: Escalate to the senior gastroenterology team using a structured SBAR
+    handoff.'
+  - 'Step 5: Arrange urgent fast-track bidirectional endoscopy per national cancer
+    guidelines.'
+common_pitfalls:
+- Treating iron deficiency with iron supplementation without investigating why iron
+  was lost in the first place.
+- Assuming iron deficiency in an adult male is due to poor dietary intake alone without
+  gastrointestinal evaluation.
+- Failing to escalate when a patient displays red flags such as unintentional weight
+  loss or rectal bleeding.
+clinical_pearl: Never close the book on iron deficiency until you have discovered
+  the page where blood is leaving the body.
+quick_check:
+- id: Q1
+  prompt: A 62-year-old male is confirmed to have iron deficiency anaemia. What is
+    the fundamental clinical principle governing his further evaluation?
+  options:
+  - id: A
+    text: Dietary modification is all that is required because men naturally consume
+      insufficient iron.
+  - id: B
+    text: Iron deficiency is a symptom, not a diagnosis; gastrointestinal blood loss
+      must be investigated unless proven otherwise.
+  - id: C
+    text: No further evaluation is needed once iron supplementation is started.
+  - id: D
+    text: Haemoglobin electrophoresis is the only required investigation for older
+      males.
+  correct: B
+  rationale: 'Option B states a core clinical safety axiom: adult males do not develop
+    iron deficiency without an underlying cause, predominantly gastrointestinal bleeding.
+    Option A ignores serious occult pathology.'
+  reference_id: REF-REDALERT-001
+- id: Q2
+  prompt: Which combination of clinical features represents a red-flag scenario requiring
+    urgent fast-track referral in a patient with anaemia?
+  options:
+  - id: A
+    text: Mild fatigue after running a marathon with normal bowel habit.
+  - id: B
+    text: Lifelong mild microcytosis in an asymptomatic young adult with family history
+      of thalassaemia.
+  - id: C
+    text: New iron deficiency in a 65-year-old accompanied by unexplained weight loss
+      and altered bowel habits.
+  - id: D
+    text: A slightly low ferritin in a 19-year-old female with documented heavy menstrual
+      bleeding.
+  correct: C
+  rationale: Option C presents classic red flags for lower gastrointestinal malignancy,
+    requiring urgent fast-track endoscopic referral. Options A, B, and D do not represent
+    urgent sinister alarms.
+  reference_id: REF-REDALERT-001
+- id: Q3
+  prompt: When communicating an urgent haematology escalation to a senior consultant,
+    which element best completes the 'Recommendation' portion of an SBAR handoff?
+  options:
+  - id: A
+    text: Stating that you will wait three weeks to see if the blood count spontaneously
+      normalises.
+  - id: B
+    text: Reading the entire laboratory biochemistry printout from top to bottom.
+  - id: C
+    text: Asking the senior to review the patient in clinic next month for routine
+      follow-up.
+  - id: D
+    text: Requesting immediate senior bedside review and agreement on an urgent endoscopic
+      referral.
+  correct: D
+  rationale: Option D provides an explicit, actionable, time-critical request characteristic
+    of high-quality SBAR communication. Options A and C fail to communicate urgency,
+    and Option B clutters handoff.
+  reference_id: REF-REDALERT-002
+reference_ids:
+- REF-REDALERT-001
+- REF-REDALERT-002
+further_reading:
+- title: 'British Society of Gastroenterology: Guidelines for the management of iron
+    deficiency anaemia in adults'
+  url: https://www.bsg.org.uk/clinical-resource/guidelines-for-the-management-of-iron-deficiency-anaemia/
+- title: 'General Medical Council: Good medical practice and raising patient safety
+    concerns'
+  url: https://www.gmc-uk.org/ethical-guidance/ethical-guidance-for-doctors/good-medical-practice

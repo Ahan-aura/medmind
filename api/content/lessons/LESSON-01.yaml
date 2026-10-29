@@ -1,0 +1,137 @@
+id: LESSON-01
+title: Reading a Full Blood Count Systematically
+objective_id: LO-FBC-SYSTEMATIC
+status: draft
+reviewed_by: null
+reviewed_at: null
+review_notes:
+- 'TODO_REVIEWER: Confirm whether local teaching hospital prefers reporting Hb in
+  g/L or g/dL as primary standard.'
+- 'TODO_REVIEWER: Verify whether platelet indices (MPV) should be formally integrated
+  into initial trainee reading checklist.'
+estimated_minutes: 8
+difficulty: 1
+targets_misconceptions:
+- MC-IGNORES-INDICES
+prerequisites: []
+learning_outcomes:
+- Identify all primary red cell indices including haemoglobin, mean cell volume, and
+  red cell distribution width before arriving at a clinical conclusion.
+- Recognize how white blood cell and platelet counts interact with red cell indices
+  to identify multilineage processes.
+- Formulate a structured sequence for reading haematology panels to prevent premature
+  diagnostic assumptions.
+key_points:
+- point: Begin every full blood count review by noting haemoglobin to determine whether
+    anaemia is present, but never stop there.
+  refs:
+  - REF-FBC-001
+- point: Evaluate mean cell volume to establish the morphological classification as
+    microcytic, normocytic, or macrocytic.
+  refs:
+  - REF-FBC-001
+- point: Check red cell distribution width to identify anisocytosis, which highlights
+    mixed populations or evolving deficiency.
+  refs:
+  - REF-FBC-002
+- point: Examine white blood cell and platelet counts to verify whether the pathology
+    is isolated to erythrocytes or involves multiple cell lines.
+  refs:
+  - REF-FBC-001
+- point: Remember that typical adult ranges vary by laboratory and patient demographic
+    factors.
+  refs:
+  - REF-FBC-001
+worked_example:
+  vignette: A 24-year-old student attends clinic describing four weeks of generalized
+    tiredness and breathlessness on exertion. Initial full blood count reveals a low
+    haemoglobin level. Rather than immediately concluding iron deficiency based on
+    tiredness alone, the attending resident reviews the entire panel step by step.
+  steps:
+  - 'Step 1: Check haemoglobin to confirm the presence and severity of anaemia.'
+  - 'Step 2: Examine MCV to classify the red cell size (found to be significantly
+    low, confirming microcytosis).'
+  - 'Step 3: Review RDW to determine if cell sizes are uniform or variable (elevated,
+    indicating marked anisocytosis).'
+  - 'Step 4: Check white cells and platelets (normal leukocytes, mildly elevated reactive
+    platelets, suggesting an isolated erythroid response).'
+  - 'Step 5: Synthesize findings into a complete picture before ordering targeted
+    iron studies.'
+common_pitfalls:
+- Stopping after reading the haemoglobin value and guessing the underlying etiology
+  without checking cell indices.
+- Overlooking an elevated RDW in a patient whose MCV falls into the borderline normal
+  range.
+- Ignoring abnormal leukocyte or platelet counts that point to marrow infiltration
+  rather than simple nutritional deficiency.
+clinical_pearl: A full blood count is a complete clinical puzzle; interpreting haemoglobin
+  in isolation is like reading only the first sentence of a chapter.
+quick_check:
+- id: Q1
+  prompt: A trainee receives a blood panel showing subnormal haemoglobin. Which sequence
+    best illustrates a systematic diagnostic approach before concluding etiology?
+  options:
+  - id: A
+    text: Assess MCV and RDW, verify white cell and platelet counts, then review the
+      blood film and targeted biomarkers.
+  - id: B
+    text: Immediately arrange abdominal ultrasonography and request full cross-matching.
+  - id: C
+    text: Focus solely on leukocyte numbers and ignore red cell indices if white cells
+      are normal.
+  - id: D
+    text: Assume nutritional deficiency immediately and skip checking other cell lineages.
+  correct: A
+  rationale: Option A follows the systematic sequence of reading indices, assessing
+    multilineage integrity, and selecting targeted confirmatory tests. Option D commits
+    premature closure, while Option B orders low-yield invasive imaging prematurely.
+  reference_id: REF-FBC-001
+- id: Q2
+  prompt: A patient presents with low haemoglobin, an MCV within typical limits, but
+    a markedly elevated RDW. What is the most plausible explanation for this combination?
+  options:
+  - id: A
+    text: The patient has perfectly uniform erythrocytes with no variation in cell
+      size.
+  - id: B
+    text: A mixed population of microcytic and macrocytic cells is averaging out the
+      MCV while widening the distribution curve.
+  - id: C
+    text: The patient has pure beta-thalassaemia trait without any coexisting conditions.
+  - id: D
+    text: Laboratory automation failure has inverted the platelet count and red cell
+      volume.
+  correct: B
+  rationale: Option B correctly explains that concurrent nutritional deficiencies
+    (e.g. iron plus B12) create dual cell populations that average out to a pseudo-normal
+    MCV while widening RDW. Option A is contradicted by the elevated RDW, and Option
+    C typically presents with a normal RDW.
+  reference_id: REF-FBC-002
+- id: Q3
+  prompt: When evaluating a patient with newly detected anaemia, why is checking platelet
+    and white cell counts a vital initial step?
+  options:
+  - id: A
+    text: Platelet counts are required to calculate the exact mean corpuscular volume.
+  - id: B
+    text: White blood cells directly synthesize haemoglobin during acute stress.
+  - id: C
+    text: Multilineage cytopenias suggest marrow failure or infiltration, requiring
+      urgent senior escalation rather than simple outpatient iron studies.
+  - id: D
+    text: Platelet counts are completely unrelated to haematological assessment and
+      can be omitted.
+  correct: C
+  rationale: 'Option C highlights patient safety: multilineage cytopenias indicate
+    bone marrow processes or splenic pooling rather than simple isolated nutritional
+    deficiency. Options A and B are biologically incorrect statements.'
+  reference_id: REF-FBC-001
+reference_ids:
+- REF-FBC-001
+- REF-FBC-002
+further_reading:
+- title: 'British Society for Haematology: Guidelines for the laboratory diagnosis
+    of functional iron deficiency'
+  url: https://b-s-h.org.uk/guidelines/guidelines-cases/guidelines-for-the-laboratory-diagnosis-of-functional-iron-deficiency/
+- title: 'StatPearls: Red Cell Distribution Width'
+  url: https://www.ncbi.nlm.nih.gov/books/NBK545266/

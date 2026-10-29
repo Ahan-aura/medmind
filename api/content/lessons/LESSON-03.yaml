@@ -1,0 +1,136 @@
+id: LESSON-03
+title: Iron Studies and Ferritin Interpretation
+objective_id: LO-FERRITIN-INTERPRETATION
+status: draft
+reviewed_by: null
+reviewed_at: null
+review_notes:
+- 'TODO_REVIEWER: Validate local cut-off for ferritin in inflammatory states (e.g.
+  < 50 ng/mL vs < 100 ng/mL).'
+- 'TODO_REVIEWER: Confirm availability of soluble transferrin receptor testing in
+  regional laboratories.'
+estimated_minutes: 9
+difficulty: 2
+targets_misconceptions:
+- MC-FERRITIN-MISSED
+prerequisites:
+- LESSON-02
+learning_outcomes:
+- Interpret serum ferritin values as the primary indicator of total reticuloendothelial
+  storage reserves.
+- Analyze the confounding impact of systemic inflammation on acute-phase ferritin
+  levels.
+- Integrate transferrin saturation when ferritin interpretation is compromised by
+  coexisting inflammation.
+key_points:
+- point: Serum ferritin is the most specific non-invasive laboratory marker of depleted
+    iron storage reserves.
+  refs:
+  - REF-FERRITIN-002
+- point: A subnormal ferritin value is diagnostic of iron deficiency in non-inflammatory
+    clinical settings.
+  refs:
+  - REF-FERRITIN-002
+- point: Ferritin functions as an acute-phase reactant; systemic inflammation falsely
+    elevates circulating levels.
+  refs:
+  - REF-FERRITIN-002
+- point: Transferrin saturation below 20% identifies iron-restricted erythropoiesis
+    when ferritin is elevated by inflammation.
+  refs:
+  - REF-FERRITIN-003
+- point: Isolated serum iron fluctuates widely with diurnal rhythm and meals; it should
+    never be interpreted alone.
+  refs:
+  - REF-FERRITIN-003
+worked_example:
+  vignette: A 64-year-old with active rheumatoid arthritis presents with worsening
+    fatigue and microcytic anaemia. Serum ferritin returns at 110 ng/mL (within conventional
+    laboratory reference boundaries). The trainee considers ruling out iron deficiency
+    based on the ferritin number. The clinical educator reviews the confounding role
+    of inflammatory cytokines.
+  steps:
+  - 'Step 1: Note the coexisting inflammatory condition (rheumatoid arthritis with
+    elevated CRP).'
+  - 'Step 2: Recognize that inflammatory cytokines upregulate ferritin synthesis independently
+    of iron reserves.'
+  - 'Step 3: Review transferrin saturation (calculated at 11%, well below the 20%
+    physiological threshold).'
+  - 'Step 4: Conclude that true functional iron limitation exists despite the seemingly
+    adequate ferritin reading.'
+common_pitfalls:
+- Ruling out iron deficiency solely because ferritin falls into the standard laboratory
+  reference range during acute illness.
+- Relying on random serum iron without calculating transferrin saturation or checking
+  ferritin.
+- Initiating iron therapy without establishing a baseline ferritin or identifying
+  the underlying clinical cause.
+clinical_pearl: In an inflamed patient, a normal ferritin does not guarantee full
+  iron stores; look to transferrin saturation to unmask functional deficiency.
+quick_check:
+- id: Q1
+  prompt: Why is serum ferritin regarded as superior to random serum iron for evaluating
+    body iron reserves?
+  options:
+  - id: A
+    text: Serum ferritin is exclusively produced by circulating red blood cells during
+      haemolysis.
+  - id: B
+    text: Random serum iron values never change during the day or following dietary
+      intake.
+  - id: C
+    text: Ferritin reflects total intracellular storage reserves, whereas serum iron
+      fluctuates markedly with diurnal cycles and meals.
+  - id: D
+    text: Serum ferritin directly measures oxygen delivery to peripheral tissues.
+  correct: C
+  rationale: Option C correctly identifies that ferritin reflects reticuloendothelial
+    storage reserves, whereas serum iron exhibits substantial diurnal volatility.
+    Option B is factually inverted.
+  reference_id: REF-FERRITIN-002
+- id: Q2
+  prompt: A patient with severe Crohn's colitis exhibits microcytic anaemia, a serum
+    ferritin of 95 ng/mL, and an elevated C-reactive protein. What is the most appropriate
+    next step in interpreting their iron status?
+  options:
+  - id: A
+    text: Completely exclude iron deficiency because ferritin is above the standard
+      non-inflamed threshold.
+  - id: B
+    text: Diagnose acute iron toxicity and prepare immediate chelation therapy.
+  - id: C
+    text: Order routine bone marrow trephine biopsy as the mandatory second-line outpatient
+      test.
+  - id: D
+    text: Calculate transferrin saturation to evaluate whether functional iron-restricted
+      erythropoiesis is present despite acute-phase elevation.
+  correct: D
+  rationale: 'Option D correctly addresses the acute-phase confounder: checking transferrin
+    saturation identifies iron restriction when ferritin is elevated by active colitis.
+    Option A falls into the common trap of ignoring inflammatory acute-phase response.'
+  reference_id: REF-FERRITIN-003
+- id: Q3
+  prompt: In an otherwise healthy adult without infection or inflammatory disease,
+    which laboratory finding is virtually pathognomonic for iron deficiency?
+  options:
+  - id: A
+    text: Serum ferritin below laboratory deficiency cut-off values.
+  - id: B
+    text: Isolated mild elevation of white blood cell count.
+  - id: C
+    text: Marginal elevation of mean corpuscular haemoglobin concentration.
+  - id: D
+    text: Normal transferrin saturation accompanied by normal MCV.
+  correct: A
+  rationale: 'Option A is correct: low ferritin in the absence of inflammation is
+    virtually 100% specific for depleted iron stores. Options B, C, and D do not demonstrate
+    iron deficiency.'
+  reference_id: REF-FERRITIN-002
+reference_ids:
+- REF-FERRITIN-002
+- REF-FERRITIN-003
+further_reading:
+- title: WHO Guideline on use of ferritin concentrations to assess iron status
+  url: https://www.who.int/publications/i/item/9789240008526
+- title: 'British Society for Haematology: Diagnosis and management of iron deficiency'
+  url: https://b-s-h.org.uk/guidelines/guidelines-cases/diagnosis-and-management-of-iron-deficiency/

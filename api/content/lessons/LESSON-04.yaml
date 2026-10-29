@@ -1,0 +1,135 @@
+id: LESSON-04
+title: 'The Microcytic Differential: Iron Deficiency, Thalassaemia, and Chronic Disease'
+objective_id: LO-MICROCYTIC-DIFFERENTIAL
+status: draft
+reviewed_by: null
+reviewed_at: null
+review_notes:
+- 'TODO_REVIEWER: Confirm whether Mentzer index (MCV/RBC < 13) should be presented
+  solely as a heuristic screening tool or if another index (e.g. Green & King) is
+  preferred.'
+- 'TODO_REVIEWER: Confirm laboratory protocol threshold for reflex haemoglobin electrophoresis
+  in suspected thalassaemia minor.'
+estimated_minutes: 9
+difficulty: 2
+targets_misconceptions:
+- MC-MICRO-DIFFERENTIAL
+prerequisites:
+- LESSON-02
+- LESSON-03
+learning_outcomes:
+- Compare red cell distribution width patterns between iron deficiency and heterozygous
+  thalassaemia trait.
+- Evaluate red blood cell count and ferritin findings to distinguish reduced synthesis
+  from defective globin chains.
+- Recognize the role of anaemia of chronic disease in producing normal or low cell
+  size with preserved iron stores.
+key_points:
+- point: The three primary causes of microcytic anaemia are iron deficiency, thalassaemia
+    trait, and anaemia of chronic disease.
+  refs:
+  - REF-MICRODIFF-001
+- point: Heterozygous thalassaemia trait typically features severe microcytosis with
+    an elevated or normal red blood cell count and normal RDW.
+  refs:
+  - REF-MICRODIFF-001
+- point: Iron deficiency features progressive microcytosis, subnormal red cell count,
+    and an elevated RDW reflecting anisocytosis.
+  refs:
+  - REF-MICRODIFF-001
+- point: Mathematical screening formulas like the Mentzer heuristic (MCV/RBC) provide
+    screening clues but require confirmatory testing.
+  refs:
+  - REF-MICRODIFF-001
+- point: Anaemia of chronic disease traps iron in storage cells, exhibiting normal
+    or high ferritin with low transferrin saturation.
+  refs:
+  - REF-MICRODIFF-002
+worked_example:
+  vignette: A 28-year-old of Mediterranean descent attends routine health screening.
+    Blood tests show mild anaemia with an MCV of 64 fL and a red blood cell count
+    of 6.2 x 10^12/L. The resident considers empirical iron therapy. The attending
+    physician calculates the Mentzer heuristic (64 / 6.2 = 10.3) and reviews the red
+    cell parameters.
+  steps:
+  - 'Step 1: Observe that the MCV is markedly low out of proportion to the very mild
+    anaemia.'
+  - 'Step 2: Note the elevated red blood cell count (erythrocytosis), typical of thalassaemic
+    marrow compensation.'
+  - 'Step 3: Review RDW (normal, indicating uniform microcytic cells rather than variable
+    nutritional deficiency).'
+  - 'Step 4: Check serum ferritin (normal), ruling out simple iron deficiency and
+    avoiding inappropriate iron supplementation.'
+  - 'Step 5: Order haemoglobin variant analysis to confirm beta-thalassaemia trait.'
+common_pitfalls:
+- Assuming every patient with a low MCV has iron deficiency and administering prolonged
+  iron therapy without testing ferritin.
+- Missing thalassaemia trait because the mild anaemia was dismissed without noting
+  the disproportionately low MCV.
+- Treating screening ratios like Mentzer index as definitive diagnoses rather than
+  heuristics requiring laboratory confirmation.
+clinical_pearl: Tiny cells with high red cell counts suggest thalassaemia trait; tiny
+  cells with high RDW and low ferritin point to iron deficiency.
+quick_check:
+- id: Q1
+  prompt: A patient presents with mild microcytic anaemia, an MCV of 62 fL, a high
+    red cell count of 6.5 x 10^12/L, and a normal RDW. Which diagnosis is most strongly
+    suggested by this constellation?
+  options:
+  - id: A
+    text: Acute gastrointestinal haemorrhage.
+  - id: B
+    text: Heterozygous thalassaemia trait.
+  - id: C
+    text: Advanced megaloblastic anaemia.
+  - id: D
+    text: Severe uncomplicated iron deficiency anaemia.
+  correct: B
+  rationale: 'Option B is correct: thalassaemia trait produces uniform microcytosis
+    (normal RDW) and a high red cell count. In iron deficiency (Option D), red cell
+    count is typically low and RDW is elevated.'
+  reference_id: REF-MICRODIFF-001
+- id: Q2
+  prompt: How does anaemia of chronic disease differ from uncomplicated iron deficiency
+    in laboratory iron parameters?
+  options:
+  - id: A
+    text: Anaemia of chronic disease always exhibits a ferritin level below 10 ng/mL.
+  - id: B
+    text: Total iron binding capacity is markedly elevated in anaemia of chronic disease.
+  - id: C
+    text: Ferritin is preserved or elevated due to macrophage iron sequestration,
+      with low to normal total iron-binding capacity.
+  - id: D
+    text: Anaemia of chronic disease exhibits massive reticulocytosis and severe macrocytosis.
+  correct: C
+  rationale: 'Option C accurately reflects iron sequestration mediated by hepcidin
+    in chronic inflammation: stores are retained (normal/high ferritin), but release
+    is blocked. Option A describes true iron depletion.'
+  reference_id: REF-MICRODIFF-002
+- id: Q3
+  prompt: What is the primary clinical hazard of empirically prescribing oral iron
+    to a patient with heterozygous thalassaemia trait who has normal iron stores?
+  options:
+  - id: A
+    text: Immediate induction of severe megaloblastic crisis.
+  - id: B
+    text: Conversion of beta-thalassaemia trait into acute aplastic anaemia.
+  - id: C
+    text: Sudden catastrophic intravascular haemolysis of all circulating reticulocytes.
+  - id: D
+    text: Ineffective therapy with risk of progressive iron overload and delay in
+      accurate genetic counselling.
+  correct: D
+  rationale: 'Option D highlights patient safety: thalassaemia trait does not benefit
+    from iron and unneeded therapy can produce secondary iron loading over time while
+    missing genetic counselling opportunities.'
+  reference_id: REF-MICRODIFF-001
+reference_ids:
+- REF-MICRODIFF-001
+- REF-MICRODIFF-002
+further_reading:
+- title: 'British Society for Haematology: Laboratory investigation of haemoglobinopathies'
+  url: https://b-s-h.org.uk/guidelines/guidelines-cases/investigation-of-haemoglobinopathies/
+- title: 'StatPearls: Anemia of Chronic Disease'
+  url: https://www.ncbi.nlm.nih.gov/books/NBK499888/

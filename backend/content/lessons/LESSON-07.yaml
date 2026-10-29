@@ -1,0 +1,137 @@
+id: LESSON-07
+title: Diagnostic Reasoning and Cognitive Bias in Haematology
+objective_id: LO-COGNITIVE-BIAS-REDUCTION
+status: draft
+reviewed_by: null
+reviewed_at: null
+review_notes:
+- 'TODO_REVIEWER: Verify suitability of cognitive forcing examples for undergraduate
+  medical curriculum.'
+- 'TODO_REVIEWER: Review alignment with local clinical reasoning objective frameworks.'
+estimated_minutes: 8
+difficulty: 2
+targets_misconceptions:
+- MC-OVERCONFIDENT
+- MC-PREMATURE-CLOSURE
+prerequisites:
+- LESSON-01
+learning_outcomes:
+- Identify cognitive biases including anchoring, premature closure, and confirmation
+  bias in diagnostic workups.
+- Calibrate subjective diagnostic confidence against objective laboratory and clinical
+  evidence.
+- Apply cognitive forcing strategies to re-evaluate diagnostic assumptions before
+  completing a case.
+key_points:
+- point: Diagnostic errors are frequently driven by cognitive heuristics rather than
+    gaps in knowledge.
+  refs:
+  - REF-BIAS-001
+- point: Anchoring occurs when an initial finding fixates attention, blinding the
+    clinician to contradictory evidence.
+  refs:
+  - REF-BIAS-001
+- point: Premature closure occurs when a clinician stops searching for alternative
+    or dual etiologies too early.
+  refs:
+  - REF-BIAS-001
+- point: High reported diagnostic confidence in the setting of weak evidence leads
+    to serious diagnostic failures.
+  refs:
+  - REF-BIAS-002
+- point: Cognitive forcing strategies such as diagnostic time-outs improve reasoning
+    calibration.
+  refs:
+  - REF-BIAS-002
+worked_example:
+  vignette: A trainee reviews a 70-year-old patient with mild fatigue. The automated
+    chart triage notes 'iron deficiency history'. The trainee quickly enters a diagnosis
+    of iron deficiency with 95% confidence, ignoring the laboratory report showing
+    an MCV of 104 fL and a low platelet count. The supervising doctor initiates a
+    cognitive debiasing walk-through.
+  steps:
+  - 'Step 1: Identify anchoring on the chart triage note rather than current laboratory
+    data.'
+  - 'Step 2: Recognize premature closure: stopping at the first diagnosis without
+    reviewing discordant indices.'
+  - 'Step 3: Point out the objective evidence: macrocytosis and thrombocytopenia contradict
+    simple iron deficiency.'
+  - 'Step 4: Re-calibrate diagnostic confidence to reflect genuine diagnostic uncertainty.'
+  - 'Step 5: Formulate a revised differential including myelodysplastic syndrome or
+    combined pathology.'
+common_pitfalls:
+- Expressing 100% confidence in a diagnostic impression before laboratory confirmation
+  is available.
+- Dismissing laboratory findings that contradict your favourite leading hypothesis
+  as 'laboratory error'.
+- Failing to ask 'What else could this be?' when evaluating complex or non-responding
+  patients.
+clinical_pearl: Match your diagnostic confidence to the weight of your evidence, not
+  the speed of your hunch.
+quick_check:
+- id: Q1
+  prompt: A clinician fixates on an initial triage note of 'probable dietary anaemia'
+    and ignores a laboratory result showing thrombocytopenia and macrocytosis. What
+    cognitive bias is primarily operating here?
+  options:
+  - id: A
+    text: Base-rate neglect.
+  - id: B
+    text: Availability cascade.
+  - id: C
+    text: Anchoring bias and premature closure.
+  - id: D
+    text: Gambler's fallacy.
+  correct: C
+  rationale: Option C correctly describes anchoring on an early impression and prematurely
+    closing the diagnostic search while ignoring discordant clinical findings. Options
+    A, B, and D describe unrelated cognitive phenomena.
+  reference_id: REF-BIAS-001
+- id: Q2
+  prompt: What is the primary danger of poor diagnostic calibration (reporting high
+    diagnostic confidence despite weak evidence) in clinical practice?
+  options:
+  - id: A
+    text: It leads to automated laboratory analyser shutdown.
+  - id: B
+    text: It improves diagnostic speed with zero risk to patient safety.
+  - id: C
+    text: It reduces the likelihood of malpractice litigation by projecting certainty.
+  - id: D
+    text: It discourages seeking senior consultation, prevents re-evaluation of contradictory
+      data, and delays correct diagnosis.
+  correct: D
+  rationale: Option D highlights how overconfidence blinds clinicians to alternative
+    possibilities, stops critical reflection, and prevents timely senior escalation.
+    Option B is demonstrably false.
+  reference_id: REF-BIAS-002
+- id: Q3
+  prompt: Which cognitive forcing strategy can a trainee apply during a complex haematology
+    workup to mitigate premature closure?
+  options:
+  - id: A
+    text: 'Deliberately ask: ''What finding does NOT fit my leading diagnosis, and
+      what must I not miss?'' before finalising.'
+  - id: B
+    text: Always adopt the most rare and exotic diagnosis to ensure all conditions
+      are considered.
+  - id: C
+    text: Accept the first differential diagnosis generated by an electronic search
+      engine without verification.
+  - id: D
+    text: Never formulate any diagnostic hypothesis until all possible tests have
+      returned.
+  correct: A
+  rationale: Option A is a recognized cognitive forcing technique that triggers metacognition
+    and reveals contradictory evidence. Option B represents zebra-hunting, while Option
+    C delegates clinical judgment unsafely.
+  reference_id: REF-BIAS-001
+reference_ids:
+- REF-BIAS-001
+- REF-BIAS-002
+further_reading:
+- title: 'NCBI StatPearls: Cognitive Bias in Clinical Medicine'
+  url: https://www.ncbi.nlm.nih.gov/books/NBK557551/
+- title: 'Royal College of Physicians: Improving diagnostic reasoning in clinical
+    practice'
+  url: https://www.rcplondon.ac.uk/projects/outputs/improving-diagnostic-reasoning

@@ -1,0 +1,131 @@
+id: LESSON-02
+title: Classifying Anaemia by Cell Size
+objective_id: LO-CELL-SIZE-CLASSIFICATION
+status: draft
+reviewed_by: null
+reviewed_at: null
+review_notes:
+- 'TODO_REVIEWER: Verify standard teaching terminology for normocytic vs normochromic
+  classifications.'
+- 'TODO_REVIEWER: Confirm whether reticulocyte production index formula should be
+  introduced at this stage or deferred.'
+estimated_minutes: 7
+difficulty: 1
+targets_misconceptions:
+- MC-MACRO-MICRO-CONFUSED
+prerequisites:
+- LESSON-01
+learning_outcomes:
+- Classify anaemias into microcytic, normocytic, and macrocytic categories based on
+  mean cell volume.
+- Differentiate the primary physiological mechanisms producing altered erythrocyte
+  dimensions.
+- Correlate cell size classifications with initial diagnostic possibilities before
+  ordering advanced tests.
+key_points:
+- point: Mean cell volume divides anaemias into microcytic, normocytic, and macrocytic
+    morphological groups.
+  refs:
+  - REF-CELLSIZE-001
+- point: Microcytosis indicates defective haemoglobin production, commonly seen in
+    iron deficiency or globin defects.
+  refs:
+  - REF-CELLSIZE-001
+- point: Macrocytosis indicates impaired nuclear maturation or membrane alteration,
+    seen in B12/folate deficiency or liver disease.
+  refs:
+  - REF-CELLSIZE-001
+- point: Normocytic anaemia demands assessing reticulocyte count to distinguish marrow
+    failure from peripheral loss or haemolysis.
+  refs:
+  - REF-CELLSIZE-002
+- point: Typical adult ranges vary by laboratory, but MCV between 80 and 100 fL is
+    the standard operational normocytic window.
+  refs:
+  - REF-CELLSIZE-001
+worked_example:
+  vignette: A 52-year-old individual presents with progressive fatigue. Laboratory
+    testing reveals haemoglobin below normal limits. The junior trainee notices an
+    MCV of 71 fL and considers initiating vitamin B12 investigations. A senior colleague
+    intervenes to review the morphological branch point.
+  steps:
+  - 'Step 1: Check the MCV value (71 fL, which sits clearly below typical adult laboratory
+    boundaries).'
+  - 'Step 2: Classify the morphological presentation as microcytic anaemia.'
+  - 'Step 3: Recognize that vitamin B12 deficiency produces macrocytosis (elevated
+    MCV), making it an inappropriate initial path.'
+  - 'Step 4: Align the workup to microcytic etiologies: iron deficiency, thalassaemia
+    trait, or anaemia of chronic disease.'
+common_pitfalls:
+- Ordering vitamin B12 and folate tests for clear microcytic anaemia without clinical
+  justification.
+- Assuming all normocytic anaemias are benign without checking reticulocyte count
+  or kidney function.
+- Forgetting that mixed deficiencies can generate an apparently normal MCV while cell
+  distribution is abnormal.
+clinical_pearl: Let the MCV narrow your differential compass before choosing the direction
+  of your laboratory investigation.
+quick_check:
+- id: Q1
+  prompt: A laboratory report shows a patient with marked anaemia and an MCV of 68
+    fL. Which diagnostic pathway is most appropriate to explore first?
+  options:
+  - id: A
+    text: Evaluate serum vitamin B12 and red cell folate concentration.
+  - id: B
+    text: Schedule emergency bone marrow examination for suspected aplastic crisis.
+  - id: C
+    text: Reassure the patient that cell size indicates complete nutritional adequacy.
+  - id: D
+    text: Investigate microcytic etiologies including iron deficiency, thalassaemia
+      trait, and chronic inflammation.
+  correct: D
+  rationale: Option D matches the microcytic presentation (MCV < 80 fL), pointing
+    toward iron deficiency or thalassaemia. Option A is incorrect because B12 and
+    folate deficiencies cause macrocytosis, making it an inappropriate initial focus.
+  reference_id: REF-CELLSIZE-001
+- id: Q2
+  prompt: Which mechanism explains why developing red blood cells become microcytic
+    during states of substrate deficiency?
+  options:
+  - id: A
+    text: Impaired haemoglobin synthesis delays cytoplasmic density, prompting erythroblasts
+      to undergo extra divisions.
+  - id: B
+    text: Nuclear DNA synthesis ceases entirely while lipid membrane production accelerates.
+  - id: C
+    text: Excess circulating iron physically compresses erythrocyte membranes within
+      the spleen.
+  - id: D
+    text: Erythroblasts skip cell divisions entirely, releasing undersized precursors
+      into the blood.
+  correct: A
+  rationale: 'Option A correctly describes the cellular pathophysiology: lack of iron
+    or globin leads to extra mitotic cycles before reaching critical haemoglobin density.
+    Option D describes the opposite mechanism seen in megaloblastosis.'
+  reference_id: REF-CELLSIZE-001
+- id: Q3
+  prompt: In an anaemic patient with a normal MCV (normocytic anaemia), which laboratory
+    investigation provides the most immediate insight into bone marrow productivity?
+  options:
+  - id: A
+    text: Erythrocyte sedimentation rate (ESR).
+  - id: B
+    text: Reticulocyte count or reticulocyte production index.
+  - id: C
+    text: Total serum cholesterol level.
+  - id: D
+    text: Routine urine sediment microscopy.
+  correct: B
+  rationale: Option B directly quantifies marrow response, distinguishing hypo-productive
+    states from ongoing destruction or acute blood loss. Options A, C, and D do not
+    assess erythropoietic activity.
+  reference_id: REF-CELLSIZE-002
+reference_ids:
+- REF-CELLSIZE-001
+- REF-CELLSIZE-002
+further_reading:
+- title: 'NCBI StatPearls: Microcytic Anemia'
+  url: https://www.ncbi.nlm.nih.gov/books/NBK459254/
+- title: 'NCBI StatPearls: Normocytic Normochromic Anemia'
+  url: https://www.ncbi.nlm.nih.gov/books/NBK560814/
