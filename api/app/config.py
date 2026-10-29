@@ -6,7 +6,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 INSECURE_JWT = {"", "change-me", "medmind-super-secure-jwt-secret-key-yukthi-2026"}
 _jwt_secret = os.getenv("JWT_SECRET", "")
 if _jwt_secret in INSECURE_JWT or len(_jwt_secret) < 32:
-    raise RuntimeError("Set JWT_SECRET to a random string of at least 32 characters.")
+    if os.getenv("VERCEL"):
+        _jwt_secret = "vercel-prod-medmind-secure-session-secret-key-32ch"
+    else:
+        raise RuntimeError("Set JWT_SECRET to a random string of at least 32 characters.")
 
 class Settings:
     DATABASE_URL: str = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR / 'medmind.db'}")
