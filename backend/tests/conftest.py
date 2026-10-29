@@ -7,6 +7,9 @@ from pathlib import Path
 backend_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(backend_dir))
 
+os.environ["JWT_SECRET"] = "test-secret-" + "x" * 40
+os.environ["TUTOR_MODE"] = "fallback"
+
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker

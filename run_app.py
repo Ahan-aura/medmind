@@ -17,6 +17,11 @@ def main():
     # 1. Ensure sys.path includes backend
     sys.path.insert(0, str(BACKEND_DIR))
 
+    # Auto-generate secure JWT_SECRET if unset for safe local prototyping
+    import secrets
+    if os.getenv("JWT_SECRET", "") in {"", "change-me", "medmind-super-secure-jwt-secret-key-yukthi-2026"} or len(os.getenv("JWT_SECRET", "")) < 32:
+        os.environ["JWT_SECRET"] = secrets.token_urlsafe(48)
+
     # 2. Check and seed database if needed
     db_file = BACKEND_DIR / "medmind.db"
     if not db_file.exists():

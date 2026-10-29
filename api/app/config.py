@@ -3,11 +3,16 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+INSECURE_JWT = {"", "change-me", "medmind-super-secure-jwt-secret-key-yukthi-2026"}
+_jwt_secret = os.getenv("JWT_SECRET", "")
+if _jwt_secret in INSECURE_JWT or len(_jwt_secret) < 32:
+    raise RuntimeError("Set JWT_SECRET to a random string of at least 32 characters.")
+
 class Settings:
     DATABASE_URL: str = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR / 'medmind.db'}")
-    JWT_SECRET: str = os.getenv("JWT_SECRET", "medmind-super-secure-jwt-secret-key-yukthi-2026")
+    JWT_SECRET: str = _jwt_secret
     JWT_ALGORITHM: str = "HS256"
-    JWT_EXPIRE_HOURS: int = 24
+    JWT_EXPIRE_HOURS: int = 12
     
     FRONTEND_ORIGIN: str = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")
     

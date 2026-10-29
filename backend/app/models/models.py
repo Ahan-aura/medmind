@@ -33,6 +33,7 @@ class Cohort(Base):
     id = Column(String(36), primary_key=True, default=gen_uuid)
     name = Column(String(255), nullable=False)
     teacher_id = Column(String(36), ForeignKey("users.id"), nullable=True)
+    join_code = Column(String(50), unique=True, nullable=True)
 
 class Case(Base):
     __tablename__ = "cases"

@@ -36,6 +36,7 @@ class TeacherSummaryResponse(BaseModel):
     cohort_name: str
     student_count: int
     has_synthetic_data: bool = False
+    suppressed: bool = False
     objective_averages: List[Dict[str, Any]]
     top_misconceptions: List[Dict[str, Any]]
     calibration_matrix: List[Dict[str, Any]]

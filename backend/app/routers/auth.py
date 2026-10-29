@@ -1,26 +1,34 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
 from app.db import get_db
-from app.models.models import User
+from app.models.models import User, Cohort
 from app.schemas.auth import RegisterRequest, LoginRequest, AuthResponse, UserResponse
 from app.security import hash_password, verify_password, create_access_token, get_current_user
+from app.limiter import limiter
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/register", response_model=AuthResponse)
 @router.post("/register/", response_model=AuthResponse, include_in_schema=False)
-def register(req: RegisterRequest, db: Session = Depends(get_db)):
+@limiter.limit("10/minute")
+def register(request: Request, req: RegisterRequest, db: Session = Depends(get_db)):
     existing = db.query(User).filter(User.email == req.email.lower()).first()
     if existing:
         raise HTTPException(status_code=400, detail="An account with this email already exists")
         
+    cohort_id = None
+    if req.join_code:
+        cohort = db.query(Cohort).filter(Cohort.join_code == req.join_code.strip()).first()
+        if cohort:
+            cohort_id = cohort.id
+
     user = User(
         email=req.email.lower(),
         password_hash=hash_password(req.password),
         display_name=req.display_name,
-        role=req.role if req.role in ('student', 'teacher', 'admin') else 'student',
+        role="student",
         preferred_lang=req.preferred_lang or 'en',
-        cohort_id=req.cohort_id or "cohort-med-2026-alpha"
+        cohort_id=cohort_id
     )
     db.add(user)
     db.commit()
@@ -41,7 +49,8 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
 
 @router.post("/login", response_model=AuthResponse)
 @router.post("/login/", response_model=AuthResponse, include_in_schema=False)
-def login(req: LoginRequest, db: Session = Depends(get_db)):
+@limiter.limit("10/minute")
+def login(request: Request, req: LoginRequest, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == req.email.lower()).first()
     if not user or not verify_password(req.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Invalid email or password")

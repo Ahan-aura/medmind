@@ -1,13 +1,12 @@
-from pydantic import BaseModel
-from typing import Optional
+from typing import Literal, Optional
+from pydantic import BaseModel, EmailStr, Field
 
 class RegisterRequest(BaseModel):
-    email: str
-    password: str
-    display_name: str
-    role: str = "student"
-    preferred_lang: str = "en"
-    cohort_id: Optional[str] = None
+    email: EmailStr
+    password: str = Field(min_length=8, max_length=128)
+    display_name: str = Field(min_length=1, max_length=80)
+    preferred_lang: Literal['en', 'te'] = 'en'
+    join_code: Optional[str] = Field(default=None, max_length=32)
 
 class LoginRequest(BaseModel):
     email: str

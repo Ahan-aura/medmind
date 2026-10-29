@@ -1,7 +1,7 @@
 from typing import List, Dict, Any
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from app.models.models import Attempt, Case, LearnerMisconception, Misconception, User
+from app.models.models import Attempt, Case, LearnerMisconception, Misconception, User, Cohort
 
 def get_learner_progress(db: Session, user: User) -> Dict[str, Any]:
     # 1. Fetch completed or submitted attempts for this learner
@@ -118,6 +118,21 @@ def get_cohort_summary(db: Session, cohort_id: str) -> Dict[str, Any]:
     student_ids = [s.id for s in students]
     student_count = len(students)
     has_synthetic_data = any(bool(getattr(s, 'is_synthetic', False)) for s in students)
+    
+    cohort = db.query(Cohort).filter(Cohort.id == cohort_id).first()
+    cohort_name = cohort.name if cohort else "Class 2026 - Clinical Medicine Cohort Alpha"
+
+    if student_count < 3:
+        return {
+            "cohort_id": cohort_id,
+            "cohort_name": cohort_name,
+            "student_count": student_count,
+            "has_synthetic_data": has_synthetic_data,
+            "suppressed": True,
+            "objective_averages": [],
+            "top_misconceptions": [],
+            "calibration_matrix": []
+        }
     
     # 1. Objective averages
     # Initial vs Reassessment average
