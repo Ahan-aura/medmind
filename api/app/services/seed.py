@@ -1,3 +1,5 @@
+from app.schemas.lesson import LessonModel
+from app.models.models import ReferenceChunk
 import os
 import yaml
 import logging
@@ -79,13 +81,36 @@ def ensure_seeded():
                     if not l_data:
                         continue
                     l_id = l_data.get("id") or l_file.stem
+                    if l_id.startswith("LESSON-0"):
+                        validated = LessonModel(**l_data)
                     lesson = db.query(Lesson).filter(Lesson.id == l_id).first()
                     if not lesson:
                         lesson = Lesson(id=l_id)
                         db.add(lesson)
                     lesson.title = l_data.get("title", l_id)
-                    lesson.content = l_data.get("content", {})
-                    lesson.practice_questions = l_data.get("practice_questions", [])
+                    lesson.objective_id = l_data.get("objective_id")
+                    lesson.status = l_data.get("status", "draft")
+                    lesson.reviewed_by = l_data.get("reviewed_by")
+                    lesson.difficulty = l_data.get("difficulty", 1)
+                    lesson.estimated_minutes = l_data.get("estimated_minutes", 8)
+                    lesson.targets_misconceptions = l_data.get("targets_misconceptions", [])
+                    lesson.prerequisites = l_data.get("prerequisites", [])
+                    lesson.raw_data = l_data
+                    if "content" in l_data:
+                        lesson.content = l_data["content"]
+                    else:
+                        lesson.content = {
+                            "overview": l_data.get("worked_example", {}).get("vignette", ""),
+                            "key_principles": [
+                                {"title": f"{i+1}. Point", "explanation": kp.get("point", "")}
+                                for i, kp in enumerate(l_data.get("key_points", []))
+                            ],
+                            "clinical_pearl": l_data.get("clinical_pearl", "")
+                        }
+                    if "practice_questions" in l_data:
+                        lesson.practice_questions = l_data["practice_questions"]
+                    else:
+                        lesson.practice_questions = l_data.get("quick_check", [])
                 except Exception as ex:
                     logger.warning("Error seeding lesson %s: %s", l_file, ex)
             db.commit()

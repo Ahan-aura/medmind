@@ -19,6 +19,8 @@ class Settings:
     
     FRONTEND_ORIGIN: str = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")
     
+    ALLOW_UNREVIEWED_CONTENT: bool = os.getenv("ALLOW_UNREVIEWED_CONTENT", "true").lower() in ("true", "1", "yes")
+
     # LLM Settings: Anthropic Claude is the designated provider
     ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")
     LLM_MODEL: str = os.getenv("LLM_MODEL", "")  # Must be set explicitly, e.g. claude-3-5-sonnet-20241022

@@ -6,6 +6,9 @@ import sys
 # Add backend directory to sys.path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
+if not os.getenv("JWT_SECRET"):
+    os.environ["JWT_SECRET"] = "temporary-seed-script-secret-key-32chars"
+
 from app.db import SessionLocal, engine, Base
 from app.models.models import ReferenceChunk
 from app.config import settings
