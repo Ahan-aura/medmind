@@ -1,3 +1,4 @@
+import tempfile
 import os
 from pathlib import Path
 
@@ -12,7 +13,12 @@ if _jwt_secret in INSECURE_JWT or len(_jwt_secret) < 32:
         raise RuntimeError("Set JWT_SECRET to a random string of at least 32 characters.")
 
 class Settings:
-    DATABASE_URL: str = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR / 'medmind.db'}")
+    _tmp_path = (Path(tempfile.gettempdir()) / "medmind.db").as_posix()
+    _default_db: str = (
+        f"sqlite:///{_tmp_path}" if (os.getenv("VERCEL") and not os.getenv("DATABASE_URL"))
+        else f"sqlite:///{BASE_DIR / 'medmind.db'}"
+    )
+    DATABASE_URL: str = os.getenv("DATABASE_URL", _default_db)
     JWT_SECRET: str = _jwt_secret
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRE_HOURS: int = 12

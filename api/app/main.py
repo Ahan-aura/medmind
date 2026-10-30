@@ -32,6 +32,21 @@ from app.db import get_db
 logger = logging.getLogger("medmind")
 
 # Log tutor mode on startup and check for configuration gaps
+# Prepare writable SQLite db in /tmp for Vercel serverless
+if os.getenv("VERCEL") and "sqlite" in settings.DATABASE_URL:
+    try:
+        import shutil
+        import tempfile
+        tmp_db = Path(tempfile.gettempdir()) / "medmind.db"
+        if not tmp_db.exists():
+            for cand in [BASE_DIR / "medmind.db", Path("/var/task/api/medmind.db"), Path("/var/task/medmind.db")]:
+                if cand.exists():
+                    shutil.copy2(cand, tmp_db)
+                    logger.info("Copied initial database from %s to /tmp/medmind.db", cand)
+                    break
+    except Exception as e:
+        logger.warning("Vercel /tmp db copy notice: %s", e)
+
 tutor_mode = settings.get_tutor_mode()
 logger.info("MEDMIND AI starting up. Effective Tutor Mode: [%s] (Configured TUTOR_MODE: %s)", tutor_mode, settings.TUTOR_MODE)
 if settings.ANTHROPIC_API_KEY and not settings.LLM_MODEL:

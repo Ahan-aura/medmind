@@ -20,12 +20,65 @@ def ensure_seeded():
     """Ensure database has basic tables, users, cases, lessons, and misconceptions."""
     try:
         Base.metadata.create_all(bind=engine)
+        from sqlalchemy import text
+        if "sqlite" in str(engine.url):
+            with engine.connect() as conn:
+                res = conn.execute(text("PRAGMA table_info(lessons);")).fetchall()
+                existing_cols = {r[1] for r in res} if res else set()
+                new_cols = [
+                    ("objective_id", "VARCHAR(100)"),
+                    ("status", "VARCHAR(20) DEFAULT 'draft'"),
+                    ("reviewed_by", "VARCHAR(100)"),
+                    ("reviewed_at", "DATETIME"),
+                    ("difficulty", "INTEGER DEFAULT 1"),
+                    ("estimated_minutes", "INTEGER DEFAULT 8"),
+                    ("targets_misconceptions", "JSON"),
+                    ("prerequisites", "JSON"),
+                    ("raw_data", "JSON")
+                ]
+                for col_name, col_def in new_cols:
+                    if col_name not in existing_cols:
+                        try:
+                            conn.execute(text(f"ALTER TABLE lessons ADD COLUMN {col_name} {col_def};"))
+                            conn.commit()
+                        except Exception as ex:
+                            logger.warning("Could not add column %s: %s", col_name, ex)
     except Exception as e:
         logger.warning("create_all deferred: %s", e)
         return
 
     db = SessionLocal()
     try:
+        # 0. Ingest Reference Passages
+        ref_dir = settings.REFERENCES_DIR
+        if ref_dir.exists():
+            for ref_file in ref_dir.glob("*.md"):
+                try:
+                    with open(ref_file, "r", encoding="utf-8") as rf:
+                        rc_text = rf.read()
+                    meta = {}
+                    body = rc_text
+                    if rc_text.startswith("---"):
+                        parts = rc_text.split("---", 2)
+                        if len(parts) >= 3:
+                            meta = yaml.safe_load(parts[1]) or {}
+                            body = parts[2].strip()
+                    ref_id = meta.get("id") or ref_file.stem
+                    chunk = db.query(ReferenceChunk).filter(ReferenceChunk.id == ref_id).first()
+                    if not chunk:
+                        chunk = ReferenceChunk(id=ref_id)
+                        db.add(chunk)
+                    chunk.source_title = meta.get("source_title", "Clinical Reference")
+                    chunk.source_url = meta.get("source_url")
+                    chunk.section = meta.get("section", "General")
+                    chunk.text = body
+                    chunk.lang = meta.get("lang", "en")
+                    chunk.tags = meta.get("tags", [])
+                    chunk.reviewed = bool(meta.get("reviewed", False))
+                except Exception as ex:
+                    logger.warning("Error ingesting reference %s: %s", ref_file, ex)
+            db.commit()
+
         # 1. Cohort
         cohort_id = "cohort-med-2026-alpha"
         cohort = db.query(Cohort).filter(Cohort.id == cohort_id).first()
