@@ -52,7 +52,7 @@ def list_lessons(
     }
     recent_attempts = db.query(Attempt).filter(
         Attempt.user_id == current_user.id
-    ).order_by(Attempt.created_at.desc()).limit(5).all()
+    ).order_by(Attempt.started_at.desc()).limit(5).all()
     for att in recent_attempts:
         if att.misconception_tags:
             for tag in att.misconception_tags:
@@ -163,7 +163,7 @@ def get_lesson(
         "worked_example": raw.get("worked_example"),
         "common_pitfalls": raw.get("common_pitfalls", []),
         "clinical_pearl": raw.get("clinical_pearl", ""),
-        "quick_check": [q.dict() for q in sanitized_questions],
+        "quick_check": [q.model_dump() for q in sanitized_questions],
         "reference_ids": list(ref_ids),
         "further_reading": raw.get("further_reading", []),
         "references": references_map,
@@ -172,7 +172,7 @@ def get_lesson(
         "attempts": attempts,
         # Legacy compatibility
         "content": lesson.content,
-        "practice_questions": [q.dict() for q in sanitized_questions]
+        "practice_questions": [q.model_dump() for q in sanitized_questions]
     }
 
 @router.post("/{lesson_id}/quiz", response_model=QuizResultResponse)
