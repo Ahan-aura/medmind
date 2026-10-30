@@ -566,7 +566,13 @@ export const api = {
       }),
   },
   lessons: {
+    list: () => apiRequest<any[]>('/lessons'),
     get: (lessonId: string) => apiRequest<any>(`/lessons/${lessonId}`),
+    submitQuiz: (lessonId: string, answers: Record<string, string>) =>
+      apiRequest<any>(`/lessons/${lessonId}/quiz`, {
+        method: 'POST',
+        body: JSON.stringify({ answers }),
+      }),
   },
   progress: {
     getMe: () => apiRequest<any>('/progress/me'),

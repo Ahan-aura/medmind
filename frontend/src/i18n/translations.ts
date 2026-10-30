@@ -19,6 +19,7 @@ export const translations = {
     },
     nav: {
       cases: "Patient Cases",
+      lessons: "Lessons",
       progress: "My Progress",
       teacher: "Faculty Dashboard",
       demoMode: "4-Min Demo Guide",
@@ -65,6 +66,23 @@ export const translations = {
       uncertaintyNote: "Clinical Scope & Limitations",
       proceedLesson: "Proceed to Targeted Concept Lesson",
       skipToReassess: "Proceed Directly to Reassessment Case"
+    },
+    lessonsLibrary: {
+      title: "Doctor Practice Lessons",
+      subtitle: "Targeted clinical reasoning modules grounded in haematology evidence and guidelines",
+      recommendedTitle: "Recommended for You",
+      recommendedSubtitle: "Based on your recent simulation attempts and identified clinical misconceptions",
+      allLessonsTitle: "All Practice Lessons",
+      draftBadge: "Draft - pending clinical review",
+      draftTooltip: "This educational lesson is in draft form and has not yet completed formal clinical review. For simulation study only.",
+      mins: "mins",
+      difficulty: "Difficulty",
+      level: "Level",
+      completed: "Completed",
+      startLesson: "Start Lesson",
+      reviewLesson: "Review Lesson",
+      bestScore: "Best Score",
+      teluguProgressNotice: "Telugu translation in progress — displaying English version with clinical terms."
     },
     lesson: {
       title: "Targeted Mastery Module",
@@ -121,6 +139,7 @@ export const translations = {
     },
     nav: {
       cases: "రోగి కేసులు (Cases)",
+      lessons: "పాఠాలు (Lessons)",
       progress: "నా పురోగతి (Progress)",
       teacher: "ఫ్యాకల్టీ డ్యాష్‌బోర్డ్",
       demoMode: "4 నిమిషాల డెమో గైడ్",
@@ -167,6 +186,23 @@ export const translations = {
       uncertaintyNote: "పరిమితులు మరియు పరిధి",
       proceedLesson: "లక్ష్య అభ్యసన పాఠానికి వెళ్లండి",
       skipToReassess: "పునఃపరిశీలన కేస్‌కు నేరుగా వెళ్లండి"
+    },
+    lessonsLibrary: {
+      title: "డాక్టర్ ప్రాక్టీస్ పాఠాలు",
+      subtitle: "హెమటాలజీ మార్గదర్శకాల ఆధారంగా రూపొందించిన క్లినికల్ రీజనింగ్ పాఠాలు",
+      recommendedTitle: "మీ కోసం సూచించబడినవి",
+      recommendedSubtitle: "మీ ఇటీవలి సిమ్యులేషన్ అభ్యాసాల ఆధారంగా రూపొందించబడింది",
+      allLessonsTitle: "అన్ని ప్రాక్టీస్ పాఠాలు",
+      draftBadge: "డ్రాఫ్ట్ - క్లినికల్ రివ్యూ పెండింగ్‌లో ఉంది",
+      draftTooltip: "ఈ విద్యా పాఠం డ్రాఫ్ట్ రూపంలో ఉంది మరియు ఇంకా అధికారిక క్లినికల్ సమీక్షను పూర్తి చేయలేదు.",
+      mins: "నిమిషాలు",
+      difficulty: "కఠినత",
+      level: "స్థాయి",
+      completed: "పూర్తయింది",
+      startLesson: "పాఠం ప్రారంభించండి",
+      reviewLesson: "సమీక్షించండి",
+      bestScore: "ఉత్తమ స్కోరు",
+      teluguProgressNotice: "తెలుగు అనువాదం పురోగతిలో ఉంది — ఆంగ్ల సంస్కరణ చూపబడుతోంది."
     },
     lesson: {
       title: "లక్ష్య అభ్యసన పాఠం (Targeted Lesson)",

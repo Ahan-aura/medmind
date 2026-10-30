@@ -208,3 +208,102 @@ export interface TeacherSummary {
     total_attempts: number;
   }[];
 }
+
+
+export interface LessonListItem {
+  id: string;
+  title: string;
+  objective_id?: string | null;
+  status: string;
+  estimated_minutes: number;
+  difficulty: number;
+  completed: boolean;
+  best_score?: number | null;
+  recommended: boolean;
+  targets_misconceptions: string[];
+}
+
+export interface QuickCheckOption {
+  id: string;
+  text: string;
+}
+
+export interface QuickCheckQuestion {
+  id: string;
+  prompt: string;
+  options: QuickCheckOption[];
+  reference_id?: string;
+}
+
+export interface KeyPointItem {
+  point: string;
+  refs: string[];
+}
+
+export interface WorkedExampleItem {
+  vignette: string;
+  steps: string[];
+}
+
+export interface FurtherReadingItem {
+  title: string;
+  url?: string;
+}
+
+export interface ReferenceSummary {
+  id: string;
+  title: string;
+  source_title: string;
+  source_url?: string;
+  text: string;
+  key_facts: string[];
+}
+
+export interface QuestionResult {
+  question_id: string;
+  chosen: string;
+  correct: string;
+  is_correct: boolean;
+  rationale: string;
+  reference_id?: string;
+}
+
+export interface QuizResult {
+  score: number;
+  max_score: number;
+  passed: boolean;
+  best_score: number;
+  attempts: number;
+  results: Record<string, QuestionResult>;
+}
+
+export interface LessonDetail {
+  id: string;
+  title: string;
+  objective_id?: string | null;
+  status: string;
+  reviewed_by?: string | null;
+  reviewed_at?: string | null;
+  estimated_minutes: number;
+  difficulty: number;
+  targets_misconceptions: string[];
+  prerequisites: string[];
+  learning_outcomes: string[];
+  key_points: KeyPointItem[];
+  worked_example?: WorkedExampleItem | null;
+  common_pitfalls: string[];
+  clinical_pearl?: string | null;
+  quick_check: QuickCheckQuestion[];
+  reference_ids: string[];
+  further_reading: FurtherReadingItem[];
+  references: Record<string, ReferenceSummary>;
+  completed: boolean;
+  best_score?: number | null;
+  attempts: number;
+  content?: {
+    overview?: string;
+    key_principles?: { title: string; explanation: string }[];
+    clinical_pearl?: string;
+  };
+  practice_questions?: PracticeQuestion[];
+}

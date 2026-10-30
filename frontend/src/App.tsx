@@ -10,6 +10,7 @@ import { LoginPage } from './pages/LoginPage';
 import { CaseListPage } from './pages/CaseListPage';
 import { CasePlayerPage } from './pages/CasePlayerPage';
 import { FeedbackPage } from './pages/FeedbackPage';
+import { LessonListPage } from './pages/LessonListPage';
 import { LessonPage } from './pages/LessonPage';
 import { ComparePage } from './pages/ComparePage';
 import { ProgressPage } from './pages/ProgressPage';
@@ -71,6 +72,14 @@ export const AppContent: React.FC = () => {
             element={
               <ProtectedRoute>
                 <FeedbackPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/lessons"
+            element={
+              <ProtectedRoute>
+                <LessonListPage />
               </ProtectedRoute>
             }
           />

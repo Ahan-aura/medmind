@@ -53,6 +53,18 @@ export const Navbar: React.FC = () => {
                 </Link>
 
                 <Link
+                  to="/lessons"
+                  className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-1.5 ${
+                    location.pathname.startsWith('/lesson')
+                      ? 'bg-medblue-50 text-medblue-700'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  }`}
+                >
+                  <GraduationCap className="w-4 h-4" />
+                  <span>{(t.nav as any).lessons || 'Lessons'}</span>
+                </Link>
+
+                <Link
                   to="/progress"
                   className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-1.5 ${
                     location.pathname === '/progress'
