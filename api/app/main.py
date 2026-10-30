@@ -111,10 +111,20 @@ async def global_exception_handler(request: Request, exc: Exception):
     )
 
 
-# Response security headers
+# Response security headers with diagnostic error interception
 @app.middleware("http")
 async def add_security_headers(request: Request, call_next):
-    response = await call_next(request)
+    try:
+        response = await call_next(request)
+    except Exception as exc:
+        import traceback
+        tb = traceback.format_exc()
+        logger.error("Exception in middleware on %s: %s\n%s", request.url.path, exc, tb)
+        from fastapi.responses import JSONResponse
+        return JSONResponse(
+            status_code=500,
+            content={"error": str(exc), "type": type(exc).__name__, "traceback": tb[-1000:]}
+        )
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "no-referrer"
     response.headers["Content-Security-Policy"] = "default-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:;"
