@@ -1,0 +1,135 @@
+id: LESSON-06
+title: Choosing Investigations Wisely in Anaemia Workup
+objective_id: LO-RATIONAL-INVESTIGATION
+status: draft
+reviewed_by: null
+reviewed_at: null
+review_notes:
+- 'TODO_REVIEWER: Review cost-effectiveness ranking of initial haematology panels
+  in regional healthcare network.'
+- 'TODO_REVIEWER: Confirm whether coeliac serology is recommended as routine first-line
+  in all unexplained iron deficiency.'
+estimated_minutes: 7
+difficulty: 2
+targets_misconceptions:
+- MC-WASTEFUL-TESTING
+prerequisites:
+- LESSON-01
+- LESSON-02
+learning_outcomes:
+- Select high-yield initial investigations based on morphological classification of
+  anaemia.
+- Sequence secondary diagnostic testing logically to avoid redundant or low-yield
+  laboratory requests.
+- Defend resource-conscious diagnostic choices that reduce learner delay and healthcare
+  waste.
+key_points:
+- point: Testing in anaemia should proceed in a logical stepwise cascade guided by
+    initial red cell morphology.
+  refs:
+  - REF-TESTING-001
+- point: Ordering large indiscriminate panels increases false positive rates and causes
+    diagnostic distraction.
+  refs:
+  - REF-TESTING-001
+- point: In microcytic anaemia, serum ferritin is the single highest-yield first-line
+    investigation.
+  refs:
+  - REF-TESTING-001
+- point: Advanced investigations such as bone marrow trephine or specialised molecular
+    testing are second-line steps.
+  refs:
+  - REF-TESTING-002
+- point: A careful history of blood loss, diet, alcohol, and medications narrows the
+    diagnostic path without financial cost.
+  refs:
+  - REF-TESTING-002
+worked_example:
+  vignette: A 34-year-old attends clinic with mild microcytic anaemia. The novice
+    resident attempts to place electronic requests for bone marrow biopsy, abdominal
+    CT, haemoglobin electrophoresis, full autoantibody screen, and heavy metal testing
+    simultaneously. The supervising consultant reviews the requisition.
+  steps:
+  - 'Step 1: Recognize that the clinical scenario is an uncomplicated, stable microcytic
+    anaemia in a young adult.'
+  - 'Step 2: Cancel unnecessary invasive and high-cost requests (bone marrow biopsy,
+    CT scan, heavy metal screen).'
+  - 'Step 3: Order high-yield first-line tests: serum ferritin and coeliac serology,
+    alongside a dietary and menstrual history.'
+  - 'Step 4: Reserve secondary tests (electrophoresis or endoscopic referrals) until
+    ferritin and initial response are known.'
+common_pitfalls:
+- Ordering whole 'anaemia workup panels' that include low-yield or duplicate tests
+  before checking basic cell indices.
+- Requesting invasive bone marrow procedures before completing routine, non-invasive
+  nutritional evaluations.
+- Failing to take an accurate dietary, medication, and family history before ordering
+  expensive genetic tests.
+clinical_pearl: Order tests sequentially based on pre-test probability; let the answer
+  to the first question frame your second.
+quick_check:
+- id: Q1
+  prompt: An otherwise well 22-year-old runner presents with mild microcytic anaemia.
+    Which approach best exemplifies high-value, resource-conscious care?
+  options:
+  - id: A
+    text: Schedule urgent whole-body PET-CT scanning to rule out occult sarcoma.
+  - id: B
+    text: Order routine marrow aspiration and immediate genetic sequencing of all
+      globin genes.
+  - id: C
+    text: Check serum iron alone every morning for seven consecutive days.
+  - id: D
+    text: Obtain serum ferritin and a thorough dietary, exercise, and menstrual history
+      before ordering advanced investigations.
+  correct: D
+  rationale: 'Option D represents rational diagnostic stewardship: identifying common
+    nutritional or physiological iron depletion non-invasively first. Options A and
+    B represent excessive, invasive over-investigation.'
+  reference_id: REF-TESTING-001
+- id: Q2
+  prompt: What is a major clinical drawback of ordering indiscriminate multi-test
+    panels for mild, uncomplicated anaemia?
+  options:
+  - id: A
+    text: Borderline false-positive results generate diagnostic confusion, patient
+      anxiety, and unnecessary follow-up procedures.
+  - id: B
+    text: Large laboratory panels actively suppress reticulocyte production in vivo.
+  - id: C
+    text: Blood samples in multi-test requests always suffer severe in vitro haemolysis.
+  - id: D
+    text: Automated analysers refuse to run full blood counts if additional tests
+      are requested.
+  correct: A
+  rationale: 'Option A correctly describes the well-documented cognitive and financial
+    harm of over-investigation: incidental false positives trigger cascades of invasive
+    evaluations. Options B, C, and D are unfounded.'
+  reference_id: REF-TESTING-002
+- id: Q3
+  prompt: In what clinical situation is a bone marrow biopsy considered a justified
+    early step in the investigation of anaemia?
+  options:
+  - id: A
+    text: Mild microcytic anaemia responding well to iron supplementation.
+  - id: B
+    text: Unexplained pancytopenia or presence of blast cells on the peripheral blood
+      film.
+  - id: C
+    text: A female student with heavy menses and low ferritin.
+  - id: D
+    text: A patient with macrocytosis caused by known chronic alcohol intake and elevated
+      GGT.
+  correct: B
+  rationale: 'Option B is correct: unexplained multilineage cytopenias or circulating
+    immature blast cells indicate potential primary marrow failure or malignancy,
+    justifying early marrow biopsy. Options A, C, and D are managed non-invasively.'
+  reference_id: REF-TESTING-001
+reference_ids:
+- REF-TESTING-001
+- REF-TESTING-002
+further_reading:
+- title: 'Choosing Wisely UK: Recommendations on Haematology Investigations'
+  url: https://www.choosingwisely.co.uk/recommendations/
+- title: 'NICE CKS: Anaemia - iron deficiency'
+  url: https://cks.nice.org.uk/topics/anaemia-iron-deficiency/

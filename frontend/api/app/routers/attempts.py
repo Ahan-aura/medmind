@@ -1,12 +1,13 @@
 from datetime import datetime, timezone
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
 from typing import Dict, Any
+from app.limiter import limiter
 
 from app.db import get_db
 from app.models.models import (
     Attempt, AttemptStep, Case, FeedbackRecord,
-    LearnerMisconception, Misconception, User
+    LearnerMisconception, Misconception, User, Cohort
 )
 from app.schemas.case import (
     StartAttemptRequest, StepRequest, SubmitRequest,
@@ -26,9 +27,14 @@ def get_user_attempt(attempt_id: str, user: User, db: Session) -> Attempt:
     attempt = db.query(Attempt).filter(Attempt.id == attempt_id).first()
     if not attempt:
         raise HTTPException(status_code=404, detail="Attempt not found")
-    if attempt.user_id != user.id and user.role not in ("teacher", "admin"):
-        raise HTTPException(status_code=403, detail="Not authorized to access this attempt")
-    return attempt
+    if attempt.user_id == user.id or user.role == "admin":
+        return attempt
+    if user.role == "teacher":
+        owner = db.query(User).filter(User.id == attempt.user_id).first()
+        cohort = db.query(Cohort).filter(Cohort.id == owner.cohort_id).first() if owner and owner.cohort_id else None
+        if cohort and cohort.teacher_id == user.id:
+            return attempt
+    raise HTTPException(status_code=404, detail="Attempt not found")
 
 @router.post("", response_model=Dict[str, Any])
 @router.post("/", response_model=Dict[str, Any], include_in_schema=False)
@@ -40,6 +46,18 @@ def start_attempt(
     case = db.query(Case).filter(Case.id == req.case_id, Case.is_published == True).first()
     if not case:
         raise HTTPException(status_code=404, detail="Case not found or not published")
+
+    if req.parent_attempt_id:
+        parent = db.query(Attempt).filter(Attempt.id == req.parent_attempt_id).first()
+        if not parent or parent.user_id != current_user.id:
+            raise HTTPException(status_code=400, detail="Parent attempt does not belong to the current user or does not exist")
+        parent_case = db.query(Case).filter(Case.id == parent.case_id).first()
+        paired = parent_case.content.get('paired_case') if parent_case and parent_case.content else None
+        if not paired or paired != req.case_id:
+            raise HTTPException(status_code=400, detail="Case is not the paired reassessment case for this parent attempt")
+        existing_reassessment = db.query(Attempt).filter(Attempt.parent_attempt_id == req.parent_attempt_id).first()
+        if existing_reassessment:
+            raise HTTPException(status_code=409, detail="Reassessment attempt already exists for this parent attempt")
         
     start_node = case.content.get('branching', {}).get('start', 'n_review')
     
@@ -110,6 +128,12 @@ def record_step(
 ):
     attempt = get_user_attempt(attempt_id, current_user, db)
     require_state(attempt.state, 'step')
+
+    if req.node_id != attempt.current_node:
+        raise HTTPException(
+            status_code=409,
+            detail=f"Requested node '{req.node_id}' does not match current attempt node '{attempt.current_node}'"
+        )
     
     case = db.query(Case).filter(Case.id == attempt.case_id).first()
     next_node_id, flags, next_node = take_step(case.content, req.node_id, req.choice_id)
@@ -138,6 +162,15 @@ def submit_decision(
     require_state(attempt.state, 'submit')
     
     case = db.query(Case).filter(Case.id == attempt.case_id).first()
+    case_content = case.content or {}
+
+    valid_answers = {o['id'] for o in case_content.get('options', [])}
+    valid_evidence = set(case_content.get('evidence_ids') or [l['id'] for l in case_content.get('labs', [])])
+    
+    if req.selected_answer not in valid_answers:
+        raise HTTPException(status_code=422, detail="Unknown answer option")
+    if not set(req.selected_evidence) <= valid_evidence:
+        raise HTTPException(status_code=422, detail="Unknown evidence item")
     
     # Score attempt deterministically
     scoring_result = score_attempt(
@@ -208,7 +241,9 @@ def submit_decision(
     )
 
 @router.post("/{attempt_id}/feedback", response_model=FeedbackResponse)
+@limiter.limit("20/hour")
 def get_or_generate_feedback(
+    request: Request,
     attempt_id: str,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -290,7 +325,11 @@ def get_or_generate_feedback(
         latency_ms=latency_ms
     )
     db.add(fb_record)
-    attempt.state = "FEEDBACK_READY"
+    if attempt.parent_attempt_id:
+        attempt.state = "COMPLETED"
+        attempt.completed_at = datetime.now(timezone.utc)
+    else:
+        attempt.state = "FEEDBACK_READY"
     db.commit()
     db.refresh(fb_record)
     
@@ -327,6 +366,10 @@ def start_reassessment(
 ):
     parent_attempt = get_user_attempt(attempt_id, current_user, db)
     require_state(parent_attempt.state, 'reassess')
+
+    existing = db.query(Attempt).filter(Attempt.parent_attempt_id == parent_attempt.id).first()
+    if existing:
+        raise HTTPException(status_code=409, detail="Reassessment attempt already exists for this parent attempt")
     
     parent_case = db.query(Case).filter(Case.id == parent_attempt.case_id).first()
     paired_case_id = parent_case.content.get('paired_case')

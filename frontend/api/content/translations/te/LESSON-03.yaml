@@ -1,0 +1,98 @@
+id: LESSON-03
+title: TODO_TRANSLATE
+objective_id: LO-FERRITIN-INTERPRETATION
+status: draft
+reviewed_by: null
+reviewed_at: null
+reviewed_by_te: null
+review_notes:
+- TODO_TRANSLATE
+estimated_minutes: 9
+difficulty: 2
+targets_misconceptions:
+- MC-FERRITIN-MISSED
+prerequisites:
+- LESSON-02
+learning_outcomes:
+- TODO_TRANSLATE
+- TODO_TRANSLATE
+- TODO_TRANSLATE
+key_points:
+- point: TODO_TRANSLATE
+  refs:
+  - REF-FERRITIN-002
+- point: TODO_TRANSLATE
+  refs:
+  - REF-FERRITIN-002
+- point: TODO_TRANSLATE
+  refs:
+  - REF-FERRITIN-002
+- point: TODO_TRANSLATE
+  refs:
+  - REF-FERRITIN-003
+- point: TODO_TRANSLATE
+  refs:
+  - REF-FERRITIN-003
+worked_example:
+  vignette: TODO_TRANSLATE
+  steps:
+  - TODO_TRANSLATE
+  - TODO_TRANSLATE
+  - TODO_TRANSLATE
+  - TODO_TRANSLATE
+common_pitfalls:
+- TODO_TRANSLATE
+- TODO_TRANSLATE
+- TODO_TRANSLATE
+clinical_pearl: TODO_TRANSLATE
+quick_check:
+- id: Q1
+  prompt: TODO_TRANSLATE
+  options:
+  - id: A
+    text: TODO_TRANSLATE
+  - id: B
+    text: TODO_TRANSLATE
+  - id: C
+    text: TODO_TRANSLATE
+  - id: D
+    text: TODO_TRANSLATE
+  correct: C
+  rationale: TODO_TRANSLATE
+  reference_id: REF-FERRITIN-002
+- id: Q2
+  prompt: TODO_TRANSLATE
+  options:
+  - id: A
+    text: TODO_TRANSLATE
+  - id: B
+    text: TODO_TRANSLATE
+  - id: C
+    text: TODO_TRANSLATE
+  - id: D
+    text: TODO_TRANSLATE
+  correct: D
+  rationale: TODO_TRANSLATE
+  reference_id: REF-FERRITIN-003
+- id: Q3
+  prompt: TODO_TRANSLATE
+  options:
+  - id: A
+    text: TODO_TRANSLATE
+  - id: B
+    text: TODO_TRANSLATE
+  - id: C
+    text: TODO_TRANSLATE
+  - id: D
+    text: TODO_TRANSLATE
+  correct: A
+  rationale: TODO_TRANSLATE
+  reference_id: REF-FERRITIN-002
+reference_ids:
+- REF-FERRITIN-002
+- REF-FERRITIN-003
+further_reading:
+- title: TODO_TRANSLATE
+  url: https://www.who.int/publications/i/item/9789240008526
+- title: TODO_TRANSLATE
+  url: https://b-s-h.org.uk/guidelines/guidelines-cases/diagnosis-and-management-of-iron-deficiency/

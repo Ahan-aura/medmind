@@ -33,6 +33,7 @@ class Cohort(Base):
     id = Column(String(36), primary_key=True, default=gen_uuid)
     name = Column(String(255), nullable=False)
     teacher_id = Column(String(36), ForeignKey("users.id"), nullable=True)
+    join_code = Column(String(50), unique=True, nullable=True)
 
 class Case(Base):
     __tablename__ = "cases"
@@ -129,6 +130,27 @@ class Lesson(Base):
     title = Column(String(255), nullable=False)
     content = Column(JSON, nullable=False)
     practice_questions = Column(JSON, nullable=False)
+
+    # Extended metadata and validation fields
+    objective_id = Column(String(100), nullable=True)
+    status = Column(String(20), default="draft")
+    reviewed_by = Column(String(100), nullable=True)
+    reviewed_at = Column(DateTime(timezone=True), nullable=True)
+    difficulty = Column(Integer, default=1)
+    estimated_minutes = Column(Integer, default=8)
+    targets_misconceptions = Column(JSON, default=list)
+    prerequisites = Column(JSON, default=list)
+    raw_data = Column(JSON, nullable=True)
+
+class LessonProgress(Base):
+    __tablename__ = "lesson_progress"
+
+    user_id = Column(String(36), ForeignKey("users.id"), primary_key=True)
+    lesson_id = Column(String(100), ForeignKey("lessons.id"), primary_key=True)
+    best_score = Column(Integer, default=0)
+    attempts = Column(Integer, default=0)
+    completed_at = Column(DateTime(timezone=True), nullable=True)
+    last_seen_at = Column(DateTime(timezone=True), default=utc_now)
 
 class ReferenceChunk(Base):
     __tablename__ = "reference_chunks"
