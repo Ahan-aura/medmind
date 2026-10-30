@@ -99,6 +99,17 @@ from app.limiter import limiter
 
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    import traceback
+    tb = traceback.format_exc()
+    logger.error("Unhandled exception on %s: %s\n%s", request.url.path, exc, tb)
+    from fastapi.responses import JSONResponse
+    return JSONResponse(
+        status_code=500,
+        content={"detail": str(exc), "type": type(exc).__name__, "traceback": tb[:800]}
+    )
+
 
 # Response security headers
 @app.middleware("http")
