@@ -15,6 +15,8 @@ import { LessonPage } from './pages/LessonPage';
 import { ComparePage } from './pages/ComparePage';
 import { ProgressPage } from './pages/ProgressPage';
 import { TeacherPage } from './pages/TeacherPage';
+import { AssistantPage } from './pages/AssistantPage';
+import { AssistantDrawer } from './components/AssistantDrawer';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode; requireTeacher?: boolean }> = ({
   children,
@@ -115,8 +117,17 @@ export const AppContent: React.FC = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/assistant"
+            element={
+              <ProtectedRoute>
+                <AssistantPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<Navigate to="/cases" replace />} />
         </Routes>
+        <AssistantDrawer />
       </main>
 
       <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">

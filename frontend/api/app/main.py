@@ -23,7 +23,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse
 from app.config import settings
 from app.db import engine, Base
-from app.routers import auth, cases, attempts, lessons, progress, teacher
+from app.routers import auth, cases, attempts, lessons, progress, teacher, assistant
 
 import logging
 from sqlalchemy import text
@@ -143,6 +143,7 @@ app.include_router(attempts.router, prefix="/api")
 app.include_router(lessons.router, prefix="/api")
 app.include_router(progress.router, prefix="/api")
 app.include_router(teacher.router, prefix="/api")
+app.include_router(assistant.router, prefix="/api")
 
 # Also include Routers at root (in case serverless rewrites strip the /api prefix)
 app.include_router(auth.router)
@@ -151,6 +152,7 @@ app.include_router(attempts.router)
 app.include_router(lessons.router)
 app.include_router(progress.router)
 app.include_router(teacher.router)
+app.include_router(assistant.router)
 
 @app.get("/api/health")
 @app.get("/health")
@@ -164,6 +166,7 @@ def health_check(request: Request, db: Session = Depends(get_db)):
     dialect = "unknown"
     lessons_count = 0
     ref_count = 0
+    cases_count = 0
     tables = []
     try:
         from sqlalchemy import inspect
@@ -176,6 +179,9 @@ def health_check(request: Request, db: Session = Depends(get_db)):
         if "reference_chunks" in tables:
             from app.models.models import ReferenceChunk
             ref_count = db.query(ReferenceChunk).count()
+        if "cases" in tables:
+            from app.models.models import Case
+            cases_count = db.query(Case).count()
     except Exception as de:
         logger.warning("Health diagnostic notice: %s", de)
 
@@ -188,7 +194,8 @@ def health_check(request: Request, db: Session = Depends(get_db)):
         "db_dialect": dialect,
         "tables": tables,
         "lessons_count": lessons_count,
-        "references_count": ref_count
+        "references_count": ref_count,
+        "cases_count": cases_count
     }
 
 @app.get("/api/debug-routes")

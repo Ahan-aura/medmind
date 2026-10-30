@@ -116,3 +116,66 @@ FB-B12-01:
     next_step: "Review your performance on the learner progress dashboard."
     uncertainty_note: >
       Serum B12 assays may occasionally be falsely normal in patients with high levels of transcobalamin II.
+
+FB-B12-02:
+  default:
+    what_you_got_right:
+      - "Correctly diagnosed Pernicious Anaemia with autoimmune B12 malabsorption."
+      - "Recognised marked macrocytosis (MCV 118 fL) with peripheral pancytopenia and glossitis."
+      - "Identified positive anti-intrinsic factor antibodies as specific confirmation of autoimmune gastric mucosal atrophy."
+    what_needs_work:
+      - "Explicitly cite high RDW and hypersegmented neutrophils on smear as definitive proof of megaloblastic erythropoiesis."
+    why_it_matters: >
+      Pernicious anaemia is the leading cause of severe B12 deficiency in older adults. Neurological symptoms (paresthesia, ataxia) can become irreversible if diagnosis is delayed.
+    evidence_links:
+      - ref_id: "REF-B12-001"
+        supports: "Details autoimmune cobalamin deficiency, neurological sequelae, and anti-intrinsic factor testing."
+      - ref_id: "REF-MACRO-001"
+        supports: "Establishes macrocytic megaloblastic diagnostic pathways and differentiation from non-megaloblastic causes."
+    reflection_prompt: >
+      Reflect on how the patient's existing autoimmune history (Hashimoto's thyroiditis) increases the pre-test probability of pernicious anaemia.
+    next_step: "Review Lesson 05 on Macrocytic Anaemia: Megaloblastic and Non-Megaloblastic Pathways."
+    uncertainty_note: >
+      Anti-intrinsic factor antibodies are highly specific (~95%) but only moderately sensitive (~50-70%); a negative result does not completely exclude pernicious anaemia.
+
+FB-ACD-01:
+  default:
+    what_you_got_right:
+      - "Accurately diagnosed Anaemia of Chronic Disease / Inflammation."
+      - "Correctly identified that elevated serum ferritin (340 ng/mL) reflects acute-phase inflammatory reactivity rather than adequate iron bioavailability."
+      - "Correlated elevated CRP and low serum iron with hepcidin-mediated reticuloendothelial iron sequestration."
+    what_needs_work:
+      - "Ensure Total Iron Binding Capacity (TIBC) is reviewed: reduced TIBC helps differentiate chronic inflammation from iron deficiency (where TIBC is elevated)."
+    why_it_matters: >
+      Misinterpreting low serum iron in chronic inflammatory states as iron deficiency frequently leads to ineffective oral iron supplementation. Differentiating ACD from IDA requires evaluating ferritin, TIBC, and inflammatory markers.
+    evidence_links:
+      - ref_id: "REF-FERRITIN-002"
+        supports: "Explains why ferritin behaves as an acute-phase reactant and how hepcidin traps iron in macrophages."
+      - ref_id: "REF-FERRITIN-003"
+        supports: "Provides clinical thresholds for evaluating transferrin saturation and ferritin in inflammatory states."
+    reflection_prompt: >
+      Consider why the body downregulates circulating iron during systemic inflammation as an evolutionary innate immune defence against pathogens.
+    next_step: "Review Lesson 03 on Iron Studies and Ferritin Interpretation."
+    uncertainty_note: >
+      In patients with both chronic inflammation and occult bleeding, a mixed picture of ACD and IDA can coexist; soluble transferrin receptor testing may assist.
+
+FB-REDALERT-01:
+  default:
+    what_you_got_right:
+      - "Recognised the mandatory priority to escalate for urgent gastrointestinal endoscopy."
+      - "Identified genuine iron-deficiency anaemia (MCV 70 fL, ferritin 8 ng/mL) in an older adult as an alarming red flag."
+      - "Correlated unintentional weight loss and positive fecal occult blood with occult gastrointestinal bleeding."
+    what_needs_work:
+      - "Remember that prescribing iron alone without investigating the source in a 71-year-old male is a dangerous clinical error (premature closure)."
+    why_it_matters: >
+      In adult males and postmenopausal females, iron deficiency anaemia is gastrointestinal blood loss until proven otherwise. Delaying endoscopic investigation can allow colorectal or gastric malignancy to advance unnoticed.
+    evidence_links:
+      - ref_id: "REF-REDALERT-001"
+        supports: "Identifies mandatory red-flag criteria in older adults with IDA and urgency of gastrointestinal investigation."
+      - ref_id: "REF-REDALERT-002"
+        supports: "Outlines safety protocols for escalating suspected gastrointestinal malignancy to senior clinicians."
+    reflection_prompt: >
+      Reflect on the cognitive trap of premature closure: why might a clinician be tempted to simply start iron pills and send the patient home?
+    next_step: "Review Lesson 08 on Must-Not-Miss Thinking and Finding the Cause in Anaemia."
+    uncertainty_note: >
+      Even if FOBT had been negative, unexplained IDA in a 71-year-old male remains an absolute indication for bidirectional endoscopy under national guidelines.

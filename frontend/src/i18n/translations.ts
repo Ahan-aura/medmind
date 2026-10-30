@@ -20,6 +20,7 @@ export const translations = {
     nav: {
       cases: "Patient Cases",
       lessons: "Lessons",
+      assistant: "AI Assistant",
       progress: "My Progress",
       teacher: "Faculty Dashboard",
       demoMode: "4-Min Demo Guide",
@@ -140,6 +141,7 @@ export const translations = {
     nav: {
       cases: "రోగి కేసులు (Cases)",
       lessons: "పాఠాలు (Lessons)",
+      assistant: "AI సహాయకుడు (AI Assistant)",
       progress: "నా పురోగతి (Progress)",
       teacher: "ఫ్యాకల్టీ డ్యాష్‌బోర్డ్",
       demoMode: "4 నిమిషాల డెమో గైడ్",

@@ -21,6 +21,10 @@
       "destination": "/api/teacher"
     },
     {
+      "source": "/api/assistant(.*)",
+      "destination": "/api/assistant"
+    },
+    {
       "source": "/api/auth(.*)",
       "destination": "/api/auth/login"
     },

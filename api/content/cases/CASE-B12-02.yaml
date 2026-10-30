@@ -1,0 +1,163 @@
+id: CASE-B12-02
+version: 1
+case_role: reassessment
+learning_objective: LO-MACROCYTIC-01
+paired_case: CASE-B12-01
+title: "Macrocytic Anaemia with Megaloblastic Smear and Glossitis"
+reviewed_by: "Curriculum Team (Educational Draft)"
+reviewed_at: "2026-10-15T00:00:00Z"
+disclaimer: "Fictional case for education only. Not medical advice."
+patient:
+  name: Evelyn
+  age: 58
+  sex: female
+history: >
+  Presents with 5 months of progressive fatigue, exertional shortness of breath, bilateral "pins and needles"
+  in the toes and fingers, and a painful, smooth, burning red tongue (atrophic glossitis).
+  Past medical history is notable for autoimmune hypothyroidism on stable levothyroxine replacement.
+  Eats a balanced omnivorous diet and does not consume alcohol. No history of bariatric or gastric surgery.
+labs:
+  - id: hb
+    test: Haemoglobin
+    value: 8.2
+    unit: g/dL
+    ref: '12.0-15.5'
+    flag: low
+  - id: mcv
+    test: Mean Corpuscular Volume (MCV)
+    value: 118
+    unit: fL
+    ref: '80-100'
+    flag: high
+  - id: rdw
+    test: Red Cell Distribution Width (RDW)
+    value: 19.4
+    unit: '%'
+    ref: '11.5-14.5'
+    flag: high
+  - id: wbc
+    test: White Blood Cell Count (WBC)
+    value: 3.8
+    unit: x10^9/L
+    ref: '4.0-11.0'
+    flag: low
+  - id: platelets
+    test: Platelet Count
+    value: 128
+    unit: x10^9/L
+    ref: '150-400'
+    flag: low
+  - id: b12
+    test: Serum Vitamin B12 (Cobalamin)
+    value: 82
+    unit: pg/mL
+    ref: '200-900'
+    flag: low
+  - id: folate
+    test: Serum Folate
+    value: 11.5
+    unit: ng/mL
+    ref: '4.0-20.0'
+    flag: normal
+  - id: anti_if
+    test: Anti-Intrinsic Factor Antibodies
+    value: 48
+    unit: AU/mL
+    ref: '< 20 (Negative)'
+    flag: high
+question: "Which clinical diagnosis and underlying mechanism best accounts for Evelyn's severe macrocytosis, peripheral pancytopenia, glossitis, and sensory paresthesia?"
+options:
+  - id: A
+    text: "Pernicious anaemia (Autoimmune destruction of gastric parietal cells and anti-intrinsic factor mediated severe B12 malabsorption with megaloblastosis)"
+    correct: true
+  - id: B
+    text: "Isolated nutritional folate deficiency (Inadequate dietary intake leading to impaired thymidylate synthesis without autoimmune involvement)"
+    correct: false
+  - id: C
+    text: "Myelodysplastic syndrome (Primary clonal stem cell disorder refractory to cobalamin or folate replacement)"
+    correct: false
+  - id: D
+    text: "Non-megaloblastic macrocytosis of hypothyroidism (Metabolic erythrocyte membrane lipid accumulation with preserved DNA synthesis)"
+    correct: false
+rubric:
+  max_score: 10
+  criteria:
+    - id: C1
+      points: 3
+      description: "Identifies Pernicious Anaemia as the primary diagnosis accounting for autoimmune B12 deficiency"
+      check:
+        type: answer_is
+        value: A
+    - id: C2
+      points: 2
+      description: "Recognises profound macrocytosis (MCV 118 fL) and high RDW as indicative of megaloblastic erythropoiesis"
+      check:
+        type: evidence_includes
+        ids: [mcv]
+    - id: C3
+      points: 2
+      description: "Identifies severely depleted serum cobalamin (B12 82 pg/mL) with normal folate level"
+      check:
+        type: evidence_includes
+        ids: [b12]
+    - id: C4
+      points: 1
+      description: "Cites positive anti-intrinsic factor antibodies as specific confirmation of autoimmune aetiology"
+      check:
+        type: evidence_includes
+        ids: [anti_if]
+    - id: C5
+      points: 2
+      description: "Clinical reasoning connects autoimmune B12 deficiency with atrophic glossitis, neuropathy, and mild cytopenias"
+      check:
+        type: keywords_any
+        groups:
+          - [pernicious, b12, cobalamin, intrinsic factor, autoimmune]
+          - [megaloblastic, glossitis, neuropathy, paresthesia, pancytopenia]
+misconception_rules:
+  - id: MC-MACRO-CAUSE-MISSED
+    when:
+      answer_in: [B, D]
+  - id: MC-IGNORES-INDICES
+    when:
+      evidence_missing: [mcv]
+  - id: MC-OVERCONFIDENT
+    when:
+      confidence_gte: 80
+      is_correct: false
+branching:
+  start: n_review
+  nodes:
+    - id: n_review
+      type: review_case
+      text: "You are reviewing Evelyn's clinical findings. What diagnostic investigation would you like to review next?"
+      choices:
+        - id: more_info
+          label: "Request peripheral blood smear review"
+          next: n_smear
+        - id: answer_now
+          label: "Proceed immediately to diagnostic interpretation"
+          next: n_decide
+          flags: [jumped_early]
+    - id: n_smear
+      type: reveal
+      text: "Peripheral blood smear demonstrates prominent macro-ovalocytes, marked anisopoikilocytosis, and classic hypersegmented neutrophils (>= 6 lobes). Nucleated red blood cells are occasionally noted. Platelet numbers appear decreased without clumping."
+      choices:
+        - id: continue
+          label: "Synthesize findings & enter decision"
+          next: n_decide
+    - id: n_decide
+      type: decision
+      text: "Formulate your clinical interpretation, select key evidence, and record your reasoning."
+allowed_references:
+  - REF-B12-001
+  - REF-MACRO-001
+  - REF-MACRO-002
+  - REF-TESTING-001
+fallback_feedback_key: FB-B12-02
+i18n:
+  te:
+    title: "మెగాలోబ్లాస్టిక్ స్మియర్ మరియు గ్లోసిటిస్‌తో స్థూలకణ రక్తహీనత (Macrocytic Anaemia with Megaloblastic Smear and Glossitis)"
+    patient:
+      name: "ఎవెలిన్ (Evelyn)"
+    question: "ఎవెలిన్ లక్షణాలు, తీవ్రమైన స్థూలకణ పరిమాణం (MCV 118 fL) మరియు నరాల సంబంధిత సంకేతాలకు ఏ రోగనిర్ధారణ అత్యంత అనుకూలంగా ఉంది?"

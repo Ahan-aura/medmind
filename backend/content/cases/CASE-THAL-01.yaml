@@ -1,0 +1,155 @@
+id: CASE-THAL-01
+version: 1
+case_role: initial
+learning_objective: LO-MICRO-DIFFERENTIAL
+paired_case: CASE-FATIGUE-02
+title: "Asymptomatic Marked Microcytosis with Preserved Ferritin"
+reviewed_by: "Curriculum Team (Educational Draft)"
+reviewed_at: "2026-10-15T00:00:00Z"
+disclaimer: "Fictional case for education only. Not medical advice."
+patient:
+  name: Mateo
+  age: 26
+  sex: male
+history: >
+  Presents for a routine pre-employment physical examination. Completely asymptomatic with normal athletic exercise tolerance.
+  Denies fatigue, dizziness, bleeding, melena, or dietary restrictions.
+  Family history is positive for Mediterranean ancestry (Greek-Cypriot); both father and sister have lifelong
+  "mild small-cell anaemia" without need for iron therapy or transfusions.
+labs:
+  - id: hb
+    test: Haemoglobin
+    value: 11.6
+    unit: g/dL
+    ref: '13.5-17.5'
+    flag: low
+  - id: mcv
+    test: Mean Corpuscular Volume (MCV)
+    value: 61
+    unit: fL
+    ref: '80-100'
+    flag: low
+  - id: rbc
+    test: Red Blood Cell Count (RBC)
+    value: 6.3
+    unit: x10^12/L
+    ref: '4.5-5.9'
+    flag: high
+  - id: rdw
+    test: Red Cell Distribution Width (RDW)
+    value: 12.3
+    unit: '%'
+    ref: '11.5-14.5'
+    flag: normal
+  - id: ferritin
+    test: Serum Ferritin
+    value: 180
+    unit: ng/mL
+    ref: '20-250'
+    flag: normal
+  - id: mentzer
+    test: Mentzer Index (MCV / RBC ratio)
+    value: 9.7
+    unit: ratio
+    ref: '> 13'
+    flag: low
+question: "In the presence of profound microcytosis (MCV 61 fL), an elevated red cell count (6.3 x10^12/L), normal RDW, and preserved ferritin, which diagnosis is most probable?"
+options:
+  - id: A
+    text: "Beta-thalassaemia trait / minor (Impaired globin chain synthesis with compensatory erythrocytosis, uniform microcytes, and normal iron reserves)"
+    correct: true
+  - id: B
+    text: "Severe nutritional iron deficiency anaemia (Negative iron balance with depleted storage reserves requiring immediate iron repletion)"
+    correct: false
+  - id: C
+    text: "Anaemia of acute blood loss (Normocytic normochromic acute haemorrhagic volume depletion)"
+    correct: false
+  - id: D
+    text: "Acquired sideroblastic anaemia secondary to acute alcohol toxicity"
+    correct: false
+rubric:
+  max_score: 10
+  criteria:
+    - id: C1
+      points: 3
+      description: "Identifies Beta-thalassaemia trait as the diagnosis explaining profound microcytosis with normal ferritin"
+      check:
+        type: answer_is
+        value: A
+    - id: C2
+      points: 2
+      description: "Recognises severely reduced MCV (61 fL) disproportionate to the mild anaemia"
+      check:
+        type: evidence_includes
+        ids: [mcv]
+    - id: C3
+      points: 2
+      description: "Cites normal serum ferritin (180 ng/mL) confirming preserved iron storage reserves and ruling out uncomplicated IDA"
+      check:
+        type: evidence_includes
+        ids: [ferritin]
+    - id: C4
+      points: 1
+      description: "Notes elevated RBC count (erythrocytosis) and Mentzer index < 13 as characteristic heuristic markers"
+      check:
+        type: evidence_includes
+        ids: [rbc]
+    - id: C5
+      points: 2
+      description: "Clinical reasoning differentiates globin synthesis defect from iron deficiency without recommending inappropriate iron therapy"
+      check:
+        type: keywords_any
+        groups:
+          - [thalassaemia, thal, trait, globin]
+          - [ferritin, normal iron, mentzer, erythrocytosis, rbc, rdw]
+misconception_rules:
+  - id: MC-MICRO-DIFFERENTIAL
+    when:
+      answer_in: [B]
+  - id: MC-FERRITIN-MISSED
+    when:
+      evidence_missing: [ferritin]
+  - id: MC-IGNORES-INDICES
+    when:
+      evidence_missing: [mcv]
+  - id: MC-OVERCONFIDENT
+    when:
+      confidence_gte: 80
+      is_correct: false
+branching:
+  start: n_review
+  nodes:
+    - id: n_review
+      type: review_case
+      text: "You are evaluating Mateo's laboratory results. What diagnostic investigation would you like to review next?"
+      choices:
+        - id: more_info
+          label: "Request peripheral blood smear analysis"
+          next: n_smear
+        - id: answer_now
+          label: "Proceed immediately to diagnostic interpretation"
+          next: n_decide
+          flags: [jumped_early]
+    - id: n_smear
+      type: reveal
+      text: "Peripheral blood smear reveals uniform microcytosis with prominent target cells (codocytes) and basophilic stippling. Anisocytosis is minimal (matching the normal RDW). Pencil cells are absent."
+      choices:
+        - id: continue
+          label: "Synthesize findings & enter decision"
+          next: n_decide
+    - id: n_decide
+      type: decision
+      text: "Formulate your clinical interpretation, select key evidence, and record your reasoning."
+allowed_references:
+  - REF-THAL-001
+  - REF-MICRODIFF-001
+  - REF-MICRODIFF-002
+  - REF-FERRITIN-001
+  - REF-RDW-001
+fallback_feedback_key: FB-THAL-01
+i18n:
+  te:
+    title: "సాధారణ ఫెర్రిటిన్‌తో గుర్తించదగిన సూక్ష్మకణ రక్తహీనత (Asymptomatic Marked Microcytosis with Preserved Ferritin)"
+    patient:
+      name: "మాటియో (Mateo)"
+    question: "తీవ్రమైన సూక్ష్మకణ పరిమాణం (MCV 61 fL), పెరిగిన ఎర్ర రక్త కణాల సంఖ్య మరియు సాధారణ ఫెర్రిటిన్ ఉన్నప్పుడు ఏ రోగనిర్ధారణ అత్యంత అనుకూలంగా ఉంది?"

@@ -580,4 +580,16 @@ export const api = {
   teacher: {
     getSummary: (cohortId: string) => apiRequest<any>(`/teacher/cohorts/${cohortId}/summary`),
   },
+  assistant: {
+    chat: (data: {
+      message: string;
+      context?: Record<string, any>;
+      history?: Array<{ role: string; content: string }>;
+    }) =>
+      apiRequest<any>('/assistant/chat', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }),
+    getPrompts: () => apiRequest<any>('/assistant/prompts'),
+  },
 };

@@ -1,0 +1,159 @@
+id: CASE-ACD-01
+version: 1
+case_role: initial
+learning_objective: LO-CHRONIC-DISEASE
+paired_case: CASE-FATIGUE-01
+title: "Fatigue and Anaemia with High Ferritin in Seropositive Arthritis"
+reviewed_by: "Curriculum Team (Educational Draft)"
+reviewed_at: "2026-10-15T00:00:00Z"
+disclaimer: "Fictional case for education only. Not medical advice."
+patient:
+  name: Arthur
+  age: 67
+  sex: male
+history: >
+  Presents with 4 months of worsening generalized fatigue, exertional breathlessness, and ongoing morning joint stiffness.
+  Known history of seropositive rheumatoid arthritis for 12 years with active inflammatory joint flare.
+  Denies overt bleeding, melena, or abdominal pain. No NSAID use.
+labs:
+  - id: hb
+    test: Haemoglobin
+    value: 9.7
+    unit: g/dL
+    ref: '13.5-17.5'
+    flag: low
+  - id: mcv
+    test: Mean Corpuscular Volume (MCV)
+    value: 81
+    unit: fL
+    ref: '80-100'
+    flag: normal
+  - id: rdw
+    test: Red Cell Distribution Width (RDW)
+    value: 13.2
+    unit: '%'
+    ref: '11.5-14.5'
+    flag: normal
+  - id: ferritin
+    test: Serum Ferritin
+    value: 340
+    unit: ng/mL
+    ref: '20-250'
+    flag: high
+  - id: iron
+    test: Serum Iron
+    value: 26
+    unit: ug/dL
+    ref: '60-170'
+    flag: low
+  - id: tibc
+    test: Total Iron Binding Capacity (TIBC)
+    value: 205
+    unit: ug/dL
+    ref: '240-450'
+    flag: low
+  - id: crp
+    test: C-Reactive Protein (CRP)
+    value: 38
+    unit: mg/L
+    ref: '< 5'
+    flag: high
+question: "Which mechanism explains low circulating serum iron in the presence of an elevated serum ferritin (340 ng/mL) and elevated inflammatory markers?"
+options:
+  - id: A
+    text: "Anaemia of chronic disease / inflammation (Hepcidin-mediated iron retention in reticuloendothelial macrophages with acute-phase ferritin elevation)"
+    correct: true
+  - id: B
+    text: "Simple primary iron deficiency anaemia (Negative iron balance with depleted storage reserves requiring immediate iron repletion)"
+    correct: false
+  - id: C
+    text: "Haemolytic crisis due to glucose-6-phosphate dehydrogenase (G6PD) deficiency"
+    correct: false
+  - id: D
+    text: "Vitamin B12 deficiency secondary to ileal malabsorption"
+    correct: false
+rubric:
+  max_score: 10
+  criteria:
+    - id: C1
+      points: 3
+      description: "Identifies Anaemia of Chronic Disease / Inflammation as the correct diagnosis"
+      check:
+        type: answer_is
+        value: A
+    - id: C2
+      points: 2
+      description: "Recognises that elevated ferritin (340 ng/mL) reflects acute phase inflammation and macrophage iron retention, not depleted stores"
+      check:
+        type: evidence_includes
+        ids: [ferritin]
+    - id: C3
+      points: 2
+      description: "Cites elevated CRP (38 mg/L) confirming underlying systemic inflammatory activity"
+      check:
+        type: evidence_includes
+        ids: [crp]
+    - id: C4
+      points: 1
+      description: "Identifies reduced TIBC and low serum iron as characteristic of reticuloendothelial sequestration rather than iron depletion"
+      check:
+        type: evidence_includes
+        ids: [iron]
+    - id: C5
+      points: 2
+      description: "Clinical reasoning connects chronic inflammation, hepcidin action, and acute-phase ferritin elevation"
+      check:
+        type: keywords_any
+        groups:
+          - [chronic disease, acd, inflammation, hepcidin, sequestration]
+          - [ferritin, acute phase, tibc, crp, rheumatoid]
+misconception_rules:
+  - id: MC-FERRITIN-MISSED
+    when:
+      answer_in: [B]
+  - id: MC-MACRO-MICRO-CONFUSED
+    when:
+      answer_in: [D]
+  - id: MC-IGNORES-INDICES
+    when:
+      evidence_missing: [mcv]
+  - id: MC-OVERCONFIDENT
+    when:
+      confidence_gte: 80
+      is_correct: false
+branching:
+  start: n_review
+  nodes:
+    - id: n_review
+      type: review_case
+      text: "You are reviewing Arthur's clinical and laboratory findings. What diagnostic investigation would you like to review next?"
+      choices:
+        - id: more_info
+          label: "Request peripheral blood smear analysis"
+          next: n_smear
+        - id: answer_now
+          label: "Proceed immediately to diagnostic interpretation"
+          next: n_decide
+          flags: [jumped_early]
+    - id: n_smear
+      type: reveal
+      text: "Peripheral blood smear demonstrates predominantly normocytic, normochromic red cells with rouleaux formation consistent with increased plasma acute-phase proteins. Significant hypochromia and pencil cells are absent."
+      choices:
+        - id: continue
+          label: "Synthesize findings & enter decision"
+          next: n_decide
+    - id: n_decide
+      type: decision
+      text: "Formulate your clinical interpretation, select key evidence, and record your reasoning."
+allowed_references:
+  - REF-FERRITIN-002
+  - REF-FERRITIN-003
+  - REF-MICRODIFF-001
+  - REF-TESTING-001
+fallback_feedback_key: FB-ACD-01
+i18n:
+  te:
+    title: "దీర్ఘకాలిక శోథలో అధిక ఫెర్రిటిన్‌తో రక్తహీనత (Fatigue and Anaemia with High Ferritin in Seropositive Arthritis)"
+    patient:
+      name: "ఆర్థర్ (Arthur)"
+    question: "అధిక ఫెర్రిటిన్ (340 ng/mL) మరియు అధిక CRP ఉన్నప్పుడు తక్కువ సీరమ్ ఇనుము ఉండటానికి ఏ విధానం సరైన వివరణ ఇస్తుంది?"

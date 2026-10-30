@@ -307,3 +307,45 @@ export interface LessonDetail {
   };
   practice_questions?: PracticeQuestion[];
 }
+
+export interface AssistantCitation {
+  ref_id: string;
+  source_title: string;
+  quote?: string | null;
+  relevance?: string | null;
+}
+
+export interface RecommendedLessonItem {
+  id: string;
+  title: string;
+}
+
+export interface AssistantChatResponse {
+  reply: string;
+  citations: AssistantCitation[];
+  suggested_questions: string[];
+  recommended_lessons: RecommendedLessonItem[];
+  model: string;
+  disclaimer: string;
+}
+
+export interface StarterPromptGroup {
+  category: string;
+  description: string;
+  prompts: string[];
+}
+
+export interface StarterPromptsResponse {
+  groups: StarterPromptGroup[];
+}
+
+export interface ChatMessageUI {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: string;
+  citations?: AssistantCitation[];
+  suggested_questions?: string[];
+  recommended_lessons?: RecommendedLessonItem[];
+  model?: string;
+}

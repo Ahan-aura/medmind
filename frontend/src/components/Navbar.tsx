@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Activity, Languages, LogOut, User, BarChart2, BookOpen, GraduationCap, Shield } from 'lucide-react';
+import { Activity, Languages, LogOut, User, BarChart2, BookOpen, GraduationCap, Shield, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../i18n/LanguageContext';
 
@@ -62,6 +62,18 @@ export const Navbar: React.FC = () => {
                 >
                   <GraduationCap className="w-4 h-4" />
                   <span>{(t.nav as any).lessons || 'Lessons'}</span>
+                </Link>
+
+                <Link
+                  to="/assistant"
+                  className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-1.5 ${
+                    location.pathname === '/assistant'
+                      ? 'bg-purple-50 text-purple-700'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  }`}
+                >
+                  <Sparkles className="w-4 h-4 text-purple-600" />
+                  <span>AI Assistant</span>
                 </Link>
 
                 <Link
