@@ -4,6 +4,8 @@ from pathlib import Path
 
 # Bootstrap sys.path for direct serverless function execution on Vercel
 _main_dir = Path(__file__).resolve().parent
+BASE_DIR = _main_dir.parent
+
 for _candidate in [
     str(_main_dir.parent),                 # directory containing 'app' (e.g. .../api or .../backend)
     str(_main_dir.parent.parent),          # repo root
@@ -18,7 +20,7 @@ for _candidate in [
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from app.config import settings
 from app.db import engine, Base
 from app.routers import auth, cases, attempts, lessons, progress, teacher
@@ -69,26 +71,28 @@ app = FastAPI(
 
 class VercelForwardedUriMiddleware:
     """
-    On Vercel serverless, proxy rewrites (e.g. /api/cases/(.*) -> /api/cases)
-    pass the original requested path in x-matched-path or x-forwarded-uri.
-    This middleware synchronizes scope['path'] to the true requested endpoint.
+    On Vercel serverless, proxy rewrites (e.g. /api/:path* -> /api)
+    pass the original requested path in x-forwarded-uri or x-matched-path.
+    This middleware synchronizes scope['path'] if it was stripped down to root.
     """
     def __init__(self, app_instance):
         self.app = app_instance
 
     async def __call__(self, scope, receive, send):
         if scope["type"] == "http":
-            headers = {k.decode("latin-1").lower(): v.decode("latin-1") for k, v in scope.get("headers", [])}
-            original_path = (
-                headers.get("x-matched-path")
-                or headers.get("x-forwarded-uri")
-                or headers.get("x-original-uri")
-            )
-            if original_path:
-                clean_path = original_path.split("?")[0]
-                current_path = scope.get("path", "")
-                if clean_path and clean_path != current_path:
-                    scope["path"] = clean_path
+            current_path = scope.get("path", "")
+            # Only rewrite scope["path"] if it is bare root or bare api prefix
+            if current_path in ("", "/", "/api", "/api/"):
+                headers = {k.decode("latin-1").lower(): v.decode("latin-1") for k, v in scope.get("headers", [])}
+                original_path = (
+                    headers.get("x-forwarded-uri")
+                    or headers.get("x-original-uri")
+                    or headers.get("x-matched-path")
+                )
+                if original_path:
+                    clean_path = original_path.split("?")[0]
+                    if clean_path and clean_path not in ("", "/"):
+                        scope["path"] = clean_path
         await self.app(scope, receive, send)
 
 app.add_middleware(VercelForwardedUriMiddleware)
@@ -99,32 +103,21 @@ from app.limiter import limiter
 
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     import traceback
     tb = traceback.format_exc()
     logger.error("Unhandled exception on %s: %s\n%s", request.url.path, exc, tb)
-    from fastapi.responses import JSONResponse
     return JSONResponse(
         status_code=500,
         content={"detail": str(exc), "type": type(exc).__name__, "traceback": tb[:800]}
     )
 
-
-# Response security headers with diagnostic error interception
+# Response security headers
 @app.middleware("http")
 async def add_security_headers(request: Request, call_next):
-    try:
-        response = await call_next(request)
-    except Exception as exc:
-        import traceback
-        tb = traceback.format_exc()
-        logger.error("Exception in middleware on %s: %s\n%s", request.url.path, exc, tb)
-        from fastapi.responses import JSONResponse
-        return JSONResponse(
-            status_code=500,
-            content={"error": str(exc), "type": type(exc).__name__, "traceback": tb[-1000:]}
-        )
+    response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "no-referrer"
     response.headers["Content-Security-Policy"] = "default-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:;"
@@ -161,19 +154,41 @@ app.include_router(teacher.router)
 
 @app.get("/api/health")
 @app.get("/health")
-def health_check(db: Session = Depends(get_db)):
+def health_check(request: Request, db: Session = Depends(get_db)):
     try:
         db.execute(text("SELECT 1"))
         db_status = "connected"
     except Exception as e:
         db_status = f"unhealthy: {e}"
 
+    dialect = "unknown"
+    lessons_count = 0
+    ref_count = 0
+    tables = []
+    try:
+        from sqlalchemy import inspect
+        inspector = inspect(engine)
+        dialect = str(engine.url.dialect.name)
+        tables = inspector.get_table_names()
+        if "lessons" in tables:
+            from app.models.models import Lesson
+            lessons_count = db.query(Lesson).count()
+        if "reference_chunks" in tables:
+            from app.models.models import ReferenceChunk
+            ref_count = db.query(ReferenceChunk).count()
+    except Exception as de:
+        logger.warning("Health diagnostic notice: %s", de)
+
     return {
         "status": "ok" if db_status == "connected" else "degraded",
         "service": "MEDMIND AI API",
         "version": "2.0.0",
         "tutor_mode": settings.get_tutor_mode(),
-        "database": db_status
+        "database": db_status,
+        "db_dialect": dialect,
+        "tables": tables,
+        "lessons_count": lessons_count,
+        "references_count": ref_count
     }
 
 @app.get("/api/debug-routes")

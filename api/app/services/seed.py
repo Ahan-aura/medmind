@@ -20,32 +20,42 @@ def ensure_seeded():
     """Ensure database has basic tables, users, cases, lessons, and misconceptions."""
     try:
         Base.metadata.create_all(bind=engine)
-        from sqlalchemy import text
-        if "sqlite" in str(engine.url):
+    except Exception as e:
+        logger.warning("Base.metadata.create_all non-fatal: %s", e)
+
+    # Universal schema migration for lessons table (PostgreSQL, SQLite, MySQL)
+    try:
+        from sqlalchemy import inspect, text
+        inspector = inspect(engine)
+        table_names = inspector.get_table_names()
+        is_postgres = "postgres" in str(engine.url) or "pg8000" in str(engine.url)
+
+        if "lessons" in table_names:
+            cols = {c["name"] for c in inspector.get_columns("lessons")}
+            json_type = "JSONB" if is_postgres else "JSON"
+            dt_type = "TIMESTAMP WITH TIME ZONE" if is_postgres else "DATETIME"
+            new_cols = [
+                ("objective_id", "VARCHAR(100)"),
+                ("status", "VARCHAR(20) DEFAULT 'draft'"),
+                ("reviewed_by", "VARCHAR(100)"),
+                ("reviewed_at", dt_type),
+                ("difficulty", "INTEGER DEFAULT 1"),
+                ("estimated_minutes", "INTEGER DEFAULT 8"),
+                ("targets_misconceptions", json_type),
+                ("prerequisites", json_type),
+                ("raw_data", json_type)
+            ]
             with engine.connect() as conn:
-                res = conn.execute(text("PRAGMA table_info(lessons);")).fetchall()
-                existing_cols = {r[1] for r in res} if res else set()
-                new_cols = [
-                    ("objective_id", "VARCHAR(100)"),
-                    ("status", "VARCHAR(20) DEFAULT 'draft'"),
-                    ("reviewed_by", "VARCHAR(100)"),
-                    ("reviewed_at", "DATETIME"),
-                    ("difficulty", "INTEGER DEFAULT 1"),
-                    ("estimated_minutes", "INTEGER DEFAULT 8"),
-                    ("targets_misconceptions", "JSON"),
-                    ("prerequisites", "JSON"),
-                    ("raw_data", "JSON")
-                ]
                 for col_name, col_def in new_cols:
-                    if col_name not in existing_cols:
+                    if col_name not in cols:
                         try:
                             conn.execute(text(f"ALTER TABLE lessons ADD COLUMN {col_name} {col_def};"))
                             conn.commit()
+                            logger.info("Migrated lessons table: added %s", col_name)
                         except Exception as ex:
                             logger.warning("Could not add column %s: %s", col_name, ex)
-    except Exception as e:
-        logger.warning("create_all deferred: %s", e)
-        return
+    except Exception as me:
+        logger.warning("Schema migration non-fatal: %s", me)
 
     db = SessionLocal()
     try:
@@ -75,20 +85,25 @@ def ensure_seeded():
                     chunk.lang = meta.get("lang", "en")
                     chunk.tags = meta.get("tags", [])
                     chunk.reviewed = bool(meta.get("reviewed", False))
+                    db.commit()
                 except Exception as ex:
+                    db.rollback()
                     logger.warning("Error ingesting reference %s: %s", ref_file, ex)
-            db.commit()
 
         # 1. Cohort
-        cohort_id = "cohort-med-2026-alpha"
-        cohort = db.query(Cohort).filter(Cohort.id == cohort_id).first()
-        if not cohort:
-            cohort = Cohort(
-                id=cohort_id,
-                name="Class 2026 - Clinical Medicine Cohort Alpha"
-            )
-            db.add(cohort)
-            db.commit()
+        try:
+            cohort_id = "cohort-med-2026-alpha"
+            cohort = db.query(Cohort).filter(Cohort.id == cohort_id).first()
+            if not cohort:
+                cohort = Cohort(
+                    id=cohort_id,
+                    name="Class 2026 - Clinical Medicine Cohort Alpha"
+                )
+                db.add(cohort)
+                db.commit()
+        except Exception as ce:
+            db.rollback()
+            logger.warning("Cohort seed notice: %s", ce)
 
         # 2. Default Users (Student, Teacher, and Mullick Ahan)
         users_to_seed = [
@@ -97,32 +112,40 @@ def ensure_seeded():
             ("user-ahan-01", "mullickahan@gmail.com", "student123", "Ahan Mullick", "student")
         ]
         for uid, email, pwd, name, role in users_to_seed:
-            u = db.query(User).filter(User.email == email.lower()).first()
-            if not u:
-                u = User(
-                    id=uid,
-                    email=email.lower(),
-                    password_hash=hash_password(pwd),
-                    display_name=name,
-                    role=role,
-                    preferred_lang="en",
-                    cohort_id=cohort_id
-                )
-                db.add(u)
-                db.commit()
+            try:
+                u = db.query(User).filter(User.email == email.lower()).first()
+                if not u:
+                    u = User(
+                        id=uid,
+                        email=email.lower(),
+                        password_hash=hash_password(pwd),
+                        display_name=name,
+                        role=role,
+                        preferred_lang="en",
+                        cohort_id=cohort_id
+                    )
+                    db.add(u)
+                    db.commit()
+            except Exception as ue:
+                db.rollback()
+                logger.warning("User seed notice for %s: %s", email, ue)
 
         # 3. Misconceptions
         for m_id, m_data in MISCONCEPTIONS_REGISTRY.items():
-            m = db.query(Misconception).filter(Misconception.id == m_id).first()
-            if not m:
-                m = Misconception(
-                    id=m_id,
-                    name=m_data["name"],
-                    description=m_data["description"],
-                    lesson_id=m_data.get("lesson_id")
-                )
-                db.add(m)
-        db.commit()
+            try:
+                m = db.query(Misconception).filter(Misconception.id == m_id).first()
+                if not m:
+                    m = Misconception(
+                        id=m_id,
+                        name=m_data["name"],
+                        description=m_data["description"],
+                        lesson_id=m_data.get("lesson_id")
+                    )
+                    db.add(m)
+                    db.commit()
+            except Exception as me:
+                db.rollback()
+                logger.warning("Misconception seed notice for %s: %s", m_id, me)
 
         # 4. Lessons
         lessons_dir = settings.LESSONS_DIR
@@ -135,7 +158,10 @@ def ensure_seeded():
                         continue
                     l_id = l_data.get("id") or l_file.stem
                     if l_id.startswith("LESSON-0"):
-                        validated = LessonModel(**l_data)
+                        try:
+                            LessonModel(**l_data)
+                        except Exception as ve:
+                            logger.warning("Lesson %s validation notice: %s", l_id, ve)
                     lesson = db.query(Lesson).filter(Lesson.id == l_id).first()
                     if not lesson:
                         lesson = Lesson(id=l_id)
@@ -164,9 +190,10 @@ def ensure_seeded():
                         lesson.practice_questions = l_data["practice_questions"]
                     else:
                         lesson.practice_questions = l_data.get("quick_check", [])
+                    db.commit()
                 except Exception as ex:
+                    db.rollback()
                     logger.warning("Error seeding lesson %s: %s", l_file, ex)
-            db.commit()
 
         # 5. Cases
         cases_dir = settings.CASES_DIR
@@ -200,9 +227,10 @@ def ensure_seeded():
                     else:
                         case.reviewed_at = None
                     case.is_published = bool(case.reviewed_by)
+                    db.commit()
                 except Exception as ex:
+                    db.rollback()
                     logger.warning("Error seeding case %s: %s", c_file, ex)
-            db.commit()
 
     except Exception as e:
         logger.warning("Database ensure_seeded non-fatal: %s", e)
